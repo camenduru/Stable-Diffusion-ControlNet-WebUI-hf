@@ -1,7 +1,19 @@
+
 from utils.image2image import stable_diffusion_img2img
 from utils.text2image import stable_diffusion_text2img
 from utils.inpaint import stable_diffusion_inpaint
+
+from controlnet.controlnet_canny import stable_diffusion_controlnet_img2img
+from controlnet.controlnet_depth import stable_diffusion_controlnet_img2img
+from controlnet.controlnet_hed import stable_diffusion_controlnet_img2img
+from controlnet.controlnet_mlsd import stable_diffusion_controlnet_img2img
+from controlnet.controlnet_pose import stable_diffusion_controlnet_img2img
+from controlnet.controlnet_scribble import stable_diffusion_controlnet_img2img
+from controlnet.controlnet_seg import stable_diffusion_controlnet_img2img
+
+
 import gradio as gr
+
 
 stable_model_list = [
     "runwayml/stable-diffusion-v1-5",
@@ -27,7 +39,7 @@ stable_negative_prompt_list = [
     ]
 app = gr.Blocks()
 with app:
-    gr.Markdown("# **<h2 align='center'>Stable Diffusion + ControlNet WebUI<h2>**")
+    gr.Markdown("# **<h2 align='center'>Stable Diffusion WebUI<h2>**")
     gr.Markdown(
         """
         <h5 style='text-align: center'>
@@ -178,6 +190,288 @@ with app:
 
                 inpaint_predict = gr.Button(value='Generator')
 
+
+            with gr.Tab('ControlNet'):
+                with gr.Tab('Canny'):
+                    controlnet_image_file = gr.Image(label='Image')
+
+                    controlnet_model_id = gr.Dropdown(
+                        choices=stable_inpiant_model_list, 
+                        value=stable_inpiant_model_list[0], 
+                        label='Stable Model Id'
+                    )
+
+                    controlnet_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_prompt_list[0], 
+                        label='Prompt'
+                    )
+
+                    controlnet_negative_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_negative_prompt_list[0], 
+                        label='Negative Prompt'
+                    )
+
+                    with gr.Accordion("Advanced Options", open=False):
+                        controlnet_guidance_scale = gr.Slider(
+                            minimum=0.1, 
+                            maximum=15, 
+                            step=0.1, 
+                            value=7.5, 
+                            label='Guidance Scale'
+                        )
+
+                        controlnet_num_inference_step = gr.Slider(
+                            minimum=1, 
+                            maximum=100, 
+                            step=1, 
+                            value=50, 
+                            label='Num Inference Step'
+                        )
+
+                    controlnet_canny_predict = gr.Button(value='Generator')
+
+                with gr.Tab('Hed'):
+                    controlnet_image_file = gr.Image(label='Image')
+
+                    controlnet_model_id = gr.Dropdown(
+                        choices=stable_inpiant_model_list, 
+                        value=stable_inpiant_model_list[0], 
+                        label='Stable Model Id'
+                    )
+
+                    controlnet_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_prompt_list[0], 
+                        label='Prompt'
+                    )
+
+                    controlnet_negative_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_negative_prompt_list[0], 
+                        label='Negative Prompt'
+                    )
+
+                    with gr.Accordion("Advanced Options", open=False):
+                        controlnet_guidance_scale = gr.Slider(
+                            minimum=0.1, 
+                            maximum=15, 
+                            step=0.1, 
+                            value=7.5, 
+                            label='Guidance Scale'
+                        )
+
+                        controlnet_num_inference_step = gr.Slider(
+                            minimum=1, 
+                            maximum=100, 
+                            step=1, 
+                            value=50, 
+                            label='Num Inference Step'
+                        )
+
+                    controlnet_hed_predict = gr.Button(value='Generator')
+
+                with gr.Tab('MLSD line'):
+                    controlnet_image_file = gr.Image(label='Image')
+
+                    controlnet_model_id = gr.Dropdown(
+                        choices=stable_inpiant_model_list, 
+                        value=stable_inpiant_model_list[0], 
+                        label='Stable Model Id'
+                    )
+
+                    controlnet_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_prompt_list[0], 
+                        label='Prompt'
+                    )
+
+                    controlnet_negative_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_negative_prompt_list[0], 
+                        label='Negative Prompt'
+                    )
+
+                    with gr.Accordion("Advanced Options", open=False):
+                        controlnet_guidance_scale = gr.Slider(
+                            minimum=0.1, 
+                            maximum=15, 
+                            step=0.1, 
+                            value=7.5, 
+                            label='Guidance Scale'
+                        )
+
+                        controlnet_num_inference_step = gr.Slider(
+                            minimum=1, 
+                            maximum=100, 
+                            step=1, 
+                            value=50, 
+                            label='Num Inference Step'
+                        )
+
+                    controlnet_mlsd_predict = gr.Button(value='Generator')
+
+                with gr.Tab('Segmentation'):
+                    controlnet_image_file = gr.Image(label='Image')
+
+                    controlnet_model_id = gr.Dropdown(
+                        choices=stable_inpiant_model_list, 
+                        value=stable_inpiant_model_list[0], 
+                        label='Stable Model Id'
+                    )
+
+                    controlnet_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_prompt_list[0], 
+                        label='Prompt'
+                    )
+
+                    controlnet_negative_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_negative_prompt_list[0], 
+                        label='Negative Prompt'
+                    )
+
+                    with gr.Accordion("Advanced Options", open=False):
+                        controlnet_guidance_scale = gr.Slider(
+                            minimum=0.1, 
+                            maximum=15, 
+                            step=0.1, 
+                            value=7.5, 
+                            label='Guidance Scale'
+                        )
+
+                        controlnet_num_inference_step = gr.Slider(
+                            minimum=1, 
+                            maximum=100, 
+                            step=1, 
+                            value=50, 
+                            label='Num Inference Step'
+                        )
+
+                    controlnet_seg_predict = gr.Button(value='Generator')
+
+                with gr.Tab('Depth'):
+                    controlnet_image_file = gr.Image(label='Image')
+
+                    controlnet_model_id = gr.Dropdown(
+                        choices=stable_inpiant_model_list, 
+                        value=stable_inpiant_model_list[0], 
+                        label='Stable Model Id'
+                    )
+
+                    controlnet_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_prompt_list[0], 
+                        label='Prompt'
+                    )
+
+                    controlnet_negative_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_negative_prompt_list[0], 
+                        label='Negative Prompt'
+                    )
+
+                    with gr.Accordion("Advanced Options", open=False):
+                        controlnet_guidance_scale = gr.Slider(
+                            minimum=0.1, 
+                            maximum=15, 
+                            step=0.1, 
+                            value=7.5, 
+                            label='Guidance Scale'
+                        )
+
+                        controlnet_num_inference_step = gr.Slider(
+                            minimum=1, 
+                            maximum=100, 
+                            step=1, 
+                            value=50, 
+                            label='Num Inference Step'
+                        )
+
+                    controlnet_depth_predict = gr.Button(value='Generator')
+
+                with gr.Tab('Scribble'):
+                    controlnet_image_file = gr.Image(label='Image')
+
+                    controlnet_model_id = gr.Dropdown(
+                        choices=stable_inpiant_model_list, 
+                        value=stable_inpiant_model_list[0], 
+                        label='Stable Model Id'
+                    )
+
+                    controlnet_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_prompt_list[0], 
+                        label='Prompt'
+                    )
+
+                    controlnet_negative_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_negative_prompt_list[0], 
+                        label='Negative Prompt'
+                    )
+
+                    with gr.Accordion("Advanced Options", open=False):
+                        controlnet_guidance_scale = gr.Slider(
+                            minimum=0.1, 
+                            maximum=15, 
+                            step=0.1, 
+                            value=7.5, 
+                            label='Guidance Scale'
+                        )
+
+                        controlnet_num_inference_step = gr.Slider(
+                            minimum=1, 
+                            maximum=100, 
+                            step=1, 
+                            value=50, 
+                            label='Num Inference Step'
+                        )
+
+                    controlnet_scribble_predict = gr.Button(value='Generator')
+
+                with gr.Tab('Pose'):
+                    controlnet_image_file = gr.Image(label='Image')
+
+                    controlnet_model_id = gr.Dropdown(
+                        choices=stable_inpiant_model_list, 
+                        value=stable_inpiant_model_list[0], 
+                        label='Stable Model Id'
+                    )
+
+                    controlnet_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_prompt_list[0], 
+                        label='Prompt'
+                    )
+
+                    controlnet_negative_prompt = gr.Textbox(
+                        lines=1, 
+                        value=stable_negative_prompt_list[0], 
+                        label='Negative Prompt'
+                    )
+
+                    with gr.Accordion("Advanced Options", open=False):
+                        controlnet_guidance_scale = gr.Slider(
+                            minimum=0.1, 
+                            maximum=15, 
+                            step=0.1, 
+                            value=7.5, 
+                            label='Guidance Scale'
+                        )
+
+                        controlnet_num_inference_step = gr.Slider(
+                            minimum=1, 
+                            maximum=100, 
+                            step=1, 
+                            value=50, 
+                            label='Num Inference Step'
+                        )
+
+                    controlnet_pose_predict = gr.Button(value='Generator')
+
     with gr.Tab('Generator'):
         with gr.Column():
             output_image = gr.Image(label='Image')
@@ -211,6 +505,93 @@ with app:
 
         inpaint_predict.click(
             fn = stable_diffusion_inpaint,
+            inputs = [
+                inpaint_image_file,
+                inpaint_model_id, 
+                inpaint_prompt, 
+                inpaint_negative_prompt,
+                inpaint_guidance_scale, 
+                inpaint_num_inference_step,
+            ],
+            outputs = [output_image],
+        )  
+
+
+        controlnet_canny_predict.click(
+            fn = stable_diffusion_controlnet_img2img,
+            inputs = [
+                inpaint_image_file,
+                inpaint_model_id, 
+                inpaint_prompt, 
+                inpaint_negative_prompt,
+                inpaint_guidance_scale, 
+                inpaint_num_inference_step,
+            ],
+            outputs = [output_image],
+        )  
+
+        controlnet_hed_predict.click(
+            fn = stable_diffusion_controlnet_img2img,
+            inputs = [
+                inpaint_image_file,
+                inpaint_model_id, 
+                inpaint_prompt, 
+                inpaint_negative_prompt,
+                inpaint_guidance_scale, 
+                inpaint_num_inference_step,
+            ],
+            outputs = [output_image],
+        )  
+        controlnet_mlsd_predict.click(
+            fn = stable_diffusion_controlnet_img2img,
+            inputs = [
+                inpaint_image_file,
+                inpaint_model_id, 
+                inpaint_prompt, 
+                inpaint_negative_prompt,
+                inpaint_guidance_scale, 
+                inpaint_num_inference_step,
+            ],
+            outputs = [output_image],
+        )  
+        controlnet_seg_predict.click(
+            fn = stable_diffusion_controlnet_img2img,
+            inputs = [
+                inpaint_image_file,
+                inpaint_model_id, 
+                inpaint_prompt, 
+                inpaint_negative_prompt,
+                inpaint_guidance_scale, 
+                inpaint_num_inference_step,
+            ],
+            outputs = [output_image],
+        )  
+        controlnet_depth_predict.click(
+            fn = stable_diffusion_controlnet_img2img,
+            inputs = [
+                inpaint_image_file,
+                inpaint_model_id, 
+                inpaint_prompt, 
+                inpaint_negative_prompt,
+                inpaint_guidance_scale, 
+                inpaint_num_inference_step,
+            ],
+            outputs = [output_image],
+        )  
+        controlnet_scribble_predict.click(
+            fn = stable_diffusion_controlnet_img2img,
+            inputs = [
+                inpaint_image_file,
+                inpaint_model_id, 
+                inpaint_prompt, 
+                inpaint_negative_prompt,
+                inpaint_guidance_scale, 
+                inpaint_num_inference_step,
+            ],
+            outputs = [output_image],
+        )  
+        controlnet_pose_predict.click(
+            fn = stable_diffusion_controlnet_img2img,
             inputs = [
                 inpaint_image_file,
                 inpaint_model_id, 
