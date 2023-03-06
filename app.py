@@ -1,6 +1,6 @@
 from utils.image2image import stable_diffusion_img2img
 from utils.text2image import stable_diffusion_text2img
-
+from utils.inpaint import stable_diffusion_inpaint
 import gradio as gr
 
 stable_model_list = [
@@ -10,6 +10,12 @@ stable_model_list = [
     "stabilityai/stable-diffusion-2-1",
     "stabilityai/stable-diffusion-2-1-base"
 ]
+
+stable_inpiant_model_list = [
+    "stabilityai/stable-diffusion-2-inpainting",
+    "runwayml/stable-diffusion-inpainting"
+]
+
 stable_prompt_list = [
         "a photo of a man.",
         "a photo of a girl."
@@ -21,7 +27,7 @@ stable_negative_prompt_list = [
     ]
 app = gr.Blocks()
 with app:
-    gr.Markdown("# **<h2 align='center'>Stable Diffusion WebUI<h2>**")
+    gr.Markdown("# **<h2 align='center'>Stable Diffusion + ControlNet WebUI<h2>**")
     gr.Markdown(
         """
         <h5 style='text-align: center'>
@@ -127,6 +133,50 @@ with app:
 
                 image2image_predict = gr.Button(value='Generator')
 
+            with gr.Tab('Inpaint'):
+                inpaint_image_file = gr.Image(
+                    source="upload", 
+                    type="numpy", 
+                    tool="sketch", 
+                    elem_id="source_container"
+                )
+
+                inpaint_model_id = gr.Dropdown(
+                    choices=stable_inpiant_model_list, 
+                    value=stable_inpiant_model_list[0], 
+                    label='Inpaint Model Id'
+                )
+
+                inpaint_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_prompt_list[0], 
+                    label='Prompt'
+                )
+
+                inpaint_negative_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_negative_prompt_list[0], 
+                    label='Negative Prompt'
+                )
+
+                with gr.Accordion("Advanced Options", open=False):
+                    inpaint_guidance_scale = gr.Slider(
+                        minimum=0.1, 
+                        maximum=15, 
+                        step=0.1, 
+                        value=7.5, 
+                        label='Guidance Scale'
+                    )
+
+                    inpaint_num_inference_step = gr.Slider(
+                        minimum=1, 
+                        maximum=100, 
+                        step=1, 
+                        value=50, 
+                        label='Num Inference Step'
+                    )
+
+                inpaint_predict = gr.Button(value='Generator')
 
     with gr.Tab('Generator'):
         with gr.Column():
@@ -155,6 +205,19 @@ with app:
                 image2image_negative_prompt,
                 image2image_guidance_scale, 
                 image2image_num_inference_step,
+            ],
+            outputs = [output_image],
+        )  
+
+        inpaint_predict.click(
+            fn = stable_diffusion_inpaint,
+            inputs = [
+                inpaint_image_file,
+                inpaint_model_id, 
+                inpaint_prompt, 
+                inpaint_negative_prompt,
+                inpaint_guidance_scale, 
+                inpaint_num_inference_step,
             ],
             outputs = [output_image],
         )  
