@@ -39,7 +39,7 @@ stable_negative_prompt_list = [
     ]
 app = gr.Blocks()
 with app:
-    gr.Markdown("# **<h2 align='center'>Stable Diffusion WebUI<h2>**")
+    gr.Markdown("# **<h2 align='center'>Stable Diffusion + ControlNet WebUI<h2>**")
     gr.Markdown(
         """
         <h5 style='text-align: center'>
