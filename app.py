@@ -39,7 +39,7 @@ stable_negative_prompt_list = [
     ]
 app = gr.Blocks()
 with app:
-    gr.Markdown("# **<h2 align='center'>Stable Diffusion + ControlNet WebUI<h2>**")
+    gr.Markdown("# **<h2 align='center'>Stable Diffusion WebUI<h2>**")
     gr.Markdown(
         """
         <h5 style='text-align: center'>
@@ -196,8 +196,8 @@ with app:
                     controlnet_image_file = gr.Image(label='Image')
 
                     controlnet_model_id = gr.Dropdown(
-                        choices=stable_inpiant_model_list, 
-                        value=stable_inpiant_model_list[0], 
+                        choices=stable_model_list, 
+                        value=stable_model_list[0], 
                         label='Stable Model Id'
                     )
 
@@ -520,12 +520,12 @@ with app:
         controlnet_canny_predict.click(
             fn = stable_diffusion_controlnet_img2img,
             inputs = [
-                inpaint_image_file,
-                inpaint_model_id, 
-                inpaint_prompt, 
-                inpaint_negative_prompt,
-                inpaint_guidance_scale, 
-                inpaint_num_inference_step,
+                controlnet_image_file,
+                controlnet_model_id, 
+                controlnet_prompt, 
+                controlnet_negative_prompt,
+                controlnet_guidance_scale, 
+                controlnet_num_inference_step,
             ],
             outputs = [output_image],
         )  
@@ -533,72 +533,77 @@ with app:
         controlnet_hed_predict.click(
             fn = stable_diffusion_controlnet_img2img,
             inputs = [
-                inpaint_image_file,
-                inpaint_model_id, 
-                inpaint_prompt, 
-                inpaint_negative_prompt,
-                inpaint_guidance_scale, 
-                inpaint_num_inference_step,
+                controlnet_image_file,
+                controlnet_model_id, 
+                controlnet_prompt, 
+                controlnet_negative_prompt,
+                controlnet_guidance_scale, 
+                controlnet_num_inference_step,
             ],
             outputs = [output_image],
         )  
+        
         controlnet_mlsd_predict.click(
             fn = stable_diffusion_controlnet_img2img,
             inputs = [
-                inpaint_image_file,
-                inpaint_model_id, 
-                inpaint_prompt, 
-                inpaint_negative_prompt,
-                inpaint_guidance_scale, 
-                inpaint_num_inference_step,
+                controlnet_image_file,
+                controlnet_model_id, 
+                controlnet_prompt, 
+                controlnet_negative_prompt,
+                controlnet_guidance_scale, 
+                controlnet_num_inference_step,
             ],
             outputs = [output_image],
         )  
+        
         controlnet_seg_predict.click(
             fn = stable_diffusion_controlnet_img2img,
             inputs = [
-                inpaint_image_file,
-                inpaint_model_id, 
-                inpaint_prompt, 
-                inpaint_negative_prompt,
-                inpaint_guidance_scale, 
-                inpaint_num_inference_step,
+                controlnet_image_file,
+                controlnet_model_id, 
+                controlnet_prompt, 
+                controlnet_negative_prompt,
+                controlnet_guidance_scale, 
+                controlnet_num_inference_step,
             ],
             outputs = [output_image],
         )  
+        
         controlnet_depth_predict.click(
             fn = stable_diffusion_controlnet_img2img,
             inputs = [
-                inpaint_image_file,
-                inpaint_model_id, 
-                inpaint_prompt, 
-                inpaint_negative_prompt,
-                inpaint_guidance_scale, 
-                inpaint_num_inference_step,
+                controlnet_image_file,
+                controlnet_model_id, 
+                controlnet_prompt, 
+                controlnet_negative_prompt,
+                controlnet_guidance_scale, 
+                controlnet_num_inference_step,
             ],
             outputs = [output_image],
         )  
+        
         controlnet_scribble_predict.click(
             fn = stable_diffusion_controlnet_img2img,
             inputs = [
-                inpaint_image_file,
-                inpaint_model_id, 
-                inpaint_prompt, 
-                inpaint_negative_prompt,
-                inpaint_guidance_scale, 
-                inpaint_num_inference_step,
+                controlnet_image_file,
+                controlnet_model_id, 
+                controlnet_prompt, 
+                controlnet_negative_prompt,
+                controlnet_guidance_scale, 
+                controlnet_num_inference_step,
             ],
             outputs = [output_image],
         )  
+        
         controlnet_pose_predict.click(
             fn = stable_diffusion_controlnet_img2img,
             inputs = [
-                inpaint_image_file,
-                inpaint_model_id, 
-                inpaint_prompt, 
-                inpaint_negative_prompt,
-                inpaint_guidance_scale, 
-                inpaint_num_inference_step,
+                controlnet_image_file,
+                controlnet_model_id, 
+                controlnet_prompt, 
+                controlnet_negative_prompt,
+                controlnet_guidance_scale, 
+                controlnet_num_inference_step,
             ],
             outputs = [output_image],
         )  
