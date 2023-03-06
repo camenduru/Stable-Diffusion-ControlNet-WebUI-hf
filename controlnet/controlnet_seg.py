@@ -78,7 +78,7 @@ def controlnet_mlsd(image_path:str):
     return controlnet, image
 
 
-def stable_diffusion_controlnet_img2img(
+def stable_diffusion_controlnet_seg(
     stable_model_path:str,
     image_path:str,
     prompt:str,

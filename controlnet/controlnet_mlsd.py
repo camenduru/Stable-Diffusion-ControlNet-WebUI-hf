@@ -1,12 +1,9 @@
 from diffusers import ( StableDiffusionControlNetPipeline, 
-                       ControlNetModel, UniPCMultistepScheduler,
-                       DDIMScheduler)
+                       ControlNetModel, UniPCMultistepScheduler)
 
 from controlnet_aux import MLSDdetector
 from PIL import Image
-import numpy as np
 import torch
-import cv2
 
 
 def controlnet_mlsd(image_path:str):
@@ -22,7 +19,7 @@ def controlnet_mlsd(image_path:str):
 
     return controlnet, image
 
-def stable_diffusion_controlnet_img2img(
+def stable_diffusion_controlnet_mlsd(
     stable_model_path:str,
     image_path:str,
     prompt:str,

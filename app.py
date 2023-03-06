@@ -3,13 +3,13 @@ from utils.image2image import stable_diffusion_img2img
 from utils.text2image import stable_diffusion_text2img
 from utils.inpaint import stable_diffusion_inpaint
 
-from controlnet.controlnet_canny import stable_diffusion_controlnet_img2img
-from controlnet.controlnet_depth import stable_diffusion_controlnet_img2img
-from controlnet.controlnet_hed import stable_diffusion_controlnet_img2img
-from controlnet.controlnet_mlsd import stable_diffusion_controlnet_img2img
-from controlnet.controlnet_pose import stable_diffusion_controlnet_img2img
-from controlnet.controlnet_scribble import stable_diffusion_controlnet_img2img
-from controlnet.controlnet_seg import stable_diffusion_controlnet_img2img
+from controlnet.controlnet_canny import stable_diffusion_controlnet_canny
+from controlnet.controlnet_depth import stable_diffusion_controlnet_depth
+from controlnet.controlnet_hed import stable_diffusion_controlnet_hed
+from controlnet.controlnet_mlsd import stable_diffusion_controlnet_mlsd
+from controlnet.controlnet_pose import stable_diffusion_controlnet_pose
+from controlnet.controlnet_scribble import stable_diffusion_controlnet_scribble
+from controlnet.controlnet_seg import stable_diffusion_controlnet_seg
 
 
 import gradio as gr
@@ -39,7 +39,7 @@ stable_negative_prompt_list = [
     ]
 app = gr.Blocks()
 with app:
-    gr.Markdown("# **<h2 align='center'>Stable Diffusion + ControlNet WebUI<h2>**")
+    gr.Markdown("# **<h2 align='center'>Stable Diffusion WebUI<h2>**")
     gr.Markdown(
         """
         <h5 style='text-align: center'>
@@ -190,7 +190,6 @@ with app:
 
                 inpaint_predict = gr.Button(value='Generator')
 
-
             with gr.Tab('ControlNet'):
                 with gr.Tab('Canny'):
                     controlnet_canny_image_file = gr.Image(label='Image')
@@ -236,14 +235,14 @@ with app:
                     controlnet_hed_image_file = gr.Image(label='Image')
 
                     controlnet_hed_model_id = gr.Dropdown(
-                        choices=stable_prompt_list, 
-                        value=stable_prompt_list[0], 
+                        choices=stable_model_list, 
+                        value=stable_model_list[0], 
                         label='Stable Model Id'
                     )
 
                     controlnet_hed_prompt = gr.Textbox(
                         lines=1, 
-                        value=stable_prompt_list[0], 
+                        value=stable_model_list[0], 
                         label='Prompt'
                     )
 
@@ -276,8 +275,8 @@ with app:
                     controlnet_mlsd_image_file = gr.Image(label='Image')
 
                     controlnet_mlsd_model_id = gr.Dropdown(
-                        choices=stable_prompt_list, 
-                        value=stable_prompt_list[0], 
+                        choices=stable_model_list, 
+                        value=stable_model_list[0], 
                         label='Stable Model Id'
                     )
 
@@ -316,8 +315,8 @@ with app:
                     controlnet_seg_image_file = gr.Image(label='Image')
 
                     controlnet_seg_model_id = gr.Dropdown(
-                        choices=stable_prompt_list, 
-                        value=stable_prompt_list[0], 
+                        choices=stable_model_list, 
+                        value=stable_model_list[0], 
                         label='Stable Model Id'
                     )
 
@@ -356,8 +355,8 @@ with app:
                     controlnet_depth_image_file = gr.Image(label='Image')
 
                     controlnet_depth_model_id = gr.Dropdown(
-                        choices=stable_prompt_list, 
-                        value=stable_prompt_list[0], 
+                        choices=stable_model_list, 
+                        value=stable_model_list[0], 
                         label='Stable Model Id'
                     )
 
@@ -396,8 +395,8 @@ with app:
                     controlnet_scribble_image_file = gr.Image(label='Image')
 
                     controlnet_scribble_model_id = gr.Dropdown(
-                        choices=stable_prompt_list, 
-                        value=stable_prompt_list[0], 
+                        choices=stable_model_list, 
+                        value=stable_model_list[0], 
                         label='Stable Model Id'
                     )
 
@@ -436,8 +435,8 @@ with app:
                     controlnet_pose_image_file = gr.Image(label='Image')
 
                     controlnet_pose_model_id = gr.Dropdown(
-                        choices=stable_prompt_list, 
-                        value=stable_prompt_list[0], 
+                        choices=stable_model_list, 
+                        value=stable_model_list[0], 
                         label='Stable Model Id'
                     )
 
@@ -516,9 +515,8 @@ with app:
             outputs = [output_image],
         )  
 
-
         controlnet_canny_predict.click(
-            fn = stable_diffusion_controlnet_img2img,
+            fn = stable_diffusion_controlnet_canny,
             inputs = [
                 controlnet_canny_image_file,
                 controlnet_canny_model_id, 
@@ -531,7 +529,7 @@ with app:
         )  
 
         controlnet_hed_predict.click(
-            fn = stable_diffusion_controlnet_img2img,
+            fn = stable_diffusion_controlnet_hed,
             inputs = [
                 controlnet_hed_image_file,
                 controlnet_hed_model_id, 
@@ -544,7 +542,7 @@ with app:
         )  
         
         controlnet_mlsd_predict.click(
-            fn = stable_diffusion_controlnet_img2img,
+            fn = stable_diffusion_controlnet_mlsd,
             inputs = [
                 controlnet_mlsd_image_file,
                 controlnet_mlsd_model_id, 
@@ -557,7 +555,7 @@ with app:
         )  
         
         controlnet_seg_predict.click(
-            fn = stable_diffusion_controlnet_img2img,
+            fn = stable_diffusion_controlnet_seg,
             inputs = [
                 controlnet_seg_image_file,
                 controlnet_seg_model_id, 
@@ -570,7 +568,7 @@ with app:
         )  
         
         controlnet_depth_predict.click(
-            fn = stable_diffusion_controlnet_img2img,
+            fn = stable_diffusion_controlnet_depth,
             inputs = [
                 controlnet_depth_image_file,
                 controlnet_depth_model_id, 
@@ -583,7 +581,7 @@ with app:
         )  
         
         controlnet_scribble_predict.click(
-            fn = stable_diffusion_controlnet_img2img,
+            fn = stable_diffusion_controlnet_scribble,
             inputs = [
                 controlnet_scribble_image_file,
                 controlnet_scribble_model_id, 
@@ -596,7 +594,7 @@ with app:
         )  
         
         controlnet_pose_predict.click(
-            fn = stable_diffusion_controlnet_img2img,
+            fn = stable_diffusion_controlnet_pose,
             inputs = [
                 controlnet_pose_image_file,
                 controlnet_pose_model_id, 
