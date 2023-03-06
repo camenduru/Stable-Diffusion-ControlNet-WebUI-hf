@@ -1,5 +1,4 @@
 from diffusers import StableDiffusionImg2ImgPipeline, DDIMScheduler
-from IPython.display import display
 from PIL import Image
 import torch
 
