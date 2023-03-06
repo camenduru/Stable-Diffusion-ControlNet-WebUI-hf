@@ -1,6 +1,6 @@
 ---
 title: Stable Diffusion ControlNet WebUI
-emoji: 🦀
+emoji: 🔥
 colorFrom: green
 colorTo: red
 sdk: gradio
