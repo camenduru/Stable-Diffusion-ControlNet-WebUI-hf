@@ -91,7 +91,7 @@ with app:
                         maximum=1280, 
                         step=32, 
                         value=512, 
-                        label='Tile Height'
+                        label='Image Height'
                     )
 
                     text2image_width = gr.Slider(
@@ -99,7 +99,7 @@ with app:
                         maximum=1280, 
                         step=32, 
                         value=768, 
-                        label='Tile Height'
+                        label='Image Height'
                     )
 
                 text2image_predict = gr.Button(value='Generator')
