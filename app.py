@@ -242,7 +242,7 @@ with app:
 
                     controlnet_hed_prompt = gr.Textbox(
                         lines=1, 
-                        value=stable_model_list[0], 
+                        value=stable_prompt_list[0], 
                         label='Prompt'
                     )
 
