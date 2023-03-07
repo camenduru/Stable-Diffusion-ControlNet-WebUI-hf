@@ -9,14 +9,20 @@ from diffusion_webui.controlnet.controlnet_seg import stable_diffusion_controlne
 from diffusion_webui.stable_diffusion.text2img_app import stable_diffusion_text2img_app, stable_diffusion_text2img
 from diffusion_webui.stable_diffusion.img2img_app import stable_diffusion_img2img_app, stable_diffusion_img2img
 from diffusion_webui.stable_diffusion.inpaint_app import stable_diffusion_inpaint_app, stable_diffusion_inpaint
+from diffusion_webui.stable_diffusion.keras_txt2img import keras_stable_diffusion, keras_stable_diffusion_app
 
 
 import gradio as gr
 
-
 app = gr.Blocks()
 with app:
-    gr.Markdown("# **<h1 align='center'>Stable Diffusion + ControlNet WebUI<h1>**")
+    gr.HTML(
+        """
+        <h1 style='text-align: center'>
+        Stable Diffusion + ControlNet WebUI
+        </h1>
+        """
+    )
     gr.Markdown(
         """
         <h4 style='text-align: center'>
@@ -39,7 +45,8 @@ with app:
                 controlnet_pose_app = stable_diffusion_controlnet_pose_app()
                 controlnet_scribble_app = stable_diffusion_controlnet_scribble_app()
                 controlnet_seg_app = stable_diffusion_controlnet_seg_app()
-
+            
+            keras_diffusion_app = keras_stable_diffusion_app()
 
         with gr.Tab('Output'):
             with gr.Column():
@@ -175,5 +182,20 @@ with app:
         ],
         outputs = [output_image],
     )
+    
+    keras_diffusion_app['predict'].click(
+        fn = keras_stable_diffusion,
+        inputs = [
+            keras_diffusion_app['model_path'],
+            keras_diffusion_app['prompt'],
+            keras_diffusion_app['negative_prompt'],
+            keras_diffusion_app['guidance_scale'],
+            keras_diffusion_app['num_inference_step'],
+            keras_diffusion_app['height'],
+            keras_diffusion_app['width'],
+        ],
+        outputs = [output_image],
+    )
+
 
 app.launch(debug=True)   
