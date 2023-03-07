@@ -194,7 +194,7 @@ with app:
             keras_diffusion_app['height'],
             keras_diffusion_app['width'],
         ],
-        outputs = [output_image],
+        outputs = [gr.Gallery(label="Outputs")],
     )
 
 
