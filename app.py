@@ -19,7 +19,7 @@ with app:
     gr.HTML(
         """
         <h1 style='text-align: center'>
-        Stable Diffusion + ControlNet WebUI
+        Stable Diffusion + ControlNet + Keras Diffusion WebUI
         </h1>
         """
     )
