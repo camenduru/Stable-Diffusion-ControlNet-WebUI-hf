@@ -19,10 +19,10 @@ with app:
     gr.Markdown("# **<h1 align='center'>Stable Diffusion + ControlNet WebUI<h1>**")
     gr.Markdown(
         """
-        <h5 style='text-align: center'>
+        <h4 style='text-align: center'>
         Follow me for more! 
         <a href='https://twitter.com/kadirnar_ai' target='_blank'>Twitter</a> | <a href='https://github.com/kadirnar' target='_blank'>Github</a> | <a href='https://www.linkedin.com/in/kadir-nar/' target='_blank'>Linkedin</a>
-        </h5>
+        </h4>
         """
     )
     with gr.Row():
@@ -41,10 +41,10 @@ with app:
                 controlnet_seg_app = stable_diffusion_controlnet_seg_app()
 
 
-    with gr.Tab('Output'):
-        with gr.Column():
-            output_image = gr.Image(label='Image')
-            
+        with gr.Tab('Output'):
+            with gr.Column():
+                output_image = gr.Image(label='Image')
+                
         text2image_app['predict'].click(
             fn = stable_diffusion_text2img,
             inputs = [
