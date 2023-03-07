@@ -29,25 +29,8 @@ stable_negative_prompt_list = [
     ]
 
 
-def resize(height,img):
-  baseheight = height
-  img = Image.open(img)
-  hpercent = (baseheight/float(img.size[1]))
-  wsize = int((float(img.size[0])*float(hpercent)))
-  img = img.resize((wsize,baseheight), Image.Resampling.LANCZOS)
-  return img
-
-def img_preprocces(source_img, prompt, negative_prompt):
-    imageio.imwrite("data.png", source_img["image"])
-    imageio.imwrite("data_mask.png", source_img["mask"])
-    src = resize(512, "data.png")
-    src.save("src.png")
-    mask = resize(512, "data_mask.png")  
-    mask.save("mask.png")
-    return src, mask
-
 def stable_diffusion_inpaint(
-    image_path:str,
+    dict:str,
     model_path:str,
     prompt:str,
     negative_prompt:str,
@@ -55,7 +38,8 @@ def stable_diffusion_inpaint(
     num_inference_step:int,
     ):
 
-    image, mask_image = img_preprocces(image_path, prompt, negative_prompt)
+    image = dict["image"].convert("RGB").resize((512, 512))
+    mask_image = dict["mask"].convert("RGB").resize((512, 512))
     pipe = DiffusionPipeline.from_pretrained(
         model_path,
         revision="fp16",
@@ -80,10 +64,11 @@ def stable_diffusion_inpaint(
 def stable_diffusion_inpaint_app():
     with gr.Tab('Inpaint'):
         inpaint_image_file = gr.Image(
-            source="upload", 
-            type="numpy", 
-            tool="sketch", 
-            elem_id="source_container"
+            source='upload', 
+            tool='sketch', 
+            elem_id="image_upload", 
+            type="pil", 
+            label="Upload"
         )
 
         inpaint_model_id = gr.Dropdown(
