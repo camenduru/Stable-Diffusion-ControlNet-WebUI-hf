@@ -4,3 +4,5 @@ xformers
 controlnet_aux 
 diffusers
 imageio
+gradio
+triton
