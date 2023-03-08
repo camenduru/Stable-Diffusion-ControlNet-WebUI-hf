@@ -62,60 +62,68 @@ def stable_diffusion_inpaint(
 
 
 def stable_diffusion_inpaint_app():
-    with gr.Tab('Inpaint'):
-        inpaint_image_file = gr.Image(
-            source='upload', 
-            tool='sketch', 
-            elem_id="image_upload", 
-            type="pil", 
-            label="Upload"
-        ).style(height=400)
+    with gr.Blocks():
+        with gr.Row():
+            with gr.Column():
+                inpaint_image_file = gr.Image(
+                    source='upload', 
+                    tool='sketch', 
+                    elem_id="image_upload", 
+                    type="pil", 
+                    label="Upload"
+                ).style(height=400)
 
-        inpaint_model_id = gr.Dropdown(
-            choices=stable_inpiant_model_list, 
-            value=stable_inpiant_model_list[0], 
-            label='Inpaint Model Id'
+                inpaint_model_id = gr.Dropdown(
+                    choices=stable_inpiant_model_list, 
+                    value=stable_inpiant_model_list[0], 
+                    label='Inpaint Model Id'
+                )
+
+                inpaint_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_prompt_list[0], 
+                    label='Prompt'
+                )
+
+                inpaint_negative_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_negative_prompt_list[0], 
+                    label='Negative Prompt'
+                )
+
+                with gr.Accordion("Advanced Options", open=False):
+                    inpaint_guidance_scale = gr.Slider(
+                        minimum=0.1, 
+                        maximum=15, 
+                        step=0.1, 
+                        value=7.5, 
+                        label='Guidance Scale'
+                    )
+
+                    inpaint_num_inference_step = gr.Slider(
+                        minimum=1, 
+                        maximum=100, 
+                        step=1, 
+                        value=50, 
+                        label='Num Inference Step'
+                    )
+
+                inpaint_predict = gr.Button(value='Generator')
+
+            
+            with gr.Column():
+                output_image = gr.Gallery(label="Outputs")
+            
+        inpaint_predict.click(
+            fn=stable_diffusion_inpaint,
+            inputs=[
+                inpaint_image_file,
+                inpaint_model_id,
+                inpaint_prompt,
+                inpaint_negative_prompt,
+                inpaint_guidance_scale,
+                inpaint_num_inference_step,
+            ],
+            outputs=output_image
         )
-
-        inpaint_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_prompt_list[0], 
-            label='Prompt'
-        )
-
-        inpaint_negative_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_negative_prompt_list[0], 
-            label='Negative Prompt'
-        )
-
-        with gr.Accordion("Advanced Options", open=False):
-            inpaint_guidance_scale = gr.Slider(
-                minimum=0.1, 
-                maximum=15, 
-                step=0.1, 
-                value=7.5, 
-                label='Guidance Scale'
-            )
-
-            inpaint_num_inference_step = gr.Slider(
-                minimum=1, 
-                maximum=100, 
-                step=1, 
-                value=50, 
-                label='Num Inference Step'
-            )
-
-        inpaint_predict = gr.Button(value='Generator')
-    
-    variables = {
-        "image_path": inpaint_image_file,
-        "model_path": inpaint_model_id,
-        "prompt": inpaint_prompt,
-        "negative_prompt": inpaint_negative_prompt,
-        "guidance_scale": inpaint_guidance_scale,
-        "num_inference_step": inpaint_num_inference_step,
-        "predict": inpaint_predict
-    }
-
-    return variables
+                

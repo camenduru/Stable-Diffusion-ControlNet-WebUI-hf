@@ -48,69 +48,75 @@ def keras_stable_diffusion(
     return generated_images
 
 def keras_stable_diffusion_app():
-    with gr.Tab('Keras Diffusion'):
-        keras_text2image_model_path = gr.Dropdown(
-            choices=stable_model_list, 
-            value=stable_model_list[0], 
-            label='Text-Image Model Id'
-        )
+    with gr.Blocks():
+        with gr.Row():
+            with gr.Column():
+                keras_text2image_model_path = gr.Dropdown(
+                    choices=stable_model_list, 
+                    value=stable_model_list[0], 
+                    label='Text-Image Model Id'
+                )
 
-        keras_text2image_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_prompt_list[0], 
-            label='Prompt'
-        )
+                keras_text2image_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_prompt_list[0], 
+                    label='Prompt'
+                )
 
-        keras_text2image_negative_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_negative_prompt_list[0], 
-            label='Negative Prompt'
-        )
+                keras_text2image_negative_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_negative_prompt_list[0], 
+                    label='Negative Prompt'
+                )
 
-        with gr.Accordion("Advanced Options", open=False):
-            keras_text2image_guidance_scale = gr.Slider(
-                minimum=0.1, 
-                maximum=15, 
-                step=0.1, 
-                value=7.5, 
-                label='Guidance Scale'
-            )
+                with gr.Accordion("Advanced Options", open=False):
+                    keras_text2image_guidance_scale = gr.Slider(
+                        minimum=0.1, 
+                        maximum=15, 
+                        step=0.1, 
+                        value=7.5, 
+                        label='Guidance Scale'
+                    )
 
-            keras_text2image_num_inference_step = gr.Slider(
-                minimum=1, 
-                maximum=100, 
-                step=1, 
-                value=50, 
-                label='Num Inference Step'
-            )
+                    keras_text2image_num_inference_step = gr.Slider(
+                        minimum=1, 
+                        maximum=100, 
+                        step=1, 
+                        value=50, 
+                        label='Num Inference Step'
+                    )
 
-            keras_text2image_height = gr.Slider(
-                minimum=128, 
-                maximum=1280, 
-                step=32, 
-                value=512, 
-                label='Image Height'
-            )
+                    keras_text2image_height = gr.Slider(
+                        minimum=128, 
+                        maximum=1280, 
+                        step=32, 
+                        value=512, 
+                        label='Image Height'
+                    )
 
-            keras_text2image_width = gr.Slider(
-                minimum=128, 
-                maximum=1280, 
-                step=32, 
-                value=768, 
-                label='Image Height'
-            )
+                    keras_text2image_width = gr.Slider(
+                        minimum=128, 
+                        maximum=1280, 
+                        step=32, 
+                        value=768, 
+                        label='Image Height'
+                    )
 
-        keras_text2image_predict = gr.Button(value='Generator')
+                keras_text2image_predict = gr.Button(value='Generator')
     
-    variables = {
-        "model_path": keras_text2image_model_path,
-        "prompt": keras_text2image_prompt,
-        "negative_prompt": keras_text2image_negative_prompt,
-        "guidance_scale": keras_text2image_guidance_scale,
-        "num_inference_step": keras_text2image_num_inference_step,
-        "height": keras_text2image_height,
-        "width": keras_text2image_width,
-        "predict": keras_text2image_predict
-    }
-
-    return variables 
+            with gr.Column():
+                output_image = gr.Image(label='Output')
+                        
+        keras_text2image_predict.click(
+            fn=keras_stable_diffusion,
+            inputs=[
+                keras_text2image_model_path,
+                keras_text2image_prompt,
+                keras_text2image_negative_prompt,
+                keras_text2image_guidance_scale,
+                keras_text2image_num_inference_step,
+                keras_text2image_height,
+                keras_text2image_width
+            ],
+            outputs=output_image
+        )

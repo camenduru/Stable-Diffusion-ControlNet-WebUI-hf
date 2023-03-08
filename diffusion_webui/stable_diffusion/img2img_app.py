@@ -60,57 +60,63 @@ def stable_diffusion_img2img(
 
 
 def stable_diffusion_img2img_app():
-    with gr.Tab('Image2Image'):
-        image2image2_image_file = gr.Image(
-            type='filepath', 
-            label='Image'
+    with gr.Blocks():
+        with gr.Row():
+            with gr.Column():
+                image2image2_image_file = gr.Image(
+                    type='filepath', 
+                    label='Image'
+                )
+
+                image2image_model_path = gr.Dropdown(
+                    choices=stable_model_list, 
+                    value=stable_model_list[0], 
+                    label='Image-Image Model Id'
+                )
+
+                image2image_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_prompt_list[0], 
+                    label='Prompt'
+                )
+
+                image2image_negative_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_negative_prompt_list[0], 
+                    label='Negative Prompt'
+                )
+
+                with gr.Accordion("Advanced Options", open=False):
+                    image2image_guidance_scale = gr.Slider(
+                        minimum=0.1, 
+                        maximum=15, 
+                        step=0.1, 
+                        value=7.5, 
+                        label='Guidance Scale'
+                    )
+
+                    image2image_num_inference_step = gr.Slider(
+                        minimum=1, 
+                        maximum=100, 
+                        step=1, 
+                        value=50, 
+                        label='Num Inference Step'
+                    )
+
+                image2image_predict = gr.Button(value='Generator')
+
+            with gr.Column():
+                output_image = gr.Image(label='Output')
+                    
+        image2image_predict.click(
+            fn=stable_diffusion_img2img,
+            inputs=[
+                image2image2_image_file,
+                image2image_model_path,
+                image2image_prompt,
+                image2image_negative_prompt,
+                image2image_guidance_scale,
+                image2image_num_inference_step,
+            ],  
+            outputs=[output_image],
         )
-
-        image2image_model_path = gr.Dropdown(
-            choices=stable_model_list, 
-            value=stable_model_list[0], 
-            label='Image-Image Model Id'
-        )
-
-        image2image_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_prompt_list[0], 
-            label='Prompt'
-        )
-
-        image2image_negative_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_negative_prompt_list[0], 
-            label='Negative Prompt'
-        )
-
-        with gr.Accordion("Advanced Options", open=False):
-            image2image_guidance_scale = gr.Slider(
-                minimum=0.1, 
-                maximum=15, 
-                step=0.1, 
-                value=7.5, 
-                label='Guidance Scale'
-            )
-
-            image2image_num_inference_step = gr.Slider(
-                minimum=1, 
-                maximum=100, 
-                step=1, 
-                value=50, 
-                label='Num Inference Step'
-            )
-
-        image2image_predict = gr.Button(value='Generator')
-
-    variables = {
-        'image_path': image2image2_image_file,
-        'model_path': image2image_model_path,
-        'prompt': image2image_prompt,
-        'negative_prompt': image2image_negative_prompt,
-        'guidance_scale': image2image_guidance_scale,
-        'num_inference_step': image2image_num_inference_step,
-        'predict': image2image_predict
-    }
-
-    return variables

@@ -10,11 +10,6 @@ stable_model_list = [
     "stabilityai/stable-diffusion-2-1-base"
 ]
 
-stable_inpiant_model_list = [
-    "stabilityai/stable-diffusion-2-inpainting",
-    "runwayml/stable-diffusion-inpainting"
-]
-
 stable_prompt_list = [
         "a photo of a man.",
         "a photo of a girl."
@@ -56,70 +51,76 @@ def stable_diffusion_text2img(
     return images[0]
 
 def stable_diffusion_text2img_app():
-    with gr.Tab('Text2Image'):
-        text2image_model_path = gr.Dropdown(
-            choices=stable_model_list, 
-            value=stable_model_list[0], 
-            label='Text-Image Model Id'
+    with gr.Blocks():
+        with gr.Row():
+            with gr.Column():
+                text2image_model_path = gr.Dropdown(
+                    choices=stable_model_list, 
+                    value=stable_model_list[0], 
+                    label='Text-Image Model Id'
+                )
+
+                text2image_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_prompt_list[0], 
+                    label='Prompt'
+                )
+
+                text2image_negative_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_negative_prompt_list[0], 
+                    label='Negative Prompt'
+                )
+
+                with gr.Accordion("Advanced Options", open=False):
+                    text2image_guidance_scale = gr.Slider(
+                        minimum=0.1, 
+                        maximum=15, 
+                        step=0.1, 
+                        value=7.5, 
+                        label='Guidance Scale'
+                    )
+
+                    text2image_num_inference_step = gr.Slider(
+                        minimum=1, 
+                        maximum=100, 
+                        step=1, 
+                        value=50, 
+                        label='Num Inference Step'
+                    )
+
+                    text2image_height = gr.Slider(
+                        minimum=128, 
+                        maximum=1280, 
+                        step=32, 
+                        value=512, 
+                        label='Image Height'
+                    )
+
+                    text2image_width = gr.Slider(
+                        minimum=128, 
+                        maximum=1280, 
+                        step=32, 
+                        value=768, 
+                        label='Image Height'
+                    )
+
+                text2image_predict = gr.Button(value='Generator')
+        
+            with gr.Column():
+                output_image = gr.Image(label='Output')
+                    
+        
+        text2image_predict.click(
+            fn=stable_diffusion_text2img,
+            inputs=[
+                text2image_model_path,
+                text2image_prompt,
+                text2image_negative_prompt,
+                text2image_guidance_scale,
+                text2image_num_inference_step,
+                text2image_height,
+                text2image_width,
+            ],
+            outputs=output_image
         )
-
-        text2image_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_prompt_list[0], 
-            label='Prompt'
-        )
-
-        text2image_negative_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_negative_prompt_list[0], 
-            label='Negative Prompt'
-        )
-
-        with gr.Accordion("Advanced Options", open=False):
-            text2image_guidance_scale = gr.Slider(
-                minimum=0.1, 
-                maximum=15, 
-                step=0.1, 
-                value=7.5, 
-                label='Guidance Scale'
-            )
-
-            text2image_num_inference_step = gr.Slider(
-                minimum=1, 
-                maximum=100, 
-                step=1, 
-                value=50, 
-                label='Num Inference Step'
-            )
-
-            text2image_height = gr.Slider(
-                minimum=128, 
-                maximum=1280, 
-                step=32, 
-                value=512, 
-                label='Image Height'
-            )
-
-            text2image_width = gr.Slider(
-                minimum=128, 
-                maximum=1280, 
-                step=32, 
-                value=768, 
-                label='Image Height'
-            )
-
-        text2image_predict = gr.Button(value='Generator')
-    
-    variables = {
-        "model_path": text2image_model_path,
-        "prompt": text2image_prompt,
-        "negative_prompt": text2image_negative_prompt,
-        "guidance_scale": text2image_guidance_scale,
-        "num_inference_step": text2image_num_inference_step,
-        "height": text2image_height,
-        "width": text2image_width,
-        "predict": text2image_predict
-    }
-
-    return variables 
-

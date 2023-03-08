@@ -14,11 +14,6 @@ stable_model_list = [
     "stabilityai/stable-diffusion-2-1-base"
 ]
 
-stable_inpiant_model_list = [
-    "stabilityai/stable-diffusion-2-inpainting",
-    "runwayml/stable-diffusion-inpainting"
-]
-
 stable_prompt_list = [
         "a photo of a man.",
         "a photo of a girl."
@@ -76,58 +71,63 @@ def stable_diffusion_controlnet_mlsd(
     return output[0]
 
 def stable_diffusion_controlnet_mlsd_app():
-    with gr.Tab('MLSD line'):
-        controlnet_mlsd_image_file = gr.Image(
-            type='filepath', 
-            label='Image'
+    with gr.Blocks():
+        with gr.Row():
+            with gr.Column():
+                controlnet_mlsd_image_file = gr.Image(
+                    type='filepath', 
+                    label='Image'
+                )
+
+                controlnet_mlsd_model_id = gr.Dropdown(
+                    choices=stable_model_list, 
+                    value=stable_model_list[0], 
+                    label='Stable Model Id'
+                )
+
+                controlnet_mlsd_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_prompt_list[0], 
+                    label='Prompt'
+                )
+
+                controlnet_mlsd_negative_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_negative_prompt_list[0], 
+                    label='Negative Prompt'
+                )
+
+                with gr.Accordion("Advanced Options", open=False):
+                    controlnet_mlsd_guidance_scale = gr.Slider(
+                        minimum=0.1, 
+                        maximum=15, 
+                        step=0.1, 
+                        value=7.5, 
+                        label='Guidance Scale'
+                    )
+
+                    controlnet_mlsd_num_inference_step = gr.Slider(
+                        minimum=1, 
+                        maximum=100, 
+                        step=1, 
+                        value=50, 
+                        label='Num Inference Step'
+                    )
+
+                controlnet_mlsd_predict = gr.Button(value='Generator')
+
+            with gr.Column():
+                output_image = gr.Image(label='Output')
+        
+        controlnet_mlsd_predict.click(
+            fn=stable_diffusion_controlnet_mlsd,
+            inputs=[
+                controlnet_mlsd_image_file,
+                controlnet_mlsd_model_id,
+                controlnet_mlsd_prompt,
+                controlnet_mlsd_negative_prompt,
+                controlnet_mlsd_guidance_scale,
+                controlnet_mlsd_num_inference_step
+            ],
+            outputs=output_image
         )
-
-        controlnet_mlsd_model_id = gr.Dropdown(
-            choices=stable_model_list, 
-            value=stable_model_list[0], 
-            label='Stable Model Id'
-        )
-
-        controlnet_mlsd_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_prompt_list[0], 
-            label='Prompt'
-        )
-
-        controlnet_mlsd_negative_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_negative_prompt_list[0], 
-            label='Negative Prompt'
-        )
-
-        with gr.Accordion("Advanced Options", open=False):
-            controlnet_mlsd_guidance_scale = gr.Slider(
-                minimum=0.1, 
-                maximum=15, 
-                step=0.1, 
-                value=7.5, 
-                label='Guidance Scale'
-            )
-
-            controlnet_mlsd_num_inference_step = gr.Slider(
-                minimum=1, 
-                maximum=100, 
-                step=1, 
-                value=50, 
-                label='Num Inference Step'
-            )
-
-        controlnet_mlsd_predict = gr.Button(value='Generator')
-
-    variables = {
-        'image_path': controlnet_mlsd_image_file,
-        'model_path': controlnet_mlsd_model_id,
-        'prompt': controlnet_mlsd_prompt,
-        'negative_prompt': controlnet_mlsd_negative_prompt,
-        'guidance_scale': controlnet_mlsd_guidance_scale,
-        'num_inference_step': controlnet_mlsd_num_inference_step,
-        'predict': controlnet_mlsd_predict
-    }
-
-    return variables
-    

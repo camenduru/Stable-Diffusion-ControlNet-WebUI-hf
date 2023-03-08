@@ -15,11 +15,6 @@ stable_model_list = [
     "stabilityai/stable-diffusion-2-1-base"
 ]
 
-stable_inpiant_model_list = [
-    "stabilityai/stable-diffusion-2-inpainting",
-    "runwayml/stable-diffusion-inpainting"
-]
-
 stable_prompt_list = [
         "a photo of a man.",
         "a photo of a girl."
@@ -78,57 +73,63 @@ def stable_diffusion_controlnet_pose(
 
 
 def stable_diffusion_controlnet_pose_app():
-    with gr.Tab('Pose'):
-        controlnet_pose_image_file = gr.Image(
-            type='filepath', 
-            label='Image'
+    with gr.Blocks():
+        with gr.Row():
+            with gr.Column():
+                controlnet_pose_image_file = gr.Image(
+                    type='filepath', 
+                    label='Image'
+                )
+
+                controlnet_pose_model_id = gr.Dropdown(
+                    choices=stable_model_list, 
+                    value=stable_model_list[0], 
+                    label='Stable Model Id'
+                )
+
+                controlnet_pose_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_prompt_list[0], 
+                    label='Prompt'
+                )
+
+                controlnet_pose_negative_prompt = gr.Textbox(
+                    lines=1, 
+                    value=stable_negative_prompt_list[0], 
+                    label='Negative Prompt'
+                )
+
+                with gr.Accordion("Advanced Options", open=False):
+                    controlnet_pose_guidance_scale = gr.Slider(
+                        minimum=0.1, 
+                        maximum=15, 
+                        step=0.1, 
+                        value=7.5, 
+                        label='Guidance Scale'
+                    )
+
+                    controlnet_pose_num_inference_step = gr.Slider(
+                        minimum=1, 
+                        maximum=100, 
+                        step=1, 
+                        value=50, 
+                        label='Num Inference Step'
+                    )
+
+                controlnet_pose_predict = gr.Button(value='Generator')
+
+            with gr.Column():
+                output_image = gr.Image(label='Output')
+        
+        controlnet_pose_predict.click(
+            fn=stable_diffusion_controlnet_pose,
+            inputs=[
+                controlnet_pose_image_file,
+                controlnet_pose_model_id,
+                controlnet_pose_prompt,
+                controlnet_pose_negative_prompt,
+                controlnet_pose_guidance_scale,
+                controlnet_pose_num_inference_step,
+            ],
+            outputs=output_image
         )
-
-        controlnet_pose_model_id = gr.Dropdown(
-            choices=stable_model_list, 
-            value=stable_model_list[0], 
-            label='Stable Model Id'
-        )
-
-        controlnet_pose_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_prompt_list[0], 
-            label='Prompt'
-        )
-
-        controlnet_pose_negative_prompt = gr.Textbox(
-            lines=1, 
-            value=stable_negative_prompt_list[0], 
-            label='Negative Prompt'
-        )
-
-        with gr.Accordion("Advanced Options", open=False):
-            controlnet_pose_guidance_scale = gr.Slider(
-                minimum=0.1, 
-                maximum=15, 
-                step=0.1, 
-                value=7.5, 
-                label='Guidance Scale'
-            )
-
-            controlnet_pose_num_inference_step = gr.Slider(
-                minimum=1, 
-                maximum=100, 
-                step=1, 
-                value=50, 
-                label='Num Inference Step'
-            )
-
-        controlnet_pose_predict = gr.Button(value='Generator')
-
-    variables = {
-        'image_path': controlnet_pose_image_file,
-        'model_path': controlnet_pose_model_id,
-        'prompt': controlnet_pose_prompt,
-        'negative_prompt': controlnet_pose_negative_prompt,
-        'guidance_scale': controlnet_pose_guidance_scale,
-        'num_inference_step': controlnet_pose_num_inference_step,
-        'predict': controlnet_pose_predict
-    }
-    
-    return variables
