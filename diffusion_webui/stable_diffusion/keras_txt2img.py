@@ -99,7 +99,7 @@ def keras_stable_diffusion_app():
                         minimum=128, 
                         maximum=1280, 
                         step=32, 
-                        value=768, 
+                        value=512, 
                         label='Image Height'
                     )
 
