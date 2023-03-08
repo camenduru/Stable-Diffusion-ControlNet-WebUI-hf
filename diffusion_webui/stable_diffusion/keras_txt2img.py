@@ -4,13 +4,15 @@ from tensorflow import keras
 import tensorflow as tf
 import gradio as gr
 
-stable_model_list = [
-    "keras-dreambooth/dreambooth_diffusion_model"
+keras_model_list = [
+    "kadirnar/dreambooth_diffusion_model_v1",
+    "keras-dreambooth/pink-floyd-division-bell"
+    "keras-dreambooth/dreambooth_diffusion_model",
 ]
 
 stable_prompt_list = [
-        "a photo of a man.",
-        "a photo of a girl."
+        "a photo of lowpoly_world",
+        "Flower vase inspired by pink floyd division bell"
     ]
 
 stable_negative_prompt_list = [
@@ -53,8 +55,8 @@ def keras_stable_diffusion_app():
         with gr.Row():
             with gr.Column():
                 keras_text2image_model_path = gr.Dropdown(
-                    choices=stable_model_list, 
-                    value=stable_model_list[0], 
+                    choices=keras_model_list, 
+                    value=keras_model_list[0], 
                     label='Text-Image Model Id'
                 )
 
