@@ -1,7 +1,7 @@
 from huggingface_hub import from_pretrained_keras
 from keras_cv import models
 from tensorflow import keras
-
+import tensorflow as tf
 import gradio as gr
 
 stable_model_list = [
@@ -27,23 +27,24 @@ def keras_stable_diffusion(
     height:int,
     width:int,
     ):
-
-    keras.mixed_precision.set_global_policy("mixed_float16")
-
-    sd_dreambooth_model = models.StableDiffusion(
-        img_width=height, 
-        img_height=width
-        )
+        
+    with tf.device('/GPU:0'):      
+        keras.mixed_precision.set_global_policy("mixed_float16")
     
-    db_diffusion_model = from_pretrained_keras(model_path)
-    sd_dreambooth_model._diffusion_model = db_diffusion_model
-
-    generated_images = sd_dreambooth_model.text_to_image(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        num_steps=num_inference_step,
-        unconditional_guidance_scale=guidance_scale
-    )
+        sd_dreambooth_model = models.StableDiffusion(
+            img_width=height, 
+            img_height=width
+            )
+        
+        db_diffusion_model = from_pretrained_keras(model_path)
+        sd_dreambooth_model._diffusion_model = db_diffusion_model
+    
+        generated_images = sd_dreambooth_model.text_to_image(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            num_steps=num_inference_step,
+            unconditional_guidance_scale=guidance_scale
+        )
 
     return generated_images
 
