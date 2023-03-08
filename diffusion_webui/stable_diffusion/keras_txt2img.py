@@ -105,7 +105,7 @@ def keras_stable_diffusion_app():
                 keras_text2image_predict = gr.Button(value='Generator')
     
             with gr.Column():
-                output_image = gr.Image(label='Output')
+                output_image = gr.Gallery(label='Output')
                         
         keras_text2image_predict.click(
             fn=keras_stable_diffusion,
