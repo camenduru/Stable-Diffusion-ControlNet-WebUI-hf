@@ -71,7 +71,7 @@ def stable_diffusion_inpaint_app():
                     elem_id="image_upload", 
                     type="pil", 
                     label="Upload"
-                ).style(height=400)
+                )
 
                 inpaint_model_id = gr.Dropdown(
                     choices=stable_inpiant_model_list, 
