@@ -29,8 +29,8 @@ stable_negative_prompt_list = [
 
 
 def stable_diffusion_img2img(
-    model_path:str,
     image_path:str,
+    model_path:str,
     prompt:str,
     negative_prompt:str,
     guidance_scale:int,
