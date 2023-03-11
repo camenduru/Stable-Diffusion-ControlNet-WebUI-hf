@@ -6,7 +6,7 @@ colorTo: red
 sdk: gradio
 sdk_version: 3.19
 app_file: app.py
-pinned: false
+pinned: true
 license: openrail
 tags:
   - making-demos

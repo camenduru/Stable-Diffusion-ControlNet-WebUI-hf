@@ -5,8 +5,8 @@ import tensorflow as tf
 import gradio as gr
 
 keras_model_list = [
-    "kadirnar/dreambooth_diffusion_model_v1",
-    "keras-dreambooth/pink-floyd-division-bell"
+    "keras-dreambooth/keras_diffusion_lowpoly_world",
+    "keras-dreambooth/pink-floyd-division-bell",
     "keras-dreambooth/dreambooth_diffusion_model",
 ]
 

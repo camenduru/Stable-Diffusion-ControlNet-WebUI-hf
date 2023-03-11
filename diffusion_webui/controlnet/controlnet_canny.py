@@ -10,12 +10,13 @@ import cv2
 
 stable_model_list = [
     "runwayml/stable-diffusion-v1-5",
-    "stabilityai/stable-diffusion-2",
-    "stabilityai/stable-diffusion-2-base",
     "stabilityai/stable-diffusion-2-1",
-    "stabilityai/stable-diffusion-2-1-base"
 ]
 
+controlnet_canny_model_list = [
+    "lllyasviel/sd-controlnet-canny",
+    "thibaud/controlnet-sd21-canny-diffusers"
+]
 
 
 stable_prompt_list = [
@@ -30,6 +31,7 @@ stable_negative_prompt_list = [
 
 def controlnet_canny(
     image_path:str,
+    controlnet_model_path:str,
 ):
     image = Image.open(image_path)
     image = np.array(image)
@@ -40,7 +42,7 @@ def controlnet_canny(
     image = Image.fromarray(image)
 
     controlnet = ControlNetModel.from_pretrained(
-        "lllyasviel/sd-controlnet-canny", 
+        controlnet_model_path,
         torch_dtype=torch.float16
     )
     return controlnet, image
@@ -48,17 +50,18 @@ def controlnet_canny(
 
 def stable_diffusion_controlnet_canny(
     image_path:str,
-    model_path:str,
+    stable_model_path:str,
+    controlnet_model_path:str,
     prompt:str,
     negative_prompt:str,
     guidance_scale:int,
     num_inference_step:int,
     ):
 
-    controlnet, image = controlnet_canny(image_path)
+    controlnet, image = controlnet_canny(image_path, controlnet_model_path)
     
     pipe = StableDiffusionControlNetPipeline.from_pretrained(
-        pretrained_model_name_or_path=model_path, 
+        pretrained_model_name_or_path=stable_model_path, 
         controlnet=controlnet, 
         safety_checker=None, 
         torch_dtype=torch.float16,
@@ -87,12 +90,18 @@ def stable_diffusion_controlnet_canny_app():
                     label='Image'
                 )
 
-                controlnet_canny_model_id = gr.Dropdown(
+                controlnet_canny_stable_model_id = gr.Dropdown(
                     choices=stable_model_list, 
                     value=stable_model_list[0], 
                     label='Stable Model Id'
                 )
-
+                
+                controlnet_canny_model_id = gr.Dropdown(
+                    choices=controlnet_canny_model_list,
+                    value=controlnet_canny_model_list[0],
+                    label='Controlnet Model Id'
+                )
+                    
                 controlnet_canny_prompt = gr.Textbox(
                     lines=1, 
                     value=stable_prompt_list[0], 
@@ -131,6 +140,7 @@ def stable_diffusion_controlnet_canny_app():
             fn=stable_diffusion_controlnet_canny,
             inputs=[
                 controlnet_canny_image_file,
+                controlnet_canny_stable_model_id,
                 controlnet_canny_model_id,
                 controlnet_canny_prompt,
                 controlnet_canny_negative_prompt,

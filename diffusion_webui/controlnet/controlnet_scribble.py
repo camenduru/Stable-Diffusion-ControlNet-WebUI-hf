@@ -9,10 +9,12 @@ import torch
 
 stable_model_list = [
     "runwayml/stable-diffusion-v1-5",
-    "stabilityai/stable-diffusion-2",
-    "stabilityai/stable-diffusion-2-base",
     "stabilityai/stable-diffusion-2-1",
-    "stabilityai/stable-diffusion-2-1-base"
+]
+
+controlnet_hed_model_list = [
+    "fusing/stable-diffusion-v1-5-controlnet-hed",
+    "thibaud/controlnet-sd21-scribble-diffusers"
 ]
 
 stable_prompt_list = [
@@ -26,31 +28,32 @@ stable_negative_prompt_list = [
     ]
 
 
-def controlnet_scribble(image_path:str):
+def controlnet_scribble(image_path:str, controlnet_hed_model_path:str):
     hed = HEDdetector.from_pretrained('lllyasviel/ControlNet')
 
     image = Image.open(image_path)
     image = hed(image, scribble=True)
 
     controlnet = ControlNetModel.from_pretrained(
-        "fusing/stable-diffusion-v1-5-controlnet-scribble", torch_dtype=torch.float16
+        controlnet_hed_model_path, torch_dtype=torch.float16
     )
 
     return controlnet, image
 
 def stable_diffusion_controlnet_scribble(
     image_path:str,
-    model_path:str,
+    stable_model_path:str,
+    controlnet_hed_model_path:str,
     prompt:str,
     negative_prompt:str,
     guidance_scale:int,
     num_inference_step:int,
     ):
 
-    controlnet, image = controlnet_scribble(image_path=image_path)
+    controlnet, image = controlnet_scribble(image_path=image_path, controlnet_hed_model_path=controlnet_hed_model_path)
 
     pipe = StableDiffusionControlNetPipeline.from_pretrained(
-        pretrained_model_name_or_path=model_path, 
+        pretrained_model_name_or_path=stable_model_path, 
         controlnet=controlnet, 
         safety_checker=None, 
         torch_dtype=torch.float16
@@ -79,10 +82,16 @@ def stable_diffusion_controlnet_scribble_app():
                     label='Image'
                 )
 
-                controlnet_scribble_model_id = gr.Dropdown(
+                controlnet_scribble_stablev1_model_id = gr.Dropdown(
                     choices=stable_model_list, 
                     value=stable_model_list[0], 
-                    label='Stable Model Id'
+                    label='Stable v1.5 Model Id'
+                )
+                
+                controlnet_scribble_stablev2_model_id = gr.Dropdown(
+                    choices=stable_model_list,
+                    value=stable_model_list[1],
+                    label='Stable v2.1 Model Id'
                 )
 
                 controlnet_scribble_prompt = gr.Textbox(
@@ -123,7 +132,8 @@ def stable_diffusion_controlnet_scribble_app():
             fn=stable_diffusion_controlnet_scribble,
             inputs=[
                 controlnet_scribble_image_file,
-                controlnet_scribble_model_id,
+                controlnet_scribble_stablev1_model_id,
+                controlnet_scribble_stablev2_model_id,
                 controlnet_scribble_prompt,
                 controlnet_scribble_negative_prompt,
                 controlnet_scribble_guidance_scale,

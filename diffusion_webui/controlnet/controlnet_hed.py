@@ -8,10 +8,12 @@ import torch
 
 stable_model_list = [
     "runwayml/stable-diffusion-v1-5",
-    "stabilityai/stable-diffusion-2",
-    "stabilityai/stable-diffusion-2-base",
     "stabilityai/stable-diffusion-2-1",
-    "stabilityai/stable-diffusion-2-1-base"
+]
+
+controlnet_hed_model_list = [
+    "fusing/stable-diffusion-v1-5-controlnet-hed",
+    "thibaud/controlnet-sd21-hed-diffusers"
 ]
 
 stable_prompt_list = [
@@ -25,14 +27,14 @@ stable_negative_prompt_list = [
     ]
 
 
-def controlnet_hed(image_path:str):
+def controlnet_hed(image_path:str, controlnet_hed_model_path:str):
     hed = HEDdetector.from_pretrained('lllyasviel/ControlNet')
 
     image = Image.open(image_path)
     image = hed(image)
 
     controlnet = ControlNetModel.from_pretrained(
-        "fusing/stable-diffusion-v1-5-controlnet-hed", 
+        controlnet_hed_model_path,
         torch_dtype=torch.float16
     )
     return controlnet, image
@@ -40,17 +42,18 @@ def controlnet_hed(image_path:str):
 
 def stable_diffusion_controlnet_hed(
     image_path:str,
-    model_path:str,
+    stable_model_path:str,
+    controlnet_hed_model_path:str,
     prompt:str,
     negative_prompt:str,
     guidance_scale:int,
     num_inference_step:int,
     ):
 
-    controlnet, image = controlnet_hed(image_path=image_path)
+    controlnet, image = controlnet_hed(image_path=image_path, controlnet_hed_model_path=controlnet_hed_model_path)
 
     pipe = StableDiffusionControlNetPipeline.from_pretrained(
-        pretrained_model_name_or_path=model_path, 
+        pretrained_model_name_or_path=stable_model_path, 
         controlnet=controlnet, 
         safety_checker=None, 
         torch_dtype=torch.float16
@@ -79,10 +82,16 @@ def stable_diffusion_controlnet_hed_app():
                     label='Image'
                 )
 
-                controlnet_hed_model_id = gr.Dropdown(
+                controlnet_hed_stable_model_id = gr.Dropdown(
                     choices=stable_model_list, 
                     value=stable_model_list[0], 
                     label='Stable Model Id'
+                )
+                
+                controlnet_hed_model_id = gr.Dropdown(
+                    choices=stable_model_list,
+                    value=stable_model_list[1],
+                    label='ControlNet Model Id'
                 )
 
                 controlnet_hed_prompt = gr.Textbox(
@@ -124,6 +133,7 @@ def stable_diffusion_controlnet_hed_app():
             fn=stable_diffusion_controlnet_hed,
             inputs=[
                 controlnet_hed_image_file,
+                controlnet_hed_stable_model_id,
                 controlnet_hed_model_id,
                 controlnet_hed_prompt,
                 controlnet_hed_negative_prompt,

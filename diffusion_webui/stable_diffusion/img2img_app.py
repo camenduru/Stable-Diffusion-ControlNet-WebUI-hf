@@ -12,11 +12,6 @@ stable_model_list = [
     "stabilityai/stable-diffusion-2-1-base"
 ]
 
-stable_inpiant_model_list = [
-    "stabilityai/stable-diffusion-2-inpainting",
-    "runwayml/stable-diffusion-inpainting"
-]
-
 stable_prompt_list = [
         "a photo of a man.",
         "a photo of a girl."

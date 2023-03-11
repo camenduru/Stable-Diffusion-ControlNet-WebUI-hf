@@ -9,10 +9,12 @@ import torch
 
 stable_model_list = [
     "runwayml/stable-diffusion-v1-5",
-    "stabilityai/stable-diffusion-2",
-    "stabilityai/stable-diffusion-2-base",
     "stabilityai/stable-diffusion-2-1",
-    "stabilityai/stable-diffusion-2-1-base"
+]
+
+controlnet_depth_model_list = [
+    "fusing/stable-diffusion-v1-5-controlnet-depth",
+    "thibaud/controlnet-sd21-depth-diffusers"
 ]
 
 
@@ -27,7 +29,7 @@ stable_negative_prompt_list = [
     ]
 
 
-def controlnet_depth(image_path:str):
+def controlnet_depth(image_path:str, depth_model_path:str):
     depth_estimator = pipeline('depth-estimation')
 
     image = Image.open(image_path)
@@ -38,24 +40,25 @@ def controlnet_depth(image_path:str):
     image = Image.fromarray(image)
 
     controlnet = ControlNetModel.from_pretrained(
-        "fusing/stable-diffusion-v1-5-controlnet-depth", torch_dtype=torch.float16
+        depth_model_path, torch_dtype=torch.float16
     )
 
     return controlnet, image
 
 def stable_diffusion_controlnet_depth(
     image_path:str,
-    model_path:str,
+    stable_model_path:str,
+    depth_model_path:str,
     prompt:str,
     negative_prompt:str,
     guidance_scale:int,
     num_inference_step:int,
     ):
 
-    controlnet, image = controlnet_depth(image_path=image_path)
+    controlnet, image = controlnet_depth(image_path=image_path, depth_model_path=depth_model_path)
 
     pipe = StableDiffusionControlNetPipeline.from_pretrained(
-        pretrained_model_name_or_path=model_path, 
+        pretrained_model_name_or_path=stable_model_path, 
         controlnet=controlnet, 
         safety_checker=None, 
         torch_dtype=torch.float16
@@ -85,12 +88,18 @@ def stable_diffusion_controlnet_depth_app():
                     label='Image'
                 )
 
-                controlnet_depth_model_id = gr.Dropdown(
+                controlnet_depth_stable_model_id = gr.Dropdown(
                     choices=stable_model_list, 
                     value=stable_model_list[0], 
                     label='Stable Model Id'
                 )
 
+                controlnet_depth_model_id = gr.Dropdown(
+                    choices=controlnet_depth_model_list,
+                    value=controlnet_depth_model_list[0],
+                    label='ControlNet Model Id'
+                )
+                
                 controlnet_depth_prompt = gr.Textbox(
                     lines=1, 
                     value=stable_prompt_list[0], 
@@ -129,6 +138,7 @@ def stable_diffusion_controlnet_depth_app():
             fn=stable_diffusion_controlnet_depth,
             inputs=[
                 controlnet_depth_image_file,
+                controlnet_depth_stable_model_id,
                 controlnet_depth_model_id,
                 controlnet_depth_prompt,
                 controlnet_depth_negative_prompt,

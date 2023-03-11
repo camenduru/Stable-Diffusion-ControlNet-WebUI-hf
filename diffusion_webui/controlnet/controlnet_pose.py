@@ -9,10 +9,12 @@ import torch
 
 stable_model_list = [
     "runwayml/stable-diffusion-v1-5",
-    "stabilityai/stable-diffusion-2",
-    "stabilityai/stable-diffusion-2-base",
     "stabilityai/stable-diffusion-2-1",
-    "stabilityai/stable-diffusion-2-1-base"
+]
+
+controlnet_pose_model_list = [
+    "fusing/stable-diffusion-v1-5-controlnet-openpose",
+    "thibaud/controlnet-sd21-openpose-diffusers"
 ]
 
 stable_prompt_list = [
@@ -26,14 +28,14 @@ stable_negative_prompt_list = [
     ]
 
 
-def controlnet_pose(image_path:str):
+def controlnet_pose(image_path:str, controlnet_pose_model_path:str):
     openpose = OpenposeDetector.from_pretrained('lllyasviel/ControlNet')
 
     image = Image.open(image_path)
     image = openpose(image)
 
     controlnet = ControlNetModel.from_pretrained(
-        "fusing/stable-diffusion-v1-5-controlnet-openpose", 
+        controlnet_pose_model_path,
         torch_dtype=torch.float16
     )
 
@@ -41,17 +43,18 @@ def controlnet_pose(image_path:str):
 
 def stable_diffusion_controlnet_pose(
     image_path:str,
-    model_path:str,
+    stable_model_path:str,
+    controlnet_pose_model_path:str,
     prompt:str,
     negative_prompt:str,
     guidance_scale:int,
     num_inference_step:int,
     ):
 
-    controlnet, image = controlnet_pose(image_path=image_path)
+    controlnet, image = controlnet_pose(image_path=image_path, controlnet_pose_model_path=controlnet_pose_model_path)
 
     pipe = StableDiffusionControlNetPipeline.from_pretrained(
-        pretrained_model_name_or_path=model_path, 
+        pretrained_model_name_or_path=-stable_model_path, 
         controlnet=controlnet, 
         safety_checker=None, 
         torch_dtype=torch.float16
@@ -81,11 +84,18 @@ def stable_diffusion_controlnet_pose_app():
                     label='Image'
                 )
 
-                controlnet_pose_model_id = gr.Dropdown(
+                controlnet_pose_stable_model_id = gr.Dropdown(
                     choices=stable_model_list, 
                     value=stable_model_list[0], 
                     label='Stable Model Id'
                 )
+                
+                controlnet_pose_model_id = gr.Dropdown(
+                    choices=stable_model_list,
+                    value=stable_model_list[1],
+                    label='ControlNet Model Id'
+                )
+                       
 
                 controlnet_pose_prompt = gr.Textbox(
                     lines=1, 
@@ -125,6 +135,7 @@ def stable_diffusion_controlnet_pose_app():
             fn=stable_diffusion_controlnet_pose,
             inputs=[
                 controlnet_pose_image_file,
+                controlnet_pose_stable_model_id,
                 controlnet_pose_model_id,
                 controlnet_pose_prompt,
                 controlnet_pose_negative_prompt,

@@ -1,17 +1,7 @@
 from diffusers import DiffusionPipeline, DDIMScheduler
-from PIL import Image
-import imageio
 import torch
 
 import gradio as gr
-
-stable_model_list = [
-    "runwayml/stable-diffusion-v1-5",
-    "stabilityai/stable-diffusion-2",
-    "stabilityai/stable-diffusion-2-base",
-    "stabilityai/stable-diffusion-2-1",
-    "stabilityai/stable-diffusion-2-1-base"
-]
 
 stable_inpiant_model_list = [
     "stabilityai/stable-diffusion-2-inpainting",
