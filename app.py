@@ -1,18 +1,18 @@
-from diffusion_webui.controlnet.controlnet_canny import stable_diffusion_controlnet_canny_app, stable_diffusion_controlnet_canny
-from diffusion_webui.controlnet.controlnet_depth import stable_diffusion_controlnet_depth_app, stable_diffusion_controlnet_depth
-from diffusion_webui.controlnet.controlnet_hed import stable_diffusion_controlnet_hed_app, stable_diffusion_controlnet_hed
-from diffusion_webui.controlnet.controlnet_mlsd import stable_diffusion_controlnet_mlsd_app, stable_diffusion_controlnet_mlsd
-from diffusion_webui.controlnet.controlnet_pose import stable_diffusion_controlnet_pose_app, stable_diffusion_controlnet_pose
-from diffusion_webui.controlnet.controlnet_scribble import stable_diffusion_controlnet_scribble_app, stable_diffusion_controlnet_scribble
-from diffusion_webui.controlnet.controlnet_seg import stable_diffusion_controlnet_seg_app, stable_diffusion_controlnet_seg
-
-from diffusion_webui.stable_diffusion.text2img_app import stable_diffusion_text2img_app, stable_diffusion_text2img
-from diffusion_webui.stable_diffusion.img2img_app import stable_diffusion_img2img_app, stable_diffusion_img2img
-from diffusion_webui.stable_diffusion.inpaint_app import stable_diffusion_inpaint_app, stable_diffusion_inpaint
-from diffusion_webui.stable_diffusion.keras_txt2img import keras_stable_diffusion, keras_stable_diffusion_app
-
-
 import gradio as gr
+
+from diffusion_webui.helpers import (
+    keras_stable_diffusion_app,
+    stable_diffusion_controlnet_canny_app,
+    stable_diffusion_controlnet_depth_app,
+    stable_diffusion_controlnet_hed_app,
+    stable_diffusion_controlnet_mlsd_app,
+    stable_diffusion_controlnet_pose_app,
+    stable_diffusion_controlnet_scribble_app,
+    stable_diffusion_controlnet_seg_app,
+    stable_diffusion_img2img_app,
+    stable_diffusion_inpaint_app,
+    stable_diffusion_text2img_app,
+)
 
 app = gr.Blocks()
 with app:
@@ -33,30 +33,30 @@ with app:
     )
     with gr.Row():
         with gr.Column():
-            with gr.Tab('Text2Img'):
+            with gr.Tab("Text2Img"):
                 stable_diffusion_text2img_app()
-            with gr.Tab('Img2Img'):
+            with gr.Tab("Img2Img"):
                 stable_diffusion_img2img_app()
-            with gr.Tab('Inpaint'): 
+            with gr.Tab("Inpaint"):
                 stable_diffusion_inpaint_app()
-        
-            with gr.Tab('ControlNet'):
-                with gr.Tab('Canny'):
+
+            with gr.Tab("ControlNet"):
+                with gr.Tab("Canny"):
                     stable_diffusion_controlnet_canny_app()
-                with gr.Tab('Depth'):
+                with gr.Tab("Depth"):
                     stable_diffusion_controlnet_depth_app()
-                with gr.Tab('HED'):
+                with gr.Tab("HED"):
                     stable_diffusion_controlnet_hed_app()
-                with gr.Tab('MLSD'):
+                with gr.Tab("MLSD"):
                     stable_diffusion_controlnet_mlsd_app()
-                with gr.Tab('Pose'):
+                with gr.Tab("Pose"):
                     stable_diffusion_controlnet_pose_app()
-                with gr.Tab('Seg'): 
+                with gr.Tab("Seg"):
                     stable_diffusion_controlnet_seg_app()
-                with gr.Tab('Scribble'):
+                with gr.Tab("Scribble"):
                     stable_diffusion_controlnet_scribble_app()
-            
-            with gr.Tab('Keras Diffusion'):       
+
+            with gr.Tab("Keras Diffusion"):
                 keras_diffusion_app = keras_stable_diffusion_app()
 
-app.launch(debug=True)   
+app.launch(debug=True)
