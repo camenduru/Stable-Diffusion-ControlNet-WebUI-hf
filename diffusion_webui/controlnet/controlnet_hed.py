@@ -91,8 +91,8 @@ def stable_diffusion_controlnet_hed_app():
                 )
 
                 controlnet_hed_model_id = gr.Dropdown(
-                    choices=stable_model_list,
-                    value=stable_model_list[1],
+                    choices=controlnet_hed_model_list,
+                    value=controlnet_hed_model_list[1],
                     label="ControlNet Model Id",
                 )
 

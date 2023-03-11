@@ -85,16 +85,16 @@ def stable_diffusion_controlnet_scribble_app():
                     type="filepath", label="Image"
                 )
 
-                controlnet_scribble_stablev1_model_id = gr.Dropdown(
+                controlnet_scribble_stable_model_id = gr.Dropdown(
                     choices=stable_model_list,
                     value=stable_model_list[0],
                     label="Stable v1.5 Model Id",
                 )
 
-                controlnet_scribble_stablev2_model_id = gr.Dropdown(
-                    choices=stable_model_list,
-                    value=stable_model_list[1],
-                    label="Stable v2.1 Model Id",
+                controlnet_scribble_model_id = gr.Dropdown(
+                    choices=controlnet_hed_model_list,
+                    value=controlnet_hed_model_list[1],
+                    label="ControlNet Model Id",
                 )
 
                 controlnet_scribble_prompt = gr.Textbox(
@@ -144,8 +144,8 @@ def stable_diffusion_controlnet_scribble_app():
             ],
             inputs=[
                 controlnet_scribble_image_file,
-                controlnet_scribble_stablev1_model_id,
-                controlnet_scribble_stablev2_model_id,
+                controlnet_scribble_stable_model_id,
+                controlnet_scribble_model_id,
                 controlnet_scribble_prompt,
                 controlnet_scribble_negative_prompt,
                 controlnet_scribble_guidance_scale,
@@ -159,8 +159,8 @@ def stable_diffusion_controlnet_scribble_app():
             fn=stable_diffusion_controlnet_scribble,
             inputs=[
                 controlnet_scribble_image_file,
-                controlnet_scribble_stablev1_model_id,
-                controlnet_scribble_stablev2_model_id,
+                controlnet_scribble_stable_model_id,
+                controlnet_scribble_model_id,
                 controlnet_scribble_prompt,
                 controlnet_scribble_negative_prompt,
                 controlnet_scribble_guidance_scale,
