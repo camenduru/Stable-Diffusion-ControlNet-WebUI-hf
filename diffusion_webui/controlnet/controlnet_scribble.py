@@ -93,7 +93,7 @@ def stable_diffusion_controlnet_scribble_app():
 
                 controlnet_scribble_model_id = gr.Dropdown(
                     choices=controlnet_hed_model_list,
-                    value=controlnet_hed_model_list[1],
+                    value=controlnet_hed_model_list[0],
                     label="ControlNet Model Id",
                 )
 
