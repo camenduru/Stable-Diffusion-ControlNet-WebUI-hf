@@ -8,7 +8,6 @@ stable_inpiant_model_list = [
 ]
 
 stable_prompt_list = ["a photo of a man.", "a photo of a girl."]
-
 stable_negative_prompt_list = ["bad, ugly", "deformed"]
 
 
