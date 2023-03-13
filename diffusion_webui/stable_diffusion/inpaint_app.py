@@ -28,8 +28,6 @@ def stable_diffusion_inpaint(
         torch_dtype=torch.float16,
     )
     pipe.to("cuda")
-    pipe.scheduler = DDIMScheduler.from_config(pipe.scheduler.config)
-    pipe.enable_xformers_memory_efficient_attention()
 
     output = pipe(
         prompt=prompt,
