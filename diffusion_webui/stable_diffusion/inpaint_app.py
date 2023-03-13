@@ -89,7 +89,7 @@ def stable_diffusion_inpaint_app():
                 inpaint_predict = gr.Button(value="Generator")
 
             with gr.Column():
-                output_image = gr.Gallery(label="Outputs")
+                output_image = gr.Image(label="Outputs")
 
         inpaint_predict.click(
             fn=stable_diffusion_inpaint,
