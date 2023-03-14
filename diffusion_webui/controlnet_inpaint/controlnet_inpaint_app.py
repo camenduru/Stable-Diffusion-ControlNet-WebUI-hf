@@ -4,14 +4,14 @@ import torch
 from diffusers import UniPCMultistepScheduler
 from PIL import Image
 
-from diffusion_webui.controlnet.controlnet_canny import controlnet_canny
+from diffusion_webui.controlnet_inpaint.canny_inpaint import controlnet_canny
 from diffusion_webui.controlnet_inpaint.pipeline_stable_diffusion_controlnet_inpaint import (
     StableDiffusionControlNetInpaintPipeline,
 )
 
 stable_inpaint_model_list = [
-    "stabilityai/stable-diffusion-2-inpainting",
     "runwayml/stable-diffusion-inpainting",
+    "stabilityai/stable-diffusion-2-inpainting",
 ]
 
 controlnet_model_list = [
@@ -36,7 +36,7 @@ def load_img(image_path: str):
 
 
 def stable_diffusion_inpiant_controlnet_canny(
-    normal_image_path: str,
+    dict_image: str,
     stable_model_path: str,
     controlnet_model_path: str,
     prompt: str,
@@ -45,15 +45,11 @@ def stable_diffusion_inpiant_controlnet_canny(
     guidance_scale: int,
     num_inference_steps: int,
 ):
-    pil_image = Image.open(normal_image_path)
-    normal_image = pil_image["image"].convert("RGB").resize((512, 512))
-    mask_image = pil_image["mask"].convert("RGB").resize((512, 512))
-
-    # normal_image = load_img(normal_image_path)
-    # mask_image = load_img(mask_image_path)
+    normal_image = dict_image["image"].convert("RGB").resize((512, 512))
+    mask_image = dict_image["mask"].convert("RGB").resize((512, 512))
 
     controlnet, control_image = controlnet_canny(
-        image_path=normal_image_path,
+        dict_image=dict_image,
         controlnet_model_path=controlnet_model_path,
     )
 
@@ -91,7 +87,7 @@ def stable_diffusion_inpiant_controlnet_canny_app():
                     source="upload",
                     tool="sketch",
                     elem_id="image_upload",
-                    type="filepath",
+                    type="pil",
                     label="Upload",
                 )
 
