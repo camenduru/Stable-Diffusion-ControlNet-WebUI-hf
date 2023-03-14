@@ -56,7 +56,7 @@ def stable_diffusion_controlnet_pose(
     )
 
     pipe = StableDiffusionControlNetPipeline.from_pretrained(
-        pretrained_model_name_or_path=-stable_model_path,
+        pretrained_model_name_or_path=stable_model_path,
         controlnet=controlnet,
         safety_checker=None,
         torch_dtype=torch.float16,
