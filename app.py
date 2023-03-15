@@ -64,4 +64,4 @@ with app:
             with gr.Tab("Keras Diffusion"):
                 keras_diffusion_app = keras_stable_diffusion_app()
 
-app.launch(debug=True, enable_queue=True, server_port=8080)
+app.launch(debug=True, enable_queue=True, server_port=7861)
