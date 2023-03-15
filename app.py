@@ -61,4 +61,4 @@ with app:
                 with gr.Tab("Inpaint Canny"):
                     stable_diffusion_inpiant_controlnet_canny_app()
 
-app.launch(debug=True, enable_queue=True, server_port=7860)
+app.launch(debug=True, enable_queue=True, server_port=7862)
