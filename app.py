@@ -61,7 +61,4 @@ with app:
                 with gr.Tab("Inpaint Canny"):
                     stable_diffusion_inpiant_controlnet_canny_app()
 
-            with gr.Tab("Keras Diffusion"):
-                keras_diffusion_app = keras_stable_diffusion_app()
-
 app.launch(debug=True, enable_queue=True, server_port=7861)
