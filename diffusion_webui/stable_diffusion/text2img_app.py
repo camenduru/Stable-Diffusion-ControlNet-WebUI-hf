@@ -3,14 +3,7 @@ import torch
 from diffusers import DDIMScheduler, StableDiffusionPipeline
 
 stable_model_list = [
-    "runwayml/stable-diffusion-v1-5",
-    "stabilityai/stable-diffusion-2-1",
-    "sd-dreambooth-library/disco-diffusion-style",
-    "prompthero/openjourney-v2",
     "andite/anything-v4.0",
-    "Lykon/DreamShaper",
-    "nitrosocke/Nitro-Diffusion",
-    "dreamlike-art/dreamlike-diffusion-1.0",
 ]
 
 stable_prompt_list = ["a photo of a man.", "a photo of a girl."]
