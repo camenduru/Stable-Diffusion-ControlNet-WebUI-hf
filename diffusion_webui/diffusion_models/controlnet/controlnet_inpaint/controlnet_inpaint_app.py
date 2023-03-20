@@ -68,9 +68,7 @@ class StableDiffusionControlInpaintNetCannyGenerator:
         seed_generator: int,
     ):
 
-        image = self.controlnet_canny_inpaint(
-            image_path=image_path, controlnet_model_path=controlnet_model_path
-        )
+        image = self.controlnet_canny_inpaint(image_path=image_path)
 
         pipe = self.load_model(
             stable_model_path=stable_model_path,
