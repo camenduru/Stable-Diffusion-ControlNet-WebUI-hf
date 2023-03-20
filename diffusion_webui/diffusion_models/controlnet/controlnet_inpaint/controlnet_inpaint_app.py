@@ -17,6 +17,7 @@ from diffusion_webui.utils.scheduler_list import (
     get_scheduler_list,
 )
 
+# https://github.com/mikonvergence/ControlNetInpaint
 
 class StableDiffusionControlInpaintNetCannyGenerator:
     def __init__(self):
