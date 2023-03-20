@@ -26,7 +26,7 @@ class StableDiffusionControlInpaintNetCannyGenerator:
         self,
         image_path: str,
     ):
-        image = Image.open(image_path)
+        image = image_path["image"].convert("RGB").resize((512, 512))
         image = np.array(image)
 
         image = cv2.Canny(image, 100, 200)
