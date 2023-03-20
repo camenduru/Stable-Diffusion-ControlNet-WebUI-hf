@@ -1,64 +1,51 @@
 import gradio as gr
 
 from diffusion_webui.helpers import (
-    keras_stable_diffusion_app,
-    stable_diffusion_controlnet_canny_app,
-    stable_diffusion_controlnet_depth_app,
-    stable_diffusion_controlnet_hed_app,
-    stable_diffusion_controlnet_mlsd_app,
-    stable_diffusion_controlnet_pose_app,
-    stable_diffusion_controlnet_scribble_app,
-    stable_diffusion_controlnet_seg_app,
-    stable_diffusion_img2img_app,
-    stable_diffusion_inpaint_app,
-    stable_diffusion_inpiant_controlnet_canny_app,
-    stable_diffusion_text2img_app,
+    StableDiffusionControlNetCannyGenerator,
+    StableDiffusionControlNetDepthGenerator,
+    StableDiffusionControlNetHEDGenerator,
+    StableDiffusionControlNetMLSDGenerator,
+    StableDiffusionControlNetPoseGenerator,
+    StableDiffusionControlNetScribbleGenerator,
+    StableDiffusionControlNetSegGenerator,
+    StableDiffusionImage2ImageGenerator,
+    StableDiffusionInpaintGenerator,
+    StableDiffusionText2ImageGenerator,
+    StableDiffusionControlInpaintNetCannyGenerator,
 )
 
-app = gr.Blocks()
-with app:
-    gr.HTML(
-        """
-        <h1 style='text-align: center'>
-        Stable Diffusion + ControlNet + Keras Diffusion WebUI
-        </h1>
-        """
-    )
-    gr.Markdown(
-        """
-        <h4 style='text-align: center'>
-        Follow me for more! 
-        <a href='https://twitter.com/kadirnar_ai' target='_blank'>Twitter</a> | <a href='https://github.com/kadirnar' target='_blank'>Github</a> | <a href='https://www.linkedin.com/in/kadir-nar/' target='_blank'>Linkedin</a>
-        </h4>
-        """
-    )
-    with gr.Row():
-        with gr.Column():
-            with gr.Tab("Text2Img"):
-                stable_diffusion_text2img_app()
-            with gr.Tab("Img2Img"):
-                stable_diffusion_img2img_app()
-            with gr.Tab("Inpaint"):
-                stable_diffusion_inpaint_app()
 
-            with gr.Tab("ControlNet"):
-                with gr.Tab("Canny"):
-                    stable_diffusion_controlnet_canny_app()
-                with gr.Tab("Depth"):
-                    stable_diffusion_controlnet_depth_app()
-                with gr.Tab("HED"):
-                    stable_diffusion_controlnet_hed_app()
-                with gr.Tab("MLSD"):
-                    stable_diffusion_controlnet_mlsd_app()
-                with gr.Tab("Pose"):
-                    stable_diffusion_controlnet_pose_app()
-                with gr.Tab("Seg"):
-                    stable_diffusion_controlnet_seg_app()
-                with gr.Tab("Scribble"):
-                    stable_diffusion_controlnet_scribble_app()
+def main():
+    app = gr.Blocks()
+    with app:
+        with gr.Row():
+            with gr.Column():
+                with gr.Tab("Text2Img"):
+                    StableDiffusionText2ImageGenerator.app()
+                with gr.Tab("Img2Img"):
+                    StableDiffusionImage2ImageGenerator.app()
+                with gr.Tab("Inpaint"):
+                    StableDiffusionInpaintGenerator.app()
+                with gr.Tab("ControlNet"):
+                    with gr.Tab("Canny"):
+                        StableDiffusionControlNetCannyGenerator.app()
+                    with gr.Tab("Depth"):
+                        StableDiffusionControlNetDepthGenerator.app()
+                    with gr.Tab("HED"):
+                        StableDiffusionControlNetHEDGenerator.app()
+                    with gr.Tab("MLSD"):
+                        StableDiffusionControlNetMLSDGenerator.app()
+                    with gr.Tab("Pose"):
+                        StableDiffusionControlNetPoseGenerator.app()
+                    with gr.Tab("Scribble"):
+                        StableDiffusionControlNetScribbleGenerator.app()
+                    with gr.Tab("Seg"):
+                        StableDiffusionControlNetSegGenerator.app()
+                with gr.Tab("ControlNet Inpaint"):
+                    StableDiffusionControlInpaintNetCannyGenerator.app()
 
-            with gr.Tab("ControlNet Inpaint"):
-                with gr.Tab("Inpaint Canny"):
-                    stable_diffusion_inpiant_controlnet_canny_app()
+    app.launch(debug=True, enable_queue=True)
 
-app.launch(debug=True, enable_queue=True)
+
+if __name__ == "__main__":
+    main()
