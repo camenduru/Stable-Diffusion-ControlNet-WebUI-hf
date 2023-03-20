@@ -12,12 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://github.com/mikonvergence/ControlNetInpaint
 
 import numpy as np
 import PIL.Image
 import torch
 from diffusers.pipelines.stable_diffusion.pipeline_stable_diffusion_controlnet import *
+
+# https://github.com/mikonvergence/ControlNetInpaint
 
 EXAMPLE_DOC_STRING = """
     Examples:
