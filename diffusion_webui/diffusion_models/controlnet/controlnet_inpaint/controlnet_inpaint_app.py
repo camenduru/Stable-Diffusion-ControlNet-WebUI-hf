@@ -101,8 +101,12 @@ class StableDiffusionControlInpaintNetCannyGenerator:
             with gr.Row():
                 with gr.Column():
                     controlnet_canny_inpaint_image_file = gr.Image(
-                        type="filepath", label="Image"
-                    )
+                    source="upload",
+                    tool="sketch",
+                    elem_id="image_upload",
+                    type="pil",
+                    label="Upload",
+                )
 
                     controlnet_canny_inpaint_prompt = gr.Textbox(
                         lines=1, placeholder="Prompt", show_label=False
