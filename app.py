@@ -44,7 +44,7 @@ def main():
                 with gr.Tab("ControlNet Inpaint"):
                     StableDiffusionControlInpaintNetCannyGenerator.app()
                     
-    app.queue(concurrency_count=3)
+    app.queue(concurrency_count=1)
     app.launch(debug=True, enable_queue=True)
 
 
