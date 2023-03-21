@@ -42,7 +42,7 @@ class StableDiffusionControlNetInpaintScribbleGenerator:
     
     def load_image(self, image_path):
         image = np.array(image_path)
-        image = Image.fromarray(image_path)
+        image = Image.fromarray(image)
         return image
 
     def controlnet_inpaint_scribble(self, image_path: str):

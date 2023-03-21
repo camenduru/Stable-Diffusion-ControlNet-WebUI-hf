@@ -203,9 +203,8 @@ class StableDiffusionControlNetInpaintSegGenerator:
     
     def load_image(self, image_path):
         image = np.array(image_path)
-        image = Image.fromarray(image_path)
+        image = Image.fromarray(image)
         return image
-
     def controlnet_seg_inpaint(self, image_path: str):
         image_processor = AutoImageProcessor.from_pretrained(
             "openmmlab/upernet-convnext-small"
