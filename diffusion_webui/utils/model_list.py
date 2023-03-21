@@ -1,7 +1,7 @@
 stable_model_list = [
     "runwayml/stable-diffusion-v1-5",
     "stabilityai/stable-diffusion-2-1",
-    "prompthero/openjourney"
+    "prompthero/openjourney-v4",
 ]
 
 controlnet_canny_model_list = [
@@ -31,4 +31,12 @@ controlnet_scribble_model_list = [
 stable_inpiant_model_list = [
     "stabilityai/stable-diffusion-2-inpainting",
     "runwayml/stable-diffusion-inpainting",
+]
+
+controlnet_mlsd_model_list = [
+    "lllyasviel/sd-controlnet-mlsd",
+]
+
+controlnet_seg_model_list = [
+    "lllyasviel/sd-controlnet-seg",
 ]
