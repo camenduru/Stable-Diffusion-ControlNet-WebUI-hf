@@ -41,6 +41,7 @@ class StableDiffusionControlNetInpaintCannyGenerator:
         return self.pipe
     
     def load_img(self, image_path):
+        breakpoint()
         image = image_path["image"].convert("RGB").resize((512, 512))
         image = np.array(image)
         image = Image.fromarray(image)
@@ -78,8 +79,8 @@ class StableDiffusionControlNetInpaintCannyGenerator:
         normal_image = image_path["image"].convert("RGB").resize((512, 512))
         mask_image = image_path["mask"].convert("RGB").resize((512, 512))
         
-        normal_image = self.load_img(image_path=image_path)
-        mask_image = self.load_img(image_path=image_path)
+        normal_image = self.load_img(image_path=normal_image)
+        mask_image = self.load_img(image_path=mask_image)
         
         control_image = self.controlnet_canny_inpaint(image_path=image_path)
         pipe = self.load_model(
