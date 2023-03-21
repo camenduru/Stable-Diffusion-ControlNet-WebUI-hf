@@ -2,7 +2,8 @@ import cv2
 import gradio as gr
 import numpy as np
 import torch
-from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
+from diffusers import ControlNetModel
+from diffusion_webui.diffusion_models.controlnet.controlnet_inpaint.pipeline_stable_diffusion_controlnet_inpaint import StableDiffusionControlNetInpaintPipeline
 from PIL import Image
 
 from diffusion_webui.utils.model_list import (
@@ -26,7 +27,7 @@ class StableDiffusionControlNetInpaintCannyGenerator:
             controlnet = ControlNetModel.from_pretrained(
                 controlnet_model_path, torch_dtype=torch.float16
             )
-            self.pipe = StableDiffusionControlNetPipeline.from_pretrained(
+            self.pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
                 pretrained_model_name_or_path=stable_model_path,
                 controlnet=controlnet,
                 safety_checker=None,
@@ -68,8 +69,12 @@ class StableDiffusionControlNetInpaintCannyGenerator:
         seed_generator: int,
     ):
 
-        image = self.controlnet_canny_inpaint(image_path=image_path)
-
+        normal_image = image_path["image"].convert("RGB").resize((512, 512))
+        mask_image = image_path["mask"].convert("RGB").resize((512, 512))
+        normal_image = np.array(normal_image)
+        mask_image = np.array(mask_image)
+        
+        control_image = self.controlnet_canny_inpaint(image_path=image_path)
         pipe = self.load_model(
             stable_model_path=stable_model_path,
             controlnet_model_path=controlnet_model_path,
@@ -84,7 +89,9 @@ class StableDiffusionControlNetInpaintCannyGenerator:
 
         output = pipe(
             prompt=prompt,
-            image=image,
+            image=normal_image,
+            mask_image=mask_image,
+            control_image=control_image,
             negative_prompt=negative_prompt,
             num_images_per_prompt=num_images_per_prompt,
             num_inference_steps=num_inference_step,
