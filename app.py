@@ -63,7 +63,6 @@ def main():
                     with gr.Tab("Seg"):
                         StableDiffusionControlNetInpaintSegGenerator.app()
                         
-    app.queue(concurrency_count=2)
     app.launch(debug=True, enable_queue=True)
 
 
