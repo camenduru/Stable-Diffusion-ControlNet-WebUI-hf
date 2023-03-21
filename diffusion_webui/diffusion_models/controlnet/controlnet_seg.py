@@ -203,7 +203,7 @@ class StableDiffusionControlNetSegGenerator:
             "openmmlab/upernet-convnext-small"
         )
 
-        image = image_path["image"].convert("RGB").resize((512, 512))
+        image = Image.open(image_path).convert("RGB")
         pixel_values = image_processor(image, return_tensors="pt").pixel_values
 
         with torch.no_grad():
