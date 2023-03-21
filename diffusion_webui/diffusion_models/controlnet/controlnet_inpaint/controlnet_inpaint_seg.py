@@ -274,7 +274,7 @@ class StableDiffusionControlNetInpaintSegGenerator:
             prompt=prompt,
             image=normal_image,
             mask_image=mask_image,
-            controlnet_image=controlnet_image,
+            control_image=controlnet_image,
             negative_prompt=negative_prompt,
             num_images_per_prompt=num_images_per_prompt,
             num_inference_steps=num_inference_step,
