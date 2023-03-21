@@ -39,6 +39,12 @@ class StableDiffusionControlNetInpaintCannyGenerator:
         self.pipe.enable_xformers_memory_efficient_attention()
 
         return self.pipe
+    
+    def load_img(self, image_path):
+        image = image_path["image"].convert("RGB").resize((512, 512))
+        image = np.array(image)
+        image = Image.fromarray(image)
+        return image
 
     def controlnet_canny_inpaint(
         self,
@@ -70,12 +76,10 @@ class StableDiffusionControlNetInpaintCannyGenerator:
     ):
 
         normal_image = image_path["image"].convert("RGB").resize((512, 512))
-        normal_image = np.array(normal_image)
-        normal_image = Image.fromarray(normal_image)
-        
         mask_image = image_path["mask"].convert("RGB").resize((512, 512))
-        mask_image = np.array(mask_image)
-        mask_image = Image.fromarray(mask_image)
+        
+        normal_image = self.load_img(image_path=image_path)
+        mask_image = self.load_img(image_path=image_path)
         
         control_image = self.controlnet_canny_inpaint(image_path=image_path)
         pipe = self.load_model(
