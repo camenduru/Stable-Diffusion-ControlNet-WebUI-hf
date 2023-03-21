@@ -41,9 +41,7 @@ class StableDiffusionControlNetInpaintCannyGenerator:
         return self.pipe
     
     def load_img(self, image_path):
-        breakpoint()
-        image = image_path["image"].convert("RGB").resize((512, 512))
-        image = np.array(image)
+        image = np.array(image_path)
         image = Image.fromarray(image)
         return image
 
