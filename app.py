@@ -1,9 +1,16 @@
 import gradio as gr
 
 from diffusion_webui.helpers import (
+    StableDiffusionControlInpaintNetDepthGenerator,
     StableDiffusionControlNetCannyGenerator,
     StableDiffusionControlNetDepthGenerator,
     StableDiffusionControlNetHEDGenerator,
+    StableDiffusionControlNetInpaintCannyGenerator,
+    StableDiffusionControlNetInpaintHedGenerator,
+    StableDiffusionControlNetInpaintMlsdGenerator,
+    StableDiffusionControlNetInpaintPoseGenerator,
+    StableDiffusionControlNetInpaintScribbleGenerator,
+    StableDiffusionControlNetInpaintSegGenerator,
     StableDiffusionControlNetMLSDGenerator,
     StableDiffusionControlNetPoseGenerator,
     StableDiffusionControlNetScribbleGenerator,
@@ -11,7 +18,6 @@ from diffusion_webui.helpers import (
     StableDiffusionImage2ImageGenerator,
     StableDiffusionInpaintGenerator,
     StableDiffusionText2ImageGenerator,
-    StableDiffusionControlInpaintNetCannyGenerator,
 )
 
 
@@ -42,9 +48,21 @@ def main():
                     with gr.Tab("Seg"):
                         StableDiffusionControlNetSegGenerator.app()
                 with gr.Tab("ControlNet Inpaint"):
-                    StableDiffusionControlInpaintNetCannyGenerator.app()
-                    
-    app.queue(concurrency_count=1)
+                    with gr.Tab("Canny"):
+                        StableDiffusionControlNetInpaintCannyGenerator.app()
+                    with gr.Tab("Depth"):
+                        StableDiffusionControlInpaintNetDepthGenerator.app()
+                    with gr.Tab("HED"):
+                        StableDiffusionControlNetInpaintHedGenerator.app()
+                    with gr.Tab("MLSD"):
+                        StableDiffusionControlNetInpaintMlsdGenerator.app()
+                    with gr.Tab("Pose"):
+                        StableDiffusionControlNetInpaintPoseGenerator.app()
+                    with gr.Tab("Scribble"):
+                        StableDiffusionControlNetInpaintScribbleGenerator.app()
+                    with gr.Tab("Seg"):
+                        StableDiffusionControlNetInpaintSegGenerator.app()
+
     app.launch(debug=True, enable_queue=True)
 
 
