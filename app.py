@@ -62,7 +62,7 @@ def main():
                         StableDiffusionControlNetInpaintScribbleGenerator.app()
                     with gr.Tab("Seg"):
                         StableDiffusionControlNetInpaintSegGenerator.app()
-                        
+
     app.launch(debug=True, enable_queue=True)
 
 

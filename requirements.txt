@@ -6,7 +6,3 @@ diffusers
 imageio
 gradio
 triton
-tensorflow
-huggingface-hub
-keras-cv
-pycocotools
