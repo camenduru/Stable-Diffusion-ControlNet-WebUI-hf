@@ -7,7 +7,7 @@ from transformers import AutoImageProcessor, UperNetForSemanticSegmentation
 
 from diffusion_webui.utils.model_list import (
     controlnet_seg_model_list,
-    stable_model_list,
+    stable_inpiant_model_list,
 )
 from diffusion_webui.utils.scheduler_list import (
     SCHEDULER_LIST,
@@ -200,6 +200,11 @@ class StableDiffusionControlNetInpaintSegGenerator:
         self.pipe.enable_xformers_memory_efficient_attention()
 
         return self.pipe
+    
+    def load_image(self, image_path):
+        image = np.array(image_path)
+        image = Image.fromarray(image_path)
+        return image
 
     def controlnet_seg_inpaint(self, image_path: str):
         image_processor = AutoImageProcessor.from_pretrained(
@@ -246,7 +251,13 @@ class StableDiffusionControlNetInpaintSegGenerator:
         seed_generator: int,
     ):
 
-        image = self.controlnet_seg_inpaint(image_path=image_path)
+        normal_image = image_path["image"].convert("RGB").resize((512, 512))
+        mask_image = image_path["mask"].convert("RGB").resize((512, 512))
+        
+        normal_image = self.load_image(image_path=normal_image)
+        mask_image = self.load_image(image_path=mask_image)
+        
+        controlnet_image = self.controlnet_seg_inpaint(image_path=image_path)
 
         pipe = self.load_model(
             stable_model_path=stable_model_path,
@@ -262,7 +273,9 @@ class StableDiffusionControlNetInpaintSegGenerator:
 
         output = pipe(
             prompt=prompt,
-            image=image,
+            image=normal_image,
+            mask_image=mask_image,
+            controlnet_image=controlnet_image,
             negative_prompt=negative_prompt,
             num_images_per_prompt=num_images_per_prompt,
             num_inference_steps=num_inference_step,
@@ -298,8 +311,8 @@ class StableDiffusionControlNetInpaintSegGenerator:
                         with gr.Column():
                             controlnet_seg_inpaint_stable_model_id = (
                                 gr.Dropdown(
-                                    choices=stable_model_list,
-                                    value=stable_model_list[0],
+                                    choices=stable_inpiant_model_list,
+                                    value=stable_inpiant_model_list[0],
                                     label="Stable Model Id",
                                 )
                             )

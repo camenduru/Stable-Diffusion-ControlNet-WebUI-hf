@@ -8,7 +8,7 @@ from PIL import Image
 
 from diffusion_webui.utils.model_list import (
     controlnet_canny_model_list,
-    stable_model_list,
+    stable_inpiant_model_list,
 )
 from diffusion_webui.utils.scheduler_list import (
     SCHEDULER_LIST,
@@ -40,9 +40,9 @@ class StableDiffusionControlNetInpaintCannyGenerator:
 
         return self.pipe
     
-    def load_img(self, image_path):
+    def load_image(self, image_path):
         image = np.array(image_path)
-        image = Image.fromarray(image)
+        image = Image.fromarray(image_path)
         return image
 
     def controlnet_canny_inpaint(
@@ -77,8 +77,8 @@ class StableDiffusionControlNetInpaintCannyGenerator:
         normal_image = image_path["image"].convert("RGB").resize((512, 512))
         mask_image = image_path["mask"].convert("RGB").resize((512, 512))
         
-        normal_image = self.load_img(image_path=normal_image)
-        mask_image = self.load_img(image_path=mask_image)
+        normal_image = self.load_image(image_path=normal_image)
+        mask_image = self.load_image(image_path=mask_image)
         
         control_image = self.controlnet_canny_inpaint(image_path=image_path)
         pipe = self.load_model(
@@ -133,8 +133,8 @@ class StableDiffusionControlNetInpaintCannyGenerator:
                         with gr.Column():
                             controlnet_canny_inpaint_stable_model_id = (
                                 gr.Dropdown(
-                                    choices=stable_model_list,
-                                    value=stable_model_list[0],
+                                    choices=stable_inpiant_model_list,
+                                    value=stable_inpiant_model_list[0],
                                     label="Stable Model Id",
                                 )
                             )

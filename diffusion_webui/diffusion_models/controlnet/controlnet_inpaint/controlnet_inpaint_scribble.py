@@ -2,11 +2,13 @@ import gradio as gr
 import numpy as np
 import torch
 from controlnet_aux import HEDdetector
-from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
+from diffusers import ControlNetModel
+from diffusion_webui.diffusion_models.controlnet.controlnet_inpaint.pipeline_stable_diffusion_controlnet_inpaint import StableDiffusionControlNetInpaintPipeline
+from PIL import Image
 
 from diffusion_webui.utils.model_list import (
     controlnet_scribble_model_list,
-    stable_model_list,
+    stable_inpiant_model_list,
 )
 from diffusion_webui.utils.scheduler_list import (
     SCHEDULER_LIST,
@@ -25,7 +27,7 @@ class StableDiffusionControlNetInpaintScribbleGenerator:
                 controlnet_model_path, torch_dtype=torch.float16
             )
 
-            self.pipe = StableDiffusionControlNetPipeline.from_pretrained(
+            self.pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
                 pretrained_model_name_or_path=stable_model_path,
                 controlnet=controlnet,
                 safety_checker=None,
@@ -37,6 +39,11 @@ class StableDiffusionControlNetInpaintScribbleGenerator:
         self.pipe.enable_xformers_memory_efficient_attention()
 
         return self.pipe
+    
+    def load_image(self, image_path):
+        image = np.array(image_path)
+        image = Image.fromarray(image_path)
+        return image
 
     def controlnet_inpaint_scribble(self, image_path: str):
         hed = HEDdetector.from_pretrained("lllyasviel/ControlNet")
@@ -61,8 +68,13 @@ class StableDiffusionControlNetInpaintScribbleGenerator:
         scheduler: str,
         seed_generator: int,
     ):
-
-        image = self.controlnet_inpaint_scribble(image_path=image_path)
+        normal_image = image_path["image"].convert("RGB").resize((512, 512))
+        mask_image = image_path["mask"].convert("RGB").resize((512, 512))
+        
+        normal_image = self.load_image(image_path=normal_image)
+        mask_image = self.load_image(image_path=mask_image)
+        
+        controlnet_image = self.controlnet_inpaint_scribble(image_path=image_path)
 
         pipe = self.load_model(
             stable_model_path=stable_model_path,
@@ -78,7 +90,9 @@ class StableDiffusionControlNetInpaintScribbleGenerator:
 
         output = pipe(
             prompt=prompt,
-            image=image,
+            image=normal_image,
+            mask_image=mask_image,
+            controlnet_image=controlnet_image,
             negative_prompt=negative_prompt,
             num_images_per_prompt=num_images_per_prompt,
             num_inference_steps=num_inference_step,
@@ -114,8 +128,8 @@ class StableDiffusionControlNetInpaintScribbleGenerator:
                         with gr.Column():
                             controlnet_scribble_inpaint_stable_model_id = (
                                 gr.Dropdown(
-                                    choices=stable_model_list,
-                                    value=stable_model_list[0],
+                                    choices=stable_inpiant_model_list,
+                                    value=stable_inpiant_model_list[0],
                                     label="Stable Model Id",
                                 )
                             )
