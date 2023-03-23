@@ -29,8 +29,8 @@ controlnet_scribble_model_list = [
     "thibaud/controlnet-sd21-scribble-diffusers",
 ]
 stable_inpiant_model_list = [
-    "stabilityai/stable-diffusion-2-inpainting",
     "runwayml/stable-diffusion-inpainting",
+    "stabilityai/stable-diffusion-2-inpainting",
 ]
 
 controlnet_mlsd_model_list = [
