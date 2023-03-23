@@ -1,6 +1,6 @@
 ---
 title: Stable Diffusion ControlNet WebUI
-emoji: 🔥
+emoji: 🚀
 colorFrom: green
 colorTo: red
 sdk: gradio
@@ -9,8 +9,7 @@ app_file: app.py
 pinned: true
 license: openrail
 tags:
-  - making-demos
-
+- making-demos
 ---
 
 Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
