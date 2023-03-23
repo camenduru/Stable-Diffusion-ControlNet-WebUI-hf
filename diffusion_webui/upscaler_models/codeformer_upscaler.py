@@ -3,9 +3,6 @@ from codeformer.app import inference_app
 
 
 class CodeformerUpscalerGenerator:
-    def __init__(self):
-        self.pipe = None
-
     def generate_image(
         self,
         image_path: str,
@@ -14,8 +11,8 @@ class CodeformerUpscalerGenerator:
         upscale: int,
         codeformer_fidelity: int,
     ):
-        if self.pipe is None:
-            self.pipe = inference_app(
+        
+        pipe = inference_app(
                 image=image_path,
                 background_enhance=background_enhance,
                 face_upsample=face_upsample,
@@ -23,7 +20,7 @@ class CodeformerUpscalerGenerator:
                 codeformer_fidelity=codeformer_fidelity,
             )
 
-        return [self.pipe]
+        return [pipe]
 
     def app():
         with gr.Blocks():
