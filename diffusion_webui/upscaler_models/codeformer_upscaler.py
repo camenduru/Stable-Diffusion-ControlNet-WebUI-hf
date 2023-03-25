@@ -11,14 +11,14 @@ class CodeformerUpscalerGenerator:
         upscale: int,
         codeformer_fidelity: int,
     ):
-        
+
         pipe = inference_app(
-                image=image_path,
-                background_enhance=background_enhance,
-                face_upsample=face_upsample,
-                upscale=upscale,
-                codeformer_fidelity=codeformer_fidelity,
-            )
+            image=image_path,
+            background_enhance=background_enhance,
+            face_upsample=face_upsample,
+            upscale=upscale,
+            codeformer_fidelity=codeformer_fidelity,
+        )
 
         return [pipe]
 
