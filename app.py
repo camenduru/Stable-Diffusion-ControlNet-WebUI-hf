@@ -66,7 +66,7 @@ def main():
                 with gr.Tab("Upscaler"):
                     CodeformerUpscalerGenerator.app()
 
-    app.queue(concurrency_count=2)
+    app.queue(concurrency_count=1)
     app.launch(debug=True, enable_queue=True)
 
 
