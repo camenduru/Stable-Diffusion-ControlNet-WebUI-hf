@@ -24,6 +24,6 @@ from diffusion_webui.diffusion_models.controlnet import (
     StableDiffusionControlNetScribbleGenerator,
     StableDiffusionControlNetSegGenerator,
 )
-
+from diffusion_webui.diffusion_models.upscaler_models import CodeformerUpscalerGenerator
 
 __version__ = "2.2.0"
