@@ -25,6 +25,5 @@ from diffusion_webui.diffusion_models.controlnet import (
     StableDiffusionControlNetSegGenerator,
 )
 
-from diffusion_webui.app import diffusion_app as app
 
 __version__ = "2.2.0"
