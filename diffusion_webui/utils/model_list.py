@@ -6,21 +6,21 @@ stable_model_list = [
     "dreamlike-art/dreamlike-diffusion-1.0",
     "gsdf/Counterfeit-V2.5",
     "dreamlike-art/dreamlike-photoreal-2.0"
-    
-    
 ]
 
 controlnet_canny_model_list = [
     "lllyasviel/sd-controlnet-canny",
     "lllyasviel/control_v11p_sd15_canny",
     "thibaud/controlnet-sd21-canny-diffusers",
+
 ]
 
 controlnet_depth_model_list = [
     "lllyasviel/sd-controlnet-depth",
-    "lllyasviel/control_v11p_sd15_depth",
+    "lllyasviel/control_v11f1p_sd15_depth",
     "thibaud/controlnet-sd21-depth-diffusers",
 ]
+
 
 controlnet_pose_model_list = [
     "lllyasviel/sd-controlnet-openpose",
@@ -30,12 +30,12 @@ controlnet_pose_model_list = [
 
 controlnet_hed_model_list = [
     "lllyasviel/sd-controlnet-hed",
-    "lllyasviel/control_v11p_sd15_scribble",
     "thibaud/controlnet-sd21-hed-diffusers",
 ]
 
 controlnet_scribble_model_list = [
     "lllyasviel/sd-controlnet-scribble",
+    "lllyasviel/control_v11p_sd15_scribble",
     "thibaud/controlnet-sd21-scribble-diffusers",
 ]
 stable_inpiant_model_list = [
@@ -46,6 +46,11 @@ stable_inpiant_model_list = [
 controlnet_mlsd_model_list = [
     "lllyasviel/sd-controlnet-mlsd",
     "lllyasviel/control_v11p_sd15_mlsd",
+]
+
+controlnet_normal_model_list = [
+    "lllyasviel/sd-controlnet-normal",
+    "lllyasviel/control_v11p_sd15_normalbae",
 ]
 
 controlnet_seg_model_list = [
