@@ -1,1 +1,1 @@
-from diffusion_webui.diffusion_models.upscaler_models.codeformer_upscaler import CodeformerUpscalerGenerator
+from diffusion_webui.upscaler_models.codeformer_upscaler import CodeformerUpscalerGenerator
