@@ -173,7 +173,7 @@ class StableDiffusionControlNetNormalGenerator:
                     ).style(grid=(1, 2))
 
             controlnet_normal_predict.click(
-                fn=StableDiffusionControlNetCannyGenerator().generate_image,
+                fn=StableDiffusionControlNetNormalGenerator().generate_image,
                 inputs=[
                     controlnet_normal_image_file,
                     controlnet_normal_stable_model_id,
