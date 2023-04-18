@@ -1,11 +1,12 @@
 import gradio as gr
 import torch
-from controlnet_aux import MLSDdetector
+from controlnet_aux import LineartAnimeDetector
 from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
-from PIL import Image
+from diffusers.utils import load_image
+from transformers import CLIPTextModel
 
 from diffusion_webui.utils.model_list import (
-    controlnet_mlsd_model_list,
+    controlnet_lineart_anime_model_list,
     stable_model_list,
 )
 from diffusion_webui.utils.scheduler_list import (
@@ -14,18 +15,25 @@ from diffusion_webui.utils.scheduler_list import (
 )
 
 
-class StableDiffusionControlNetMLSDGenerator:
+class StableDiffusionControlNetLineArtAnimeGenerator:
     def __init__(self):
         self.pipe = None
 
     def load_model(self, stable_model_path, controlnet_model_path, scheduler):
         if self.pipe is None:
+            text_encoder = CLIPTextModel.from_pretrained(
+                stable_model_path,
+                subfolder="text_encoder",
+                num_hidden_layers=11,
+                torch_dtype=torch.float16,
+            )
+
             controlnet = ControlNetModel.from_pretrained(
                 controlnet_model_path, torch_dtype=torch.float16
             )
-
             self.pipe = StableDiffusionControlNetPipeline.from_pretrained(
                 pretrained_model_name_or_path=stable_model_path,
+                text_encoder=text_encoder,
                 controlnet=controlnet,
                 safety_checker=None,
                 torch_dtype=torch.float16,
@@ -37,13 +45,17 @@ class StableDiffusionControlNetMLSDGenerator:
 
         return self.pipe
 
-    def controlnet_mlsd(self, image_path: str):
-        mlsd = MLSDdetector.from_pretrained("lllyasviel/ControlNet")
-
-        image = Image.open(image_path)
-        image = mlsd(image)
-
-        return image
+    def controlnet_lineart_anime(
+        self,
+        image_path: str,
+    ):
+        image = load_image(image_path)
+        image = image.resize((512, 512))
+        processor = LineartAnimeDetector.from_pretrained(
+            "lllyasviel/Annotators"
+        )
+        control_image = processor(image)
+        return control_image
 
     def generate_image(
         self,
@@ -58,13 +70,13 @@ class StableDiffusionControlNetMLSDGenerator:
         scheduler: str,
         seed_generator: int,
     ):
-        image = self.controlnet_mlsd(image_path=image_path)
-
         pipe = self.load_model(
             stable_model_path=stable_model_path,
             controlnet_model_path=controlnet_model_path,
             scheduler=scheduler,
         )
+
+        image = self.controlnet_lineart_anime(image_path)
 
         if seed_generator == 0:
             random_seed = torch.randint(0, 1000000, (1,))
@@ -88,77 +100,71 @@ class StableDiffusionControlNetMLSDGenerator:
         with gr.Blocks():
             with gr.Row():
                 with gr.Column():
-                    controlnet_mlsd_image_file = gr.Image(
+                    controlnet_canny_image_file = gr.Image(
                         type="filepath", label="Image"
                     )
 
-                    controlnet_mlsd_prompt = gr.Textbox(
+                    controlnet_canny_prompt = gr.Textbox(
                         lines=1,
-                        show_label=False,
                         placeholder="Prompt",
-                    )
-
-                    controlnet_mlsd_negative_prompt = gr.Textbox(
-                        lines=1,
                         show_label=False,
-                        placeholder="Negative Prompt",
                     )
 
+                    controlnet_canny_negative_prompt = gr.Textbox(
+                        lines=1,
+                        placeholder="Negative Prompt",
+                        show_label=False,
+                    )
                     with gr.Row():
                         with gr.Column():
-                            controlnet_mlsd_model_id = gr.Dropdown(
+                            controlnet_canny_stable_model_id = gr.Dropdown(
                                 choices=stable_model_list,
                                 value=stable_model_list[0],
                                 label="Stable Model Id",
                             )
-                            controlnet_mlsd_guidance_scale = gr.Slider(
+
+                            controlnet_canny_guidance_scale = gr.Slider(
                                 minimum=0.1,
                                 maximum=15,
                                 step=0.1,
                                 value=7.5,
                                 label="Guidance Scale",
                             )
-                            controlnet_mlsd_num_inference_step = gr.Slider(
+                            controlnet_canny_num_inference_step = gr.Slider(
                                 minimum=1,
                                 maximum=100,
                                 step=1,
                                 value=50,
                                 label="Num Inference Step",
                             )
-
+                            controlnet_canny_num_images_per_prompt = gr.Slider(
+                                minimum=1,
+                                maximum=10,
+                                step=1,
+                                value=1,
+                                label="Number Of Images",
+                            )
                         with gr.Row():
                             with gr.Column():
-                                controlnet_mlsd_controlnet_model_id = (
-                                    gr.Dropdown(
-                                        choices=controlnet_mlsd_model_list,
-                                        value=controlnet_mlsd_model_list[0],
-                                        label="ControlNet Model Id",
-                                    )
+                                controlnet_canny_model_id = gr.Dropdown(
+                                    choices=controlnet_lineart_anime_model_list,
+                                    value=controlnet_lineart_anime_model_list[
+                                        0
+                                    ],
+                                    label="ControlNet Model Id",
                                 )
-                                controlnet_mlsd_scheduler = gr.Dropdown(
+
+                                controlnet_canny_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
                                     value=SCHEDULER_LIST[0],
                                     label="Scheduler",
                                 )
 
-                                controlnet_mlsd_seed_generator = gr.Slider(
-                                    minimum=0,
-                                    maximum=1000000,
-                                    step=1,
+                                controlnet_canny_seed_generator = gr.Number(
                                     value=0,
                                     label="Seed Generator",
                                 )
-                                controlnet_mlsd_num_images_per_prompt = (
-                                    gr.Slider(
-                                        minimum=1,
-                                        maximum=10,
-                                        step=1,
-                                        value=1,
-                                        label="Number Of Images",
-                                    )
-                                )
-
-                    controlnet_mlsd_predict = gr.Button(value="Generator")
+                    controlnet_canny_predict = gr.Button(value="Generator")
 
                 with gr.Column():
                     output_image = gr.Gallery(
@@ -167,18 +173,19 @@ class StableDiffusionControlNetMLSDGenerator:
                         elem_id="gallery",
                     ).style(grid=(1, 2))
 
-            controlnet_mlsd_predict.click(
-                fn=StableDiffusionControlNetMLSDGenerator().generate_image,
+            controlnet_canny_predict.click(
+                fn=StableDiffusionControlNetLineArtAnimeGenerator().generate_image,
                 inputs=[
-                    controlnet_mlsd_image_file,
-                    controlnet_mlsd_model_id,
-                    controlnet_mlsd_prompt,
-                    controlnet_mlsd_negative_prompt,
-                    controlnet_mlsd_num_images_per_prompt,
-                    controlnet_mlsd_guidance_scale,
-                    controlnet_mlsd_num_inference_step,
-                    controlnet_mlsd_scheduler,
-                    controlnet_mlsd_seed_generator,
+                    controlnet_canny_image_file,
+                    controlnet_canny_stable_model_id,
+                    controlnet_canny_model_id,
+                    controlnet_canny_prompt,
+                    controlnet_canny_negative_prompt,
+                    controlnet_canny_num_images_per_prompt,
+                    controlnet_canny_guidance_scale,
+                    controlnet_canny_num_inference_step,
+                    controlnet_canny_scheduler,
+                    controlnet_canny_seed_generator,
                 ],
-                outputs=output_image,
+                outputs=[output_image],
             )
