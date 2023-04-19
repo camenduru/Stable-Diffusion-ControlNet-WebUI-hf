@@ -172,6 +172,7 @@ class StableDiffusionControlNetMLSDGenerator:
                 inputs=[
                     controlnet_mlsd_image_file,
                     controlnet_mlsd_model_id,
+                    controlnet_mlsd_controlnet_model_id,
                     controlnet_mlsd_prompt,
                     controlnet_mlsd_negative_prompt,
                     controlnet_mlsd_num_images_per_prompt,
