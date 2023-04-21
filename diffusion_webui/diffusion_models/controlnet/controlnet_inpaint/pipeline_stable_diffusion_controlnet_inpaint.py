@@ -452,15 +452,15 @@ class StableDiffusionControlNetInpaintPipeline(
 
         # 4. Prepare image
         control_image = self.prepare_image(
-            control_image,
-            width,
-            height,
-            batch_size * num_images_per_prompt,
-            num_images_per_prompt,
-            device,
-            self.controlnet.dtype,
-        )
-
+                    control_image,
+                    width,
+                    height,
+                    batch_size * num_images_per_prompt,
+                    num_images_per_prompt,
+                    device,
+                    do_classifier_free_guidance,
+                    self.controlnet.dtype,
+                )
         if do_classifier_free_guidance:
             control_image = torch.cat([control_image] * 2)
 
