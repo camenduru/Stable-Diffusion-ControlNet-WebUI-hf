@@ -4,6 +4,5 @@ xformers
 controlnet_aux==0.0.3
 diffusers
 imageio
-gradio
 triton
 codeformer-pip
