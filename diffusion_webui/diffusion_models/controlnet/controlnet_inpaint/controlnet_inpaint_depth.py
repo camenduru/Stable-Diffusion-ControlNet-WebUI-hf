@@ -50,7 +50,7 @@ class StableDiffusionControlInpaintNetDepthGenerator:
         return image
 
     def controlnet_inpaint_depth(self, image_path: str):
-        depth_estimator = pipeline("depth-estimation")
+        depth_estimator = pipeline("depth-estimation", model="Intel/dpt-hybrid-midas")
         image = image_path["image"].convert("RGB").resize((512, 512))
         image = depth_estimator(image)["depth"]
         image = np.array(image)
