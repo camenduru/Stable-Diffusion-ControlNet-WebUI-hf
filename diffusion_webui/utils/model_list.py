@@ -2,13 +2,13 @@ stable_model_list = [
     "TASUKU2023/Chilloutmix",
 ]
 
-controlnet_tile_model_list = [
-    "lllyasviel/control_v11f1e_sd15_tile",
-]
+# controlnet_tile_model_list = [
+#     "lllyasviel/control_v11f1e_sd15_tile",
+# ]
 
-controlnet_inpaint_model_list = [
-    "lllyasviel/control_v11p_sd15_inpaint",
-]
+# controlnet_inpaint_model_list = [
+#     "lllyasviel/control_v11p_sd15_inpaint",
+# ]
 
 stable_inpiant_model_list = [
     "TASUKU2023/Chilloutmix",
