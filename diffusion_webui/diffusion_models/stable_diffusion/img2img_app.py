@@ -1,6 +1,6 @@
 import gradio as gr
-import torch
-from diffusers import StableDiffusionImg2ImgPipeline
+import paddle
+from ppdiffusers import StableDiffusionImg2ImgPipeline
 from PIL import Image
 
 from diffusion_webui.utils.model_list import stable_model_list
@@ -9,7 +9,6 @@ from diffusion_webui.utils.scheduler_list import (
     get_scheduler_list,
 )
 
-
 class StableDiffusionImage2ImageGenerator:
     def __init__(self):
         self.pipe = None
@@ -17,7 +16,7 @@ class StableDiffusionImage2ImageGenerator:
     def load_model(self, model_path, scheduler):
         if self.pipe is None:
             self.pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
-                model_path, safety_checker=None, torch_dtype=torch.float16
+                model_path, safety_checker=None, paddle_dtype=paddle.float16
             )
 
         self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
@@ -36,18 +35,15 @@ class StableDiffusionImage2ImageGenerator:
         scheduler: str,
         guidance_scale: int,
         num_inference_step: int,
-        seed_generator=0,
+        seed_generator=-1,
     ):
         pipe = self.load_model(
             model_path=model_path,
             scheduler=scheduler,
         )
 
-        if seed_generator == 0:
-            random_seed = torch.randint(0, 1000000, (1,))
-            generator = torch.manual_seed(random_seed)
-        else:
-            generator = torch.manual_seed(seed_generator)
+        if not seed_generator == -1:
+            paddle.seed(seed_generator)
 
         image = Image.open(image_path)
         images = pipe(
@@ -57,7 +53,6 @@ class StableDiffusionImage2ImageGenerator:
             num_images_per_prompt=num_images_per_prompt,
             num_inference_steps=num_inference_step,
             guidance_scale=guidance_scale,
-            generator=generator,
         ).images
 
         return images
@@ -81,11 +76,11 @@ class StableDiffusionImage2ImageGenerator:
                         placeholder="Negative Prompt",
                         show_label=False,
                     )
-
+                    stable_models = [stable_model.split("/")[-1] for stable_model in stable_model_list]
                     with gr.Row():
                         with gr.Column():
                             image2image_model_path = gr.Dropdown(
-                                choices=stable_model_list,
+                                choices=stable_models,
                                 value=stable_model_list[0],
                                 label="Stable Model Id",
                             )
@@ -108,23 +103,23 @@ class StableDiffusionImage2ImageGenerator:
                             with gr.Column():
                                 image2image_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
-                                    value=SCHEDULER_LIST[0],
+                                    value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
                                 image2image_num_images_per_prompt = gr.Slider(
                                     minimum=1,
-                                    maximum=30,
+                                    maximum=4,
                                     step=1,
                                     value=1,
                                     label="Number Of Images",
                                 )
 
                                 image2image_seed_generator = gr.Slider(
-                                    minimum=0,
+                                    minimum=-1,
                                     maximum=1000000,
                                     step=1,
-                                    value=0,
-                                    label="Seed(0 for random)",
+                                    value=-1,
+                                    label="Seed(-1 for random)",
                                 )
 
                     image2image_predict_button = gr.Button(value="Generator")

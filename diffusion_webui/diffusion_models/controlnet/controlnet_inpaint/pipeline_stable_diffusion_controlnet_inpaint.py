@@ -15,8 +15,8 @@
 
 import numpy as np
 import PIL.Image
-import torch
-from diffusers.pipelines.stable_diffusion.pipeline_stable_diffusion_controlnet import *
+import paddle
+from ppdiffusers.pipelines.stable_diffusion.pipeline_stable_diffusion_controlnet import *
 
 # https://github.com/mikonvergence/ControlNetInpaint
 
@@ -24,10 +24,10 @@ EXAMPLE_DOC_STRING = """
     Examples:
         ```py
         >>> # !pip install opencv-python transformers accelerate
-        >>> from diffusers import StableDiffusionControlNetInpaintPipeline, ControlNetModel, UniPCMultistepScheduler
-        >>> from diffusers.utils import load_image
+        >>> from ppdiffusers import StableDiffusionControlNetInpaintPipeline, ControlNetModel, UniPCMultistepScheduler
+        >>> from ppdiffusers.utils import load_image
         >>> import numpy as np
-        >>> import torch
+        >>> import paddle
 
         >>> import cv2
         >>> from PIL import Image
@@ -47,9 +47,9 @@ EXAMPLE_DOC_STRING = """
         >>> canny_image = Image.fromarray(canny_image)
 
         >>> # load control net and stable diffusion v1-5
-        >>> controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-canny", torch_dtype=torch.float16)
+        >>> controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-canny", paddle_dtype=paddle.float16)
         >>> pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
-        ...     "runwayml/stable-diffusion-inpainting", controlnet=controlnet, torch_dtype=torch.float16
+        ...     "runwayml/stable-diffusion-inpainting", controlnet=controlnet, paddle_dtype=paddle.float16
         ... )
 
         >>> # speed up diffusion process with faster scheduler and memory optimization
@@ -60,7 +60,7 @@ EXAMPLE_DOC_STRING = """
         >>> pipe.enable_model_cpu_offload()
 
         >>> # generate image
-        >>> generator = torch.manual_seed(0)
+        >>> generator = paddle.manual_seed(0)
         >>> image = pipe(
         ...     "futuristic-looking doggo",
         ...     num_inference_steps=20,
@@ -76,30 +76,30 @@ EXAMPLE_DOC_STRING = """
 def prepare_mask_and_masked_image(image, mask):
     """
     Prepares a pair (image, mask) to be consumed by the Stable Diffusion pipeline. This means that those inputs will be
-    converted to ``torch.Tensor`` with shapes ``batch x channels x height x width`` where ``channels`` is ``3`` for the
+    converted to ``paddle.Tensor`` with shapes ``batch x channels x height x width`` where ``channels`` is ``3`` for the
     ``image`` and ``1`` for the ``mask``.
-    The ``image`` will be converted to ``torch.float32`` and normalized to be in ``[-1, 1]``. The ``mask`` will be
-    binarized (``mask > 0.5``) and cast to ``torch.float32`` too.
+    The ``image`` will be converted to ``paddle.float32`` and normalized to be in ``[-1, 1]``. The ``mask`` will be
+    binarized (``mask > 0.5``) and cast to ``paddle.float32`` too.
     Args:
-        image (Union[np.array, PIL.Image, torch.Tensor]): The image to inpaint.
+        image (Union[np.array, PIL.Image, paddle.Tensor]): The image to inpaint.
             It can be a ``PIL.Image``, or a ``height x width x 3`` ``np.array`` or a ``channels x height x width``
-            ``torch.Tensor`` or a ``batch x channels x height x width`` ``torch.Tensor``.
+            ``paddle.Tensor`` or a ``batch x channels x height x width`` ``paddle.Tensor``.
         mask (_type_): The mask to apply to the image, i.e. regions to inpaint.
             It can be a ``PIL.Image``, or a ``height x width`` ``np.array`` or a ``1 x height x width``
-            ``torch.Tensor`` or a ``batch x 1 x height x width`` ``torch.Tensor``.
+            ``paddle.Tensor`` or a ``batch x 1 x height x width`` ``paddle.Tensor``.
     Raises:
-        ValueError: ``torch.Tensor`` images should be in the ``[-1, 1]`` range. ValueError: ``torch.Tensor`` mask
+        ValueError: ``paddle.Tensor`` images should be in the ``[-1, 1]`` range. ValueError: ``paddle.Tensor`` mask
         should be in the ``[0, 1]`` range. ValueError: ``mask`` and ``image`` should have the same spatial dimensions.
-        TypeError: ``mask`` is a ``torch.Tensor`` but ``image`` is not
+        TypeError: ``mask`` is a ``paddle.Tensor`` but ``image`` is not
             (ot the other way around).
     Returns:
-        tuple[torch.Tensor]: The pair (mask, masked_image) as ``torch.Tensor`` with 4
+        tuple[paddle.Tensor]: The pair (mask, masked_image) as ``paddle.Tensor`` with 4
             dimensions: ``batch x channels x height x width``.
     """
-    if isinstance(image, torch.Tensor):
-        if not isinstance(mask, torch.Tensor):
+    if isinstance(image, paddle.Tensor):
+        if not isinstance(mask, paddle.Tensor):
             raise TypeError(
-                f"`image` is a torch.Tensor but `mask` (type: {type(mask)} is not"
+                f"`image` is a paddle.Tensor but `mask` (type: {type(mask)} is not"
             )
 
         # Batch single image
@@ -146,10 +146,10 @@ def prepare_mask_and_masked_image(image, mask):
         mask[mask >= 0.5] = 1
 
         # Image as float32
-        image = image.to(dtype=torch.float32)
-    elif isinstance(mask, torch.Tensor):
+        image = image.to(dtype=paddle.float32)
+    elif isinstance(mask, paddle.Tensor):
         raise TypeError(
-            f"`mask` is a torch.Tensor but `image` (type: {type(image)} is not"
+            f"`mask` is a paddle.Tensor but `image` (type: {type(image)} is not"
         )
     else:
         # preprocess image
@@ -163,7 +163,7 @@ def prepare_mask_and_masked_image(image, mask):
             image = np.concatenate([i[None, :] for i in image], axis=0)
 
         image = image.transpose(0, 3, 1, 2)
-        image = torch.from_numpy(image).to(dtype=torch.float32) / 127.5 - 1.0
+        image = paddle.from_numpy(image).to(dtype=paddle.float32) / 127.5 - 1.0
 
         # preprocess mask
         if isinstance(mask, (PIL.Image.Image, np.ndarray)):
@@ -179,7 +179,7 @@ def prepare_mask_and_masked_image(image, mask):
 
         mask[mask < 0.5] = 0
         mask[mask >= 0.5] = 1
-        mask = torch.from_numpy(mask)
+        mask = paddle.from_numpy(mask)
 
     masked_image = image * (mask < 0.5)
 
@@ -233,7 +233,7 @@ class StableDiffusionControlNetInpaintPipeline(
         # resize the mask to latents shape as we concatenate the mask to the latents
         # we do that before converting to dtype to avoid breaking in case we're using cpu_offload
         # and half precision
-        mask = torch.nn.functional.interpolate(
+        mask = paddle.nn.functional.interpolate(
             mask,
             size=(
                 height // self.vae_scale_factor,
@@ -252,7 +252,7 @@ class StableDiffusionControlNetInpaintPipeline(
                 )
                 for i in range(batch_size)
             ]
-            masked_image_latents = torch.cat(masked_image_latents, dim=0)
+            masked_image_latents = paddle.cat(masked_image_latents, dim=0)
         else:
             masked_image_latents = self.vae.encode(
                 masked_image
@@ -281,9 +281,9 @@ class StableDiffusionControlNetInpaintPipeline(
                 batch_size // masked_image_latents.shape[0], 1, 1, 1
             )
 
-        mask = torch.cat([mask] * 2) if do_classifier_free_guidance else mask
+        mask = paddle.cat([mask] * 2) if do_classifier_free_guidance else mask
         masked_image_latents = (
-            torch.cat([masked_image_latents] * 2)
+            paddle.cat([masked_image_latents] * 2)
             if do_classifier_free_guidance
             else masked_image_latents
         )
@@ -294,19 +294,19 @@ class StableDiffusionControlNetInpaintPipeline(
         )
         return mask, masked_image_latents
 
-    @torch.no_grad()
+    @paddle.no_grad()
     @replace_example_docstring(EXAMPLE_DOC_STRING)
     def __call__(
         self,
         prompt: Union[str, List[str]] = None,
-        image: Union[torch.FloatTensor, PIL.Image.Image] = None,
+        image: Union[paddle.FloatTensor, PIL.Image.Image] = None,
         control_image: Union[
-            torch.FloatTensor,
+            paddle.FloatTensor,
             PIL.Image.Image,
-            List[torch.FloatTensor],
+            List[paddle.FloatTensor],
             List[PIL.Image.Image],
         ] = None,
-        mask_image: Union[torch.FloatTensor, PIL.Image.Image] = None,
+        mask_image: Union[paddle.FloatTensor, PIL.Image.Image] = None,
         height: Optional[int] = None,
         width: Optional[int] = None,
         num_inference_steps: int = 50,
@@ -315,15 +315,15 @@ class StableDiffusionControlNetInpaintPipeline(
         num_images_per_prompt: Optional[int] = 1,
         eta: float = 0.0,
         generator: Optional[
-            Union[torch.Generator, List[torch.Generator]]
+            Union[paddle.Generator, List[paddle.Generator]]
         ] = None,
-        latents: Optional[torch.FloatTensor] = None,
-        prompt_embeds: Optional[torch.FloatTensor] = None,
-        negative_prompt_embeds: Optional[torch.FloatTensor] = None,
+        latents: Optional[paddle.FloatTensor] = None,
+        prompt_embeds: Optional[paddle.FloatTensor] = None,
+        negative_prompt_embeds: Optional[paddle.FloatTensor] = None,
         output_type: Optional[str] = "pil",
         return_dict: bool = True,
         callback: Optional[
-            Callable[[int, int, torch.FloatTensor], None]
+            Callable[[int, int, paddle.FloatTensor], None]
         ] = None,
         callback_steps: int = 1,
         cross_attention_kwargs: Optional[Dict[str, Any]] = None,
@@ -338,9 +338,9 @@ class StableDiffusionControlNetInpaintPipeline(
             image (`PIL.Image.Image`):
                 `Image`, or tensor representing an image batch which will be inpainted, *i.e.* parts of the image will
                 be masked out with `mask_image` and repainted according to `prompt`.
-            control_image (`torch.FloatTensor`, `PIL.Image.Image`, `List[torch.FloatTensor]` or `List[PIL.Image.Image]`):
+            control_image (`paddle.FloatTensor`, `PIL.Image.Image`, `List[paddle.FloatTensor]` or `List[PIL.Image.Image]`):
                 The ControlNet input condition. ControlNet uses this input condition to generate guidance to Unet. If
-                the type is specified as `Torch.FloatTensor`, it is passed to ControlNet as is. PIL.Image.Image` can
+                the type is specified as `paddle.FloatTensor`, it is passed to ControlNet as is. PIL.Image.Image` can
                 also be accepted as an image. The control image is automatically resized to fit the output image.
             mask_image (`PIL.Image.Image`):
                 `Image`, or tensor representing an image batch, to mask `image`. White pixels in the mask will be
@@ -369,17 +369,17 @@ class StableDiffusionControlNetInpaintPipeline(
             eta (`float`, *optional*, defaults to 0.0):
                 Corresponds to parameter eta (η) in the DDIM paper: https://arxiv.org/abs/2010.02502. Only applies to
                 [`schedulers.DDIMScheduler`], will be ignored for others.
-            generator (`torch.Generator` or `List[torch.Generator]`, *optional*):
-                One or a list of [torch generator(s)](https://pytorch.org/docs/stable/generated/torch.Generator.html)
+            generator (`paddle.Generator` or `List[paddle.Generator]`, *optional*):
+                One or a list of [paddle generator(s)](https://pypaddle.org/docs/stable/generated/paddle.Generator.html)
                 to make generation deterministic.
-            latents (`torch.FloatTensor`, *optional*):
+            latents (`paddle.FloatTensor`, *optional*):
                 Pre-generated noisy latents, sampled from a Gaussian distribution, to be used as inputs for image
                 generation. Can be used to tweak the same generation with different prompts. If not provided, a latents
                 tensor will ge generated by sampling using the supplied random `generator`.
-            prompt_embeds (`torch.FloatTensor`, *optional*):
+            prompt_embeds (`paddle.FloatTensor`, *optional*):
                 Pre-generated text embeddings. Can be used to easily tweak text inputs, *e.g.* prompt weighting. If not
                 provided, text embeddings will be generated from `prompt` input argument.
-            negative_prompt_embeds (`torch.FloatTensor`, *optional*):
+            negative_prompt_embeds (`paddle.FloatTensor`, *optional*):
                 Pre-generated negative text embeddings. Can be used to easily tweak text inputs, *e.g.* prompt
                 weighting. If not provided, negative_prompt_embeds will be generated from `negative_prompt` input
                 argument.
@@ -391,14 +391,14 @@ class StableDiffusionControlNetInpaintPipeline(
                 plain tuple.
             callback (`Callable`, *optional*):
                 A function that will be called every `callback_steps` steps during inference. The function will be
-                called with the following arguments: `callback(step: int, timestep: int, latents: torch.FloatTensor)`.
+                called with the following arguments: `callback(step: int, timestep: int, latents: paddle.FloatTensor)`.
             callback_steps (`int`, *optional*, defaults to 1):
                 The frequency at which the `callback` function will be called. If not specified, the callback will be
                 called at every step.
             cross_attention_kwargs (`dict`, *optional*):
                 A kwargs dictionary that if specified is passed along to the `AttnProcessor` as defined under
                 `self.processor` in
-                [diffusers.cross_attention](https://github.com/huggingface/diffusers/blob/main/src/diffusers/models/cross_attention.py).
+                [ppdiffusers.cross_attention](https://github.com/huggingface/ppdiffusers/blob/main/src/ppdiffusers/models/cross_attention.py).
             controlnet_conditioning_scale (`float`, *optional*, defaults to 1.0):
                 The outputs of the controlnet are multiplied by `controlnet_conditioning_scale` before they are added
                 to the residual in the original unet.
@@ -462,7 +462,7 @@ class StableDiffusionControlNetInpaintPipeline(
                     self.controlnet.dtype,
                 )
         if do_classifier_free_guidance:
-            control_image = torch.cat([control_image] * 2)
+            control_image = paddle.cat([control_image] * 2)
 
         # 5. Prepare timesteps
         self.scheduler.set_timesteps(num_inference_steps, device=device)
@@ -506,7 +506,7 @@ class StableDiffusionControlNetInpaintPipeline(
             for i, t in enumerate(timesteps):
                 # expand the latents if we are doing classifier free guidance
                 latent_model_input = (
-                    torch.cat([latents] * 2)
+                    paddle.cat([latents] * 2)
                     if do_classifier_free_guidance
                     else latents
                 )
@@ -529,7 +529,7 @@ class StableDiffusionControlNetInpaintPipeline(
                 mid_block_res_sample *= controlnet_conditioning_scale
 
                 # predict the noise residual
-                latent_model_input = torch.cat(
+                latent_model_input = paddle.cat(
                     [latent_model_input, mask, masked_image_latents], dim=1
                 )
                 noise_pred = self.unet(
@@ -570,7 +570,7 @@ class StableDiffusionControlNetInpaintPipeline(
         ):
             self.unet.to("cpu")
             self.controlnet.to("cpu")
-            torch.cuda.empty_cache()
+            paddle.cuda.empty_cache()
 
         if output_type == "latent":
             image = latents

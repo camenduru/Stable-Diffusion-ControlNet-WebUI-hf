@@ -1,7 +1,7 @@
 import gradio as gr
 import numpy as np
-import torch
-from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
+import paddle
+from ppdiffusers import ControlNetModel, StableDiffusionControlNetPipeline
 from PIL import Image
 from transformers import AutoImageProcessor, UperNetForSemanticSegmentation
 
@@ -180,13 +180,13 @@ class StableDiffusionControlNetSegGenerator:
 
         if self.pipe is None:
             controlnet = ControlNetModel.from_pretrained(
-                "lllyasviel/sd-controlnet-seg", torch_dtype=torch.float16
+                "lllyasviel/sd-controlnet-seg", paddle_dtype=paddle.float16
             )
             self.pipe = StableDiffusionControlNetPipeline.from_pretrained(
                 pretrained_model_name_or_path=stable_model_path,
                 controlnet=controlnet,
                 safety_checker=None,
-                torch_dtype=torch.float16,
+                paddle_dtype=paddle.float16,
             )
 
         self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
@@ -206,7 +206,7 @@ class StableDiffusionControlNetSegGenerator:
         image = Image.open(image_path).convert("RGB")
         pixel_values = image_processor(image, return_tensors="pt").pixel_values
 
-        with torch.no_grad():
+        with paddle.no_grad():
             outputs = image_segmentor(pixel_values)
 
         seg = image_processor.post_process_semantic_segmentation(
@@ -243,10 +243,10 @@ class StableDiffusionControlNetSegGenerator:
             scheduler=scheduler,
         )
         if seed_generator == 0:
-            random_seed = torch.randint(0, 1000000, (1,))
-            generator = torch.manual_seed(random_seed)
+            random_seed = paddle.randint(0, 1000000, (1,))
+            generator = paddle.manual_seed(random_seed)
         else:
-            generator = torch.manual_seed(seed_generator)
+            generator = paddle.manual_seed(seed_generator)
 
         output = pipe(
             prompt=prompt,

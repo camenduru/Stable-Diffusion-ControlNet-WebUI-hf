@@ -1,8 +1,8 @@
 import gradio as gr
-import torch
+import paddle
 from controlnet_aux import LineartAnimeDetector
-from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
-from diffusers.utils import load_image
+from ppdiffusers import ControlNetModel, StableDiffusionControlNetPipeline
+from ppdiffusers.utils import load_image
 from transformers import CLIPTextModel
 
 from diffusion_webui.utils.model_list import (
@@ -25,18 +25,18 @@ class StableDiffusionControlNetLineArtAnimeGenerator:
                 stable_model_path,
                 subfolder="text_encoder",
                 num_hidden_layers=11,
-                torch_dtype=torch.float16,
+                paddle_dtype=paddle.float16,
             )
 
             controlnet = ControlNetModel.from_pretrained(
-                controlnet_model_path, torch_dtype=torch.float16
+                controlnet_model_path, paddle_dtype=paddle.float16
             )
             self.pipe = StableDiffusionControlNetPipeline.from_pretrained(
                 pretrained_model_name_or_path=stable_model_path,
                 text_encoder=text_encoder,
                 controlnet=controlnet,
                 safety_checker=None,
-                torch_dtype=torch.float16,
+                paddle_dtype=paddle.float16,
             )
 
         self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
@@ -79,10 +79,10 @@ class StableDiffusionControlNetLineArtAnimeGenerator:
         image = self.controlnet_lineart_anime(image_path)
 
         if seed_generator == 0:
-            random_seed = torch.randint(0, 1000000, (1,))
-            generator = torch.manual_seed(random_seed)
+            random_seed = paddle.randint(0, 1000000, (1,))
+            generator = paddle.manual_seed(random_seed)
         else:
-            generator = torch.manual_seed(seed_generator)
+            generator = paddle.manual_seed(seed_generator)
 
         output = pipe(
             prompt=prompt,

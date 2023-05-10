@@ -1,7 +1,7 @@
 import gradio as gr
-import torch
+import paddle
 from controlnet_aux import HEDdetector
-from diffusers import (
+from ppdiffusers import (
     ControlNetModel,
     StableDiffusionControlNetPipeline,
     UniPCMultistepScheduler,
@@ -25,14 +25,14 @@ class StableDiffusionControlNetScribbleGenerator:
     def load_model(self, stable_model_path, controlnet_model_path, scheduler):
         if self.pipe is None:
             controlnet = ControlNetModel.from_pretrained(
-                controlnet_model_path, torch_dtype=torch.float16
+                controlnet_model_path, paddle_dtype=paddle.float16
             )
 
             self.pipe = StableDiffusionControlNetPipeline.from_pretrained(
                 pretrained_model_name_or_path=stable_model_path,
                 controlnet=controlnet,
                 safety_checker=None,
-                torch_dtype=torch.float16,
+                paddle_dtype=paddle.float16,
             )
 
         self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
@@ -71,10 +71,10 @@ class StableDiffusionControlNetScribbleGenerator:
             scheduler=scheduler,
         )
         if seed_generator == 0:
-            random_seed = torch.randint(0, 1000000, (1,))
-            generator = torch.manual_seed(random_seed)
+            random_seed = paddle.randint(0, 1000000, (1,))
+            generator = paddle.manual_seed(random_seed)
         else:
-            generator = torch.manual_seed(seed_generator)
+            generator = paddle.manual_seed(seed_generator)
 
         output = pipe(
             prompt=prompt,

@@ -1,9 +1,8 @@
 import gradio as gr
-import torch
-from diffusers import DiffusionPipeline
+import paddle
+from ppdiffusers import DiffusionPipeline
 
 from diffusion_webui.utils.model_list import stable_inpiant_model_list
-
 
 class StableDiffusionInpaintGenerator:
     def __init__(self):
@@ -12,7 +11,7 @@ class StableDiffusionInpaintGenerator:
     def load_model(self, model_path):
         if self.pipe is None:
             self.pipe = DiffusionPipeline.from_pretrained(
-                model_path, revision="fp16", torch_dtype=torch.float16
+                model_path, revision="fp16", paddle_dtype=paddle.float16
             )
 
         self.pipe.to("cuda")
@@ -35,11 +34,8 @@ class StableDiffusionInpaintGenerator:
         mask_image = pil_image["mask"].convert("RGB").resize((512, 512))
         pipe = self.load_model(model_path)
 
-        if seed_generator == 0:
-            random_seed = torch.randint(0, 1000000, (1,))
-            generator = torch.manual_seed(random_seed)
-        else:
-            generator = torch.manual_seed(seed_generator)
+        if not seed_generator == -1:
+            paddle.seed(seed_generator)
 
         output = pipe(
             prompt=prompt,
@@ -49,7 +45,6 @@ class StableDiffusionInpaintGenerator:
             num_images_per_prompt=num_images_per_prompt,
             num_inference_steps=num_inference_step,
             guidance_scale=guidance_scale,
-            generator=generator,
         ).images
 
         return output
@@ -106,7 +101,7 @@ class StableDiffusionInpaintGenerator:
                             with gr.Column():
                                 stable_diffusion_inpiant_num_images_per_prompt = gr.Slider(
                                     minimum=1,
-                                    maximum=10,
+                                    maximum=4,
                                     step=1,
                                     value=1,
                                     label="Number Of Images",

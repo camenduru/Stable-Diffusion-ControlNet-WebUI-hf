@@ -1,4 +1,4 @@
-from diffusers import (
+from ppdiffusers import (
     DDIMScheduler,
     EulerAncestralDiscreteScheduler,
     EulerDiscreteScheduler,

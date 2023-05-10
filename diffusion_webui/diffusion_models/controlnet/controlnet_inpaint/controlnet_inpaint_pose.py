@@ -1,8 +1,8 @@
 import gradio as gr
 import numpy as np
-import torch
+import paddle
 from controlnet_aux import OpenposeDetector
-from diffusers import ControlNetModel
+from ppdiffusers import ControlNetModel
 from PIL import Image
 
 from diffusion_webui.diffusion_models.controlnet.controlnet_inpaint.pipeline_stable_diffusion_controlnet_inpaint import (
@@ -27,7 +27,7 @@ class StableDiffusionControlNetInpaintPoseGenerator:
     def load_model(self, stable_model_path, controlnet_model_path, scheduler):
         if self.pipe is None:
             controlnet = ControlNetModel.from_pretrained(
-                controlnet_model_path, torch_dtype=torch.float16
+                controlnet_model_path, paddle_dtype=paddle.float16
             )
 
             self.pipe = (
@@ -35,7 +35,7 @@ class StableDiffusionControlNetInpaintPoseGenerator:
                     pretrained_model_name_or_path=stable_model_path,
                     controlnet=controlnet,
                     safety_checker=None,
-                    torch_dtype=torch.float16,
+                    paddle_dtype=paddle.float16,
                 )
             )
 
@@ -88,10 +88,10 @@ class StableDiffusionControlNetInpaintPoseGenerator:
         )
 
         if seed_generator == 0:
-            random_seed = torch.randint(0, 1000000, (1,))
-            generator = torch.manual_seed(random_seed)
+            random_seed = paddle.randint(0, 1000000, (1,))
+            generator = paddle.manual_seed(random_seed)
         else:
-            generator = torch.manual_seed(seed_generator)
+            generator = paddle.manual_seed(seed_generator)
 
         output = pipe(
             prompt=prompt,
