@@ -15,14 +15,17 @@ stable_inpiant_model_list = [
 # ]
 
 controlnet_canny_model_list = [
+    "lllyasviel/sd-controlnet-canny",
     "lllyasviel/control_v11p_sd15_canny",
 ]
 
 controlnet_depth_model_list = [
+    "lllyasviel/sd-controlnet-depth",
     "lllyasviel/control_v11f1p_sd15_depth",
 ]
 
 controlnet_pose_model_list = [
+    "lllyasviel/sd-controlnet-openpose",
     "lllyasviel/control_v11p_sd15_openpose",
 ]
 
@@ -31,18 +34,22 @@ controlnet_hed_model_list = [
 ]
 
 controlnet_scribble_model_list = [
+    "lllyasviel/sd-controlnet-scribble",
     "lllyasviel/control_v11p_sd15_scribble",
 ]
 
 controlnet_mlsd_model_list = [
+    "lllyasviel/sd-controlnet-mlsd",
     "lllyasviel/control_v11p_sd15_mlsd",
 ]
 
 controlnet_normal_model_list = [
+    "lllyasviel/sd-controlnet-normal",
     "lllyasviel/control_v11p_sd15_normalbae",
 ]
 
 controlnet_seg_model_list = [
+    "lllyasviel/sd-controlnet-seg",
     "lllyasviel/control_v11p_sd15_seg",
 ]
 

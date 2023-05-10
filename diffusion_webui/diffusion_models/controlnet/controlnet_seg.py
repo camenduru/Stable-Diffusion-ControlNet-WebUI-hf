@@ -190,7 +190,6 @@ class StableDiffusionControlNetSegGenerator:
             )
 
         self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
-        self.pipe.to("cuda")
         self.pipe.enable_xformers_memory_efficient_attention()
 
         return self.pipe
@@ -242,11 +241,8 @@ class StableDiffusionControlNetSegGenerator:
             stable_model_path=model_path,
             scheduler=scheduler,
         )
-        if seed_generator == 0:
-            random_seed = paddle.randint(0, 1000000, (1,))
-            generator = paddle.manual_seed(random_seed)
-        else:
-            generator = paddle.manual_seed(seed_generator)
+        if not seed_generator == -1:
+            paddle.seed(seed_generator)
 
         output = pipe(
             prompt=prompt,
@@ -255,7 +251,6 @@ class StableDiffusionControlNetSegGenerator:
             num_images_per_prompt=num_images_per_prompt,
             num_inference_steps=num_inference_step,
             guidance_scale=guidance_scale,
-            generator=generator,
         ).images
 
         return output
@@ -323,7 +318,7 @@ class StableDiffusionControlNetSegGenerator:
                                     minimum=0,
                                     maximum=1000000,
                                     step=1,
-                                    value=0,
+                                    value=-1,
                                     label="Seed Generator",
                                 )
 

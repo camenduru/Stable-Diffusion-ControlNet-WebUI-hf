@@ -1,7 +1,7 @@
 paddlepaddle-gpu==2.5.0rc0
 paddlenlp
 safetensors
-ppdiffusers
+ppdiffusers -f https://www.paddlepaddle.org.cn/whl/paddlenlp.html --pre
 omegaconf
 fastcore
 einops

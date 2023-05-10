@@ -39,7 +39,6 @@ class StableDiffusionControlInpaintNetDepthGenerator:
             )
 
         self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
-        self.pipe.to("cuda")
         self.pipe.enable_xformers_memory_efficient_attention()
 
         return self.pipe
@@ -88,11 +87,8 @@ class StableDiffusionControlInpaintNetDepthGenerator:
             scheduler=scheduler,
         )
 
-        if seed_generator == 0:
-            random_seed = paddle.randint(0, 1000000, (1,))
-            generator = paddle.manual_seed(random_seed)
-        else:
-            generator = paddle.manual_seed(seed_generator)
+        if not seed_generator == -1:
+            paddle.seed(seed_generator)
 
         output = pipe(
             prompt=prompt,
