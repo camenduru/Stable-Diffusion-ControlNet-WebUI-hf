@@ -3,8 +3,7 @@ stable_model_list = [
 ]
 
 stable_inpiant_model_list = [
-    "stabilityai/stable-diffusion-2-inpainting",
-    "runwayml/stable-diffusion-inpainting",
+    "TASUKU2023/Chilloutmix",
 ]
 
 controlnet_canny_model_list = [
