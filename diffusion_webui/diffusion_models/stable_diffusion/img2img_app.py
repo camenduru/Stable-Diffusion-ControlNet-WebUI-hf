@@ -20,7 +20,6 @@ class StableDiffusionImage2ImageGenerator:
             )
 
         self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
-        self.pipe.to("cuda")
         self.pipe.enable_xformers_memory_efficient_attention()
 
         return self.pipe
@@ -76,11 +75,11 @@ class StableDiffusionImage2ImageGenerator:
                         placeholder="Negative Prompt",
                         show_label=False,
                     )
-                    stable_models = [stable_model.split("/")[-1] for stable_model in stable_model_list]
+
                     with gr.Row():
                         with gr.Column():
                             image2image_model_path = gr.Dropdown(
-                                choices=stable_models,
+                                choices=stable_model_list,
                                 value=stable_model_list[0],
                                 label="Stable Model Id",
                             )

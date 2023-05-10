@@ -1,8 +1,10 @@
-transformers 
-bitsandbytes==0.35.0 
-xformers 
-controlnet_aux==0.0.3
+paddlepaddle-gpu==2.5.0rc0
+paddlenlp
+safetensors
 ppdiffusers
-imageio
-triton
+omegaconf
+fastcore
+einops
+gradio==3.19.1
+numpy==1.21.6
 codeformer-pip

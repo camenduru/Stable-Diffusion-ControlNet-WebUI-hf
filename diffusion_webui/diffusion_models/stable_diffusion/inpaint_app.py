@@ -14,7 +14,6 @@ class StableDiffusionInpaintGenerator:
                 model_path, revision="fp16", paddle_dtype=paddle.float16
             )
 
-        self.pipe.to("cuda")
         self.pipe.enable_xformers_memory_efficient_attention()
 
         return self.pipe
