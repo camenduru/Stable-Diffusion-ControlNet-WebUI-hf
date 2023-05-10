@@ -114,6 +114,14 @@ class StableDiffusionText2ImageGenerator:
                                     value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
+                                
+                                text2image_width = gr.Slider(
+                                    minimum=128,
+                                    maximum=1280,
+                                    step=32,
+                                    value=512,
+                                    label="Image Width",
+                                )
 
                                 text2image_height = gr.Slider(
                                     minimum=128,
@@ -123,13 +131,6 @@ class StableDiffusionText2ImageGenerator:
                                     label="Image Height",
                                 )
 
-                                text2image_width = gr.Slider(
-                                    minimum=128,
-                                    maximum=1280,
-                                    step=32,
-                                    value=512,
-                                    label="Image Width",
-                                )
                                 text2image_seed_generator = gr.Slider(
                                     label="Seed(-1 for random)",
                                     minimum=-1,

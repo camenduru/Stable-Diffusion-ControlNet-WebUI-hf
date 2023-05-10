@@ -2,6 +2,11 @@ stable_model_list = [
     "TASUKU2023/Chilloutmix",
 ]
 
+stable_inpiant_model_list = [
+    "stabilityai/stable-diffusion-2-inpainting",
+    "runwayml/stable-diffusion-inpainting",
+]
+
 controlnet_canny_model_list = [
     "lllyasviel/sd-controlnet-canny",
     "lllyasviel/control_v11p_sd15_canny",
@@ -13,7 +18,6 @@ controlnet_depth_model_list = [
     "lllyasviel/control_v11f1p_sd15_depth",
     "thibaud/controlnet-sd21-depth-diffusers",
 ]
-
 
 controlnet_pose_model_list = [
     "lllyasviel/sd-controlnet-openpose",
@@ -30,10 +34,6 @@ controlnet_scribble_model_list = [
     "lllyasviel/sd-controlnet-scribble",
     "lllyasviel/control_v11p_sd15_scribble",
     "thibaud/controlnet-sd21-scribble-diffusers",
-]
-stable_inpiant_model_list = [
-    "stabilityai/stable-diffusion-2-inpainting",
-    "runwayml/stable-diffusion-inpainting",
 ]
 
 controlnet_mlsd_model_list = [

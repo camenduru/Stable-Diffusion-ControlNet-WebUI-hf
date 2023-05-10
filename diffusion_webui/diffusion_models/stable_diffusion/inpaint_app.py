@@ -1,6 +1,6 @@
 import gradio as gr
 import paddle
-from ppdiffusers import DiffusionPipeline
+from ppdiffusers import StableDiffusionInpaintPipeline
 
 from diffusion_webui.utils.model_list import stable_inpiant_model_list
 
@@ -10,8 +10,8 @@ class StableDiffusionInpaintGenerator:
 
     def load_model(self, model_path):
         if self.pipe is None:
-            self.pipe = DiffusionPipeline.from_pretrained(
-                model_path, revision="fp16", paddle_dtype=paddle.float16
+            self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
+                model_path, safety_checker=None, paddle_dtype=paddle.float16
             )
 
         self.pipe.enable_xformers_memory_efficient_attention()
@@ -20,7 +20,7 @@ class StableDiffusionInpaintGenerator:
 
     def generate_image(
         self,
-        pil_image: str,
+        load_image: str,
         model_path: str,
         prompt: str,
         negative_prompt: str,
@@ -29,8 +29,8 @@ class StableDiffusionInpaintGenerator:
         num_inference_step: int,
         seed_generator=0,
     ):
-        image = pil_image["image"].convert("RGB").resize((512, 512))
-        mask_image = pil_image["mask"].convert("RGB").resize((512, 512))
+        image = load_image["image"].resize((512, 512))
+        mask_image = load_image["mask"].resize((512, 512))
         pipe = self.load_model(model_path)
 
         if not seed_generator == -1:
