@@ -82,7 +82,7 @@ def diffusion_app():
                 #     with gr.Tab("Seg"):
                 #         StableDiffusionControlNetInpaintSegGenerator.app()
                 # with gr.Tab("Upscaler"):
-        with gr.Markdown(camenduru)
+        gr.Markdown(camenduru)
         
     app.queue(concurrency_count=1)
     app.launch(debug=True, enable_queue=True, share=True)
