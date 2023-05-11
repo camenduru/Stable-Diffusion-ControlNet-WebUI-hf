@@ -17,12 +17,12 @@ from diffusion_webui import (
     # StableDiffusionControlNetSoftEdgeGenerator,
     # StableDiffusionControlNetLineArtGenerator,
     # StableDiffusionControlNetLineArtAnimeGenerator,
+    StableDiffusionControlNetInpaintCannyGenerator,
+    StableDiffusionControlNetInpaintHedGenerator,
+    StableDiffusionControlNetInpaintMlsdGenerator,
+    StableDiffusionControlNetInpaintPoseGenerator,
+    StableDiffusionControlNetInpaintScribbleGenerator,
     # StableDiffusionControlInpaintNetDepthGenerator,
-    # StableDiffusionControlNetInpaintCannyGenerator,
-    # StableDiffusionControlNetInpaintHedGenerator,
-    # StableDiffusionControlNetInpaintMlsdGenerator,
-    # StableDiffusionControlNetInpaintPoseGenerator,
-    # StableDiffusionControlNetInpaintScribbleGenerator,
     # StableDiffusionControlNetInpaintSegGenerator,
 )
 
@@ -66,21 +66,21 @@ def diffusion_app():
                     #     StableDiffusionControlNetLineArtGenerator.app()
                     # with gr.Tab("LineArtAnime"):
                     #     StableDiffusionControlNetLineArtAnimeGenerator.app()
-                # with gr.Tab("ControlNet Inpaint"):
-                #     with gr.Tab("Canny"):
-                #         StableDiffusionControlNetInpaintCannyGenerator.app()
-                #     with gr.Tab("Depth"):
-                #         StableDiffusionControlInpaintNetDepthGenerator.app()
-                #     with gr.Tab("HED"):
-                #         StableDiffusionControlNetInpaintHedGenerator.app()
-                #     with gr.Tab("MLSD"):
-                #         StableDiffusionControlNetInpaintMlsdGenerator.app()
-                #     with gr.Tab("Pose"):
-                #         StableDiffusionControlNetInpaintPoseGenerator.app()
-                #     with gr.Tab("Scribble"):
-                #         StableDiffusionControlNetInpaintScribbleGenerator.app()
-                #     with gr.Tab("Seg"):
-                #         StableDiffusionControlNetInpaintSegGenerator.app()
+                with gr.Tab("ControlNet Inpaint"):
+                    with gr.Tab("Canny"):
+                        StableDiffusionControlNetInpaintCannyGenerator.app()
+                    with gr.Tab("HED"):
+                        StableDiffusionControlNetInpaintHedGenerator.app()
+                    with gr.Tab("MLSD"):
+                        StableDiffusionControlNetInpaintMlsdGenerator.app()
+                    with gr.Tab("Pose"):
+                        StableDiffusionControlNetInpaintPoseGenerator.app()
+                    with gr.Tab("Scribble"):
+                        StableDiffusionControlNetInpaintScribbleGenerator.app()
+                    # with gr.Tab("Depth"):
+                    #     StableDiffusionControlInpaintNetDepthGenerator.app()
+                    # with gr.Tab("Seg"):
+                    #     StableDiffusionControlNetInpaintSegGenerator.app()
                 # with gr.Tab("Upscaler"):
         gr.Markdown(camenduru)
         
