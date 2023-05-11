@@ -1,15 +1,7 @@
----
-title: Stable Diffusion ControlNet WebUI
-emoji: 🚀
-colorFrom: green
-colorTo: red
-sdk: gradio
-sdk_version: 3.19
-app_file: app.py
-pinned: false
-license: openrail
-tags:
-- making-demos
----
+🐣 Please follow me for new updates https://twitter.com/camenduru <br />
+🔥 Please join our discord server https://discord.gg/k5BwmmvJJU <br />
 
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+### Main Repo
+https://github.com/camenduru/Stable-Diffusion-ControlNet-WebUI-hf/tree/dev <br />
+https://github.com/PaddlePaddle/PaddleNLP/tree/develop/ppdiffusers <br />
+https://huggingface.co/spaces/ArtGAN/Stable-Diffusion-ControlNet-WebUI/tree/main <br />
