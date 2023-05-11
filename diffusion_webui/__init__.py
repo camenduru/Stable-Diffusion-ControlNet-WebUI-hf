@@ -27,6 +27,5 @@ from diffusion_webui.diffusion_models.stable_diffusion import (
     StableDiffusionInpaintGenerator,
     StableDiffusionText2ImageGenerator,
 )
-from diffusion_webui.upscaler_models import CodeformerUpscalerGenerator
 
 __version__ = "2.4.0"

@@ -4,7 +4,6 @@ from diffusion_webui import (
     StableDiffusionImage2ImageGenerator,
     StableDiffusionInpaintGenerator,
     StableDiffusionText2ImageGenerator,
-    CodeformerUpscalerGenerator,
     StableDiffusionControlNetCannyGenerator,
     # StableDiffusionControlInpaintNetDepthGenerator,
     # StableDiffusionControlNetDepthGenerator,
@@ -82,8 +81,7 @@ def diffusion_app():
                 #         StableDiffusionControlNetInpaintScribbleGenerator.app()
                 #     with gr.Tab("Seg"):
                 #         StableDiffusionControlNetInpaintSegGenerator.app()
-                with gr.Tab("Upscaler"):
-                    CodeformerUpscalerGenerator.app()
+                # with gr.Tab("Upscaler"):
         gr.Markdown(camenduru)
         
     app.queue(concurrency_count=1)
