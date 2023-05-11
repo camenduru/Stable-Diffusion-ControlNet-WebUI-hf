@@ -16,7 +16,6 @@ SCHEDULER_LIST = [
     "UniPC",
 ]
 
-
 def get_scheduler_list(pipe, scheduler):
     if scheduler == SCHEDULER_LIST[0]:
         pipe.scheduler = DDIMScheduler.from_config(pipe.scheduler.config)
