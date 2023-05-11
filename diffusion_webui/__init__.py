@@ -1,16 +1,16 @@
 from diffusion_webui.diffusion_models.controlnet import (
     StableDiffusionControlNetCannyGenerator,
     StableDiffusionControlNetHEDGenerator,
-    StableDiffusionControlNetLineArtGenerator,
     StableDiffusionControlNetMLSDGenerator,
     StableDiffusionControlNetPoseGenerator,
+    StableDiffusionControlNetScribbleGenerator,
     # StableDiffusionControlNetNormalGenerator,
     # StableDiffusionControlNetSegGenerator,
     # StableDiffusionControlNetDepthGenerator,
     # StableDiffusionControlNetPix2PixGenerator,
-    # StableDiffusionControlNetScribbleGenerator,
     # StableDiffusionControlNetShuffleGenerator,
     # StableDiffusionControlNetSoftEdgeGenerator,
+    # StableDiffusionControlNetLineArtGenerator,
     # StableDiffusionControlNetLineArtAnimeGenerator,
 )
 # from diffusion_webui.diffusion_models.controlnet.controlnet_inpaint import (

@@ -4,14 +4,14 @@ from diffusion_webui.diffusion_models.controlnet.controlnet_canny import (
 from diffusion_webui.diffusion_models.controlnet.controlnet_hed import (
     StableDiffusionControlNetHEDGenerator,
 )
-from diffusion_webui.diffusion_models.controlnet.controlnet_lineart import (
-    StableDiffusionControlNetLineArtGenerator,
-)
 from diffusion_webui.diffusion_models.controlnet.controlnet_mlsd import (
     StableDiffusionControlNetMLSDGenerator,
 )
 from diffusion_webui.diffusion_models.controlnet.controlnet_pose import (
     StableDiffusionControlNetPoseGenerator,
+)
+from diffusion_webui.diffusion_models.controlnet.controlnet_scribble import (
+    StableDiffusionControlNetScribbleGenerator,
 )
 # from diffusion_webui.diffusion_models.controlnet.controlnet_normal import (
 #     StableDiffusionControlNetNormalGenerator,
@@ -25,14 +25,14 @@ from diffusion_webui.diffusion_models.controlnet.controlnet_pose import (
 # from diffusion_webui.diffusion_models.controlnet.controlnet_pix2pix import (
 #     StableDiffusionControlNetPix2PixGenerator,
 # )
-# from diffusion_webui.diffusion_models.controlnet.controlnet_scribble import (
-#     StableDiffusionControlNetScribbleGenerator,
-# )
 # from diffusion_webui.diffusion_models.controlnet.controlnet_shuffle import (
 #     StableDiffusionControlNetShuffleGenerator,
 # )
 # from diffusion_webui.diffusion_models.controlnet.controlnet_softedge import (
 #     StableDiffusionControlNetSoftEdgeGenerator,
+# )
+# from diffusion_webui.diffusion_models.controlnet.controlnet_lineart import (
+#     StableDiffusionControlNetLineArtGenerator,
 # )
 # from diffusion_webui.diffusion_models.controlnet.controlnet_lineart_anime import (
 #     StableDiffusionControlNetLineArtAnimeGenerator,

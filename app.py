@@ -6,16 +6,16 @@ from diffusion_webui import (
     StableDiffusionText2ImageGenerator,
     StableDiffusionControlNetCannyGenerator,
     StableDiffusionControlNetHEDGenerator,
-    StableDiffusionControlNetLineArtGenerator,
     StableDiffusionControlNetMLSDGenerator,
     StableDiffusionControlNetPoseGenerator,
+    StableDiffusionControlNetScribbleGenerator,
     # StableDiffusionControlNetNormalGenerator,
     # StableDiffusionControlNetSegGenerator,
     # StableDiffusionControlNetDepthGenerator,
     # StableDiffusionControlNetPix2PixGenerator,
-    # StableDiffusionControlNetScribbleGenerator,
     # StableDiffusionControlNetShuffleGenerator,
     # StableDiffusionControlNetSoftEdgeGenerator,
+    # StableDiffusionControlNetLineArtGenerator,
     # StableDiffusionControlNetLineArtAnimeGenerator,
     # StableDiffusionControlInpaintNetDepthGenerator,
     # StableDiffusionControlNetInpaintCannyGenerator,
@@ -60,10 +60,10 @@ def diffusion_app():
                     #     StableDiffusionControlNetShuffleGenerator.app()
                     # with gr.Tab("Pix2Pix"):
                     #     StableDiffusionControlNetPix2PixGenerator.app()
-                    # with gr.Tab("LineArt"):
-                    #     StableDiffusionControlNetLineArtGenerator.app()
                     # with gr.Tab("SoftEdge"):
                     #     StableDiffusionControlNetSoftEdgeGenerator.app()
+                    # with gr.Tab("LineArt"):
+                    #     StableDiffusionControlNetLineArtGenerator.app()
                     # with gr.Tab("LineArtAnime"):
                     #     StableDiffusionControlNetLineArtAnimeGenerator.app()
                 # with gr.Tab("ControlNet Inpaint"):
