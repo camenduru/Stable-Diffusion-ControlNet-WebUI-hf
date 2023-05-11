@@ -100,7 +100,6 @@ class StableDiffusionControlInpaintNetDepthGenerator:
             num_inference_steps=num_inference_step,
             guidance_scale=guidance_scale,
             controlnet_conditioning_scale=controlnet_conditioning_scale,
-            generator=generator,
         ).images
 
         return output
@@ -171,11 +170,8 @@ class StableDiffusionControlInpaintNetDepthGenerator:
                                     value=0.5,
                                     label="Controlnet Conditioning Scale",
                                 )
-                                controlnet_depth_inpaint_seed_generator = gr.Slider(
-                                    minimum=0,
-                                    maximum=1000000,
-                                    step=1,
-                                    value=0,
+                                controlnet_depth_inpaint_seed_generator = gr.Number(
+                                    value=-1,
                                     label="Seed Generator",
                                 )
 
