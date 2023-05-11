@@ -69,13 +69,11 @@ class StableDiffusionText2ImageGenerator:
                         placeholder="Prompt",
                         show_label=False,
                     )
-
                     text2image_negative_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Negative Prompt",
                         show_label=False,
                     )
-                    
                     with gr.Row():
                         with gr.Column():
                             text2image_model_path = gr.Dropdown(
@@ -83,7 +81,6 @@ class StableDiffusionText2ImageGenerator:
                                 value=stable_model_list[0],
                                 label="Text-Image Model Id",
                             )
-
                             text2image_guidance_scale = gr.Slider(
                                 minimum=0.1,
                                 maximum=15,
@@ -91,7 +88,6 @@ class StableDiffusionText2ImageGenerator:
                                 value=7.5,
                                 label="Guidance Scale",
                             )
-
                             text2image_num_inference_step = gr.Slider(
                                 minimum=1,
                                 maximum=100,
@@ -108,13 +104,11 @@ class StableDiffusionText2ImageGenerator:
                             )
                         with gr.Row():
                             with gr.Column():
-
                                 text2image_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
                                     value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
-                                
                                 text2image_width = gr.Slider(
                                     minimum=128,
                                     maximum=1280,
@@ -122,7 +116,6 @@ class StableDiffusionText2ImageGenerator:
                                     value=512,
                                     label="Image Width",
                                 )
-
                                 text2image_height = gr.Slider(
                                     minimum=128,
                                     maximum=1280,
@@ -130,13 +123,13 @@ class StableDiffusionText2ImageGenerator:
                                     value=512,
                                     label="Image Height",
                                 )
-
                                 text2image_seed_generator = gr.Slider(
                                     label="Seed(-1 for random)",
                                     minimum=-1,
                                     maximum=1000000,
                                     value=-1,
                                 )
+
                     text2image_predict = gr.Button(value="Generator")
 
                 with gr.Column():

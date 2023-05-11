@@ -59,13 +59,11 @@ class StableDiffusionInpaintGenerator:
                         type="pil",
                         label="Upload",
                     ).style(height=260)
-
                     stable_diffusion_inpaint_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Prompt",
                         show_label=False,
                     )
-
                     stable_diffusion_inpaint_negative_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Negative Prompt",
@@ -85,17 +83,13 @@ class StableDiffusionInpaintGenerator:
                                 value=7.5,
                                 label="Guidance Scale",
                             )
-
-                            stable_diffusion_inpaint_num_inference_step = (
-                                gr.Slider(
-                                    minimum=1,
-                                    maximum=100,
-                                    step=1,
-                                    value=50,
-                                    label="Num Inference Step",
-                                )
+                            stable_diffusion_inpaint_num_inference_step = gr.Slider(
+                                minimum=1,
+                                maximum=100,
+                                step=1,
+                                value=50,
+                                label="Num Inference Step",
                             )
-
                         with gr.Row():
                             with gr.Column():
                                 stable_diffusion_inpiant_num_images_per_prompt = gr.Slider(
@@ -105,20 +99,16 @@ class StableDiffusionInpaintGenerator:
                                     value=1,
                                     label="Number Of Images",
                                 )
-                                stable_diffusion_inpaint_seed_generator = (
-                                    gr.Slider(
-                                        minimum=-1,
-                                        maximum=1000000,
-                                        step=1,
-                                        value=-1,
-                                        label="Seed(-1 for random)",
-                                    )
+                                stable_diffusion_inpaint_seed_generator = gr.Slider(
+                                    minimum=-1,
+                                    maximum=1000000,
+                                    step=1,
+                                    value=-1,
+                                    label="Seed(-1 for random)",
                                 )
 
-                    stable_diffusion_inpaint_predict = gr.Button(
-                        value="Generator"
-                    )
-
+                    stable_diffusion_inpaint_predict = gr.Button(value="Generator")
+                    
                 with gr.Column():
                     output_image = gr.Gallery(
                         label="Generated images",

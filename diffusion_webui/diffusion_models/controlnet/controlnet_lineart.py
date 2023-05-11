@@ -87,13 +87,11 @@ class StableDiffusionControlNetLineArtGenerator:
                     controlnet_canny_image_file = gr.Image(
                         type="filepath", label="Image"
                     )
-
                     controlnet_canny_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Prompt",
                         show_label=False,
                     )
-
                     controlnet_canny_negative_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Negative Prompt",
@@ -106,7 +104,6 @@ class StableDiffusionControlNetLineArtGenerator:
                                 value=stable_model_list[0],
                                 label="Stable Model Id",
                             )
-
                             controlnet_canny_guidance_scale = gr.Slider(
                                 minimum=0.1,
                                 maximum=15,
@@ -135,18 +132,16 @@ class StableDiffusionControlNetLineArtGenerator:
                                     value=controlnet_lineart_model_list[0],
                                     label="ControlNet Model Id",
                                 )
-
                                 controlnet_canny_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
                                     value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
-
                                 controlnet_canny_seed_generator = gr.Number(
                                     value=-1,
                                     label="Seed Generator",
                                 )
-                                
+
                     controlnet_canny_predict = gr.Button(value="Generator")
 
                 with gr.Column():

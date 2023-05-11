@@ -95,13 +95,11 @@ class StableDiffusionControlNetScribbleGenerator:
                         show_label=False,
                         placeholder="Prompt",
                     )
-
                     controlnet_scribble_negative_prompt = gr.Textbox(
                         lines=1,
                         show_label=False,
                         placeholder="Negative Prompt",
                     )
-
                     with gr.Row():
                         with gr.Column():
                             controlnet_scribble_stable_model_id = gr.Dropdown(
@@ -116,7 +114,6 @@ class StableDiffusionControlNetScribbleGenerator:
                                 value=7.5,
                                 label="Guidance Scale",
                             )
-
                             controlnet_scribble_num_inference_step = gr.Slider(
                                 minimum=1,
                                 maximum=100,
@@ -124,15 +121,12 @@ class StableDiffusionControlNetScribbleGenerator:
                                 value=50,
                                 label="Num Inference Step",
                             )
-
-                            controlnet_scribble_num_images_per_prompt = (
-                                gr.Slider(
-                                    minimum=1,
-                                    maximum=10,
-                                    step=1,
-                                    value=1,
-                                    label="Number Of Images",
-                                )
+                            controlnet_scribble_num_images_per_prompt = gr.Slider(
+                                minimum=1,
+                                maximum=4,
+                                step=1,
+                                value=1,
+                                label="Number Of Images",
                             )
                         with gr.Row():
                             with gr.Column():
@@ -141,13 +135,11 @@ class StableDiffusionControlNetScribbleGenerator:
                                     value=controlnet_scribble_model_list[0],
                                     label="ControlNet Model Id",
                                 )
-
                                 controlnet_scribble_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
                                     value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
-
                                 controlnet_scribble_seed_generator = gr.Number(
                                     value=-1,
                                     label="Seed Generator",

@@ -102,13 +102,11 @@ class StableDiffusionControlNetNormalGenerator:
                     controlnet_normal_image_file = gr.Image(
                         type="filepath", label="Image"
                     )
-
                     controlnet_normal_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Prompt",
                         show_label=False,
                     )
-
                     controlnet_normal_negative_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Negative Prompt",
@@ -121,7 +119,6 @@ class StableDiffusionControlNetNormalGenerator:
                                 value=stable_model_list[0],
                                 label="Stable Model Id",
                             )
-
                             controlnet_normal_guidance_scale = gr.Slider(
                                 minimum=0.1,
                                 maximum=15,
@@ -150,18 +147,16 @@ class StableDiffusionControlNetNormalGenerator:
                                     value=controlnet_normal_model_list[0],
                                     label="ControlNet Model Id",
                                 )
-
                                 controlnet_normal_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
                                     value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
-
                                 controlnet_normal_seed_generator = gr.Number(
                                     value=-1,
                                     label="Seed Generator",
                                 )
-                                
+
                     controlnet_normal_predict = gr.Button(value="Generator")
 
                 with gr.Column():

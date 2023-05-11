@@ -90,13 +90,11 @@ class StableDiffusionControlNetHEDGenerator:
                         show_label=False,
                         placeholder="Prompt",
                     )
-
                     controlnet_hed_negative_prompt = gr.Textbox(
                         lines=1,
                         show_label=False,
                         placeholder="Negative Prompt",
                     )
-
                     with gr.Row():
                         with gr.Column():
                             controlnet_hed_stable_model_id = gr.Dropdown(
@@ -118,7 +116,6 @@ class StableDiffusionControlNetHEDGenerator:
                                 value=50,
                                 label="Num Inference Step",
                             )
-
                             controlnet_hed_num_images_per_prompt = gr.Slider(
                                 minimum=1,
                                 maximum=4,
@@ -126,7 +123,6 @@ class StableDiffusionControlNetHEDGenerator:
                                 value=1,
                                 label="Number Of Images",
                             )
-
                         with gr.Row():
                             with gr.Column():
                                 controlnet_hed_model_id = gr.Dropdown(
@@ -139,7 +135,6 @@ class StableDiffusionControlNetHEDGenerator:
                                     value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
-
                                 controlnet_hed_seed_generator = gr.Number(
                                     value=-1,
                                     label="Seed Generator",

@@ -113,11 +113,9 @@ class StableDiffusionControlNetInpaintHedGenerator:
                         type="pil",
                         label="Upload",
                     )
-
                     controlnet_hed_inpaint_prompt = gr.Textbox(
                         lines=1, placeholder="Prompt", show_label=False
                     )
-
                     controlnet_hed_inpaint_negative_prompt = gr.Textbox(
                         lines=1,
                         show_label=False,
@@ -125,14 +123,11 @@ class StableDiffusionControlNetInpaintHedGenerator:
                     )
                     with gr.Row():
                         with gr.Column():
-                            controlnet_hed_inpaint_stable_model_id = (
-                                gr.Dropdown(
-                                    choices=stable_inpiant_model_list,
-                                    value=stable_inpiant_model_list[0],
-                                    label="Stable Model Id",
-                                )
+                            controlnet_hed_inpaint_stable_model_id = gr.Dropdown(
+                                choices=stable_inpiant_model_list,
+                                value=stable_inpiant_model_list[0],
+                                label="Stable Model Id",
                             )
-
                             controlnet_hed_inpaint_guidance_scale = gr.Slider(
                                 minimum=0.1,
                                 maximum=15,
@@ -140,24 +135,19 @@ class StableDiffusionControlNetInpaintHedGenerator:
                                 value=7.5,
                                 label="Guidance Scale",
                             )
-
-                            controlnet_hed_inpaint_num_inference_step = (
-                                gr.Slider(
-                                    minimum=1,
-                                    maximum=100,
-                                    step=1,
-                                    value=50,
-                                    label="Num Inference Step",
-                                )
+                            controlnet_hed_inpaint_num_inference_step = gr.Slider(
+                                minimum=1,
+                                maximum=100,
+                                step=1,
+                                value=50,
+                                label="Num Inference Step",
                             )
-                            controlnet_hed_inpaint_num_images_per_prompt = (
-                                gr.Slider(
-                                    minimum=1,
-                                    maximum=10,
-                                    step=1,
-                                    value=1,
-                                    label="Number Of Images",
-                                )
+                            controlnet_hed_inpaint_num_images_per_prompt = gr.Slider(
+                                minimum=1,
+                                maximum=4,
+                                step=1,
+                                value=1,
+                                label="Number Of Images",
                             )
                         with gr.Row():
                             with gr.Column():
@@ -178,15 +168,12 @@ class StableDiffusionControlNetInpaintHedGenerator:
                                     value=0.5,
                                     label="Controlnet Conditioning Scale",
                                 )
-
-                                controlnet_hed_inpaint_seed_generator = (
-                                    gr.Slider(
-                                        minimum=0,
-                                        maximum=1000000,
-                                        step=1,
-                                        value=0,
-                                        label="Seed Generator",
-                                    )
+                                controlnet_hed_inpaint_seed_generator = gr.Slider(
+                                    minimum=0,
+                                    maximum=1000000,
+                                    step=1,
+                                    value=0,
+                                    label="Seed Generator",
                                 )
 
                     controlnet_hed_inpaint_predict = gr.Button(

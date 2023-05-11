@@ -86,19 +86,16 @@ class StableDiffusionControlNetMLSDGenerator:
                     controlnet_mlsd_image_file = gr.Image(
                         type="filepath", label="Image"
                     )
-
                     controlnet_mlsd_prompt = gr.Textbox(
                         lines=1,
                         show_label=False,
                         placeholder="Prompt",
                     )
-
                     controlnet_mlsd_negative_prompt = gr.Textbox(
                         lines=1,
                         show_label=False,
                         placeholder="Negative Prompt",
                     )
-
                     with gr.Row():
                         with gr.Column():
                             controlnet_mlsd_model_id = gr.Dropdown(
@@ -120,22 +117,25 @@ class StableDiffusionControlNetMLSDGenerator:
                                 value=50,
                                 label="Num Inference Step",
                             )
-
+                            controlnet_mlsd_num_images_per_prompt = gr.Slider(
+                                minimum=1,
+                                maximum=4,
+                                step=1,
+                                value=1,
+                                label="Number Of Images",
+                            )
                         with gr.Row():
                             with gr.Column():
-                                controlnet_mlsd_controlnet_model_id = (
-                                    gr.Dropdown(
-                                        choices=controlnet_mlsd_model_list,
-                                        value=controlnet_mlsd_model_list[0],
-                                        label="ControlNet Model Id",
-                                    )
+                                controlnet_mlsd_controlnet_model_id = gr.Dropdown(
+                                    choices=controlnet_mlsd_model_list,
+                                    value=controlnet_mlsd_model_list[0],
+                                    label="ControlNet Model Id",
                                 )
                                 controlnet_mlsd_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
                                     value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
-
                                 controlnet_mlsd_seed_generator = gr.Number(
                                     value=-1,
                                     label="Seed Generator",

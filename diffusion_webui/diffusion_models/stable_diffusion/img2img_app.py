@@ -63,13 +63,11 @@ class StableDiffusionImage2ImageGenerator:
                     image2image_image_file = gr.Image(
                         type="filepath", label="Image"
                     ).style(height=260)
-
                     image2image_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Prompt",
                         show_label=False,
                     )
-
                     image2image_negative_prompt = gr.Textbox(
                         lines=1,
                         placeholder="Negative Prompt",
@@ -83,7 +81,6 @@ class StableDiffusionImage2ImageGenerator:
                                 value=stable_model_list[0],
                                 label="Stable Model Id",
                             )
-
                             image2image_guidance_scale = gr.Slider(
                                 minimum=0.1,
                                 maximum=15,
@@ -112,7 +109,6 @@ class StableDiffusionImage2ImageGenerator:
                                     value=1,
                                     label="Number Of Images",
                                 )
-
                                 image2image_seed_generator = gr.Slider(
                                     minimum=-1,
                                     maximum=1000000,
@@ -120,7 +116,7 @@ class StableDiffusionImage2ImageGenerator:
                                     value=-1,
                                     label="Seed(-1 for random)",
                                 )
-
+                                
                     image2image_predict_button = gr.Button(value="Generator")
 
                 with gr.Column():

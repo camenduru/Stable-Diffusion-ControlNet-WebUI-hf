@@ -262,19 +262,16 @@ class StableDiffusionControlNetSegGenerator:
                     controlnet_seg_image_file = gr.Image(
                         type="filepath", label="Image"
                     )
-
                     controlnet_seg_prompt = gr.Textbox(
                         lines=1,
                         show_label=False,
                         placeholder="Prompt",
                     )
-
                     controlnet_seg_negative_prompt = gr.Textbox(
                         lines=1,
                         show_label=False,
                         placeholder="Negative Prompt",
                     )
-
                     with gr.Row():
                         with gr.Column():
                             controlnet_seg_model_id = gr.Dropdown(
@@ -289,7 +286,6 @@ class StableDiffusionControlNetSegGenerator:
                                 value=7.5,
                                 label="Guidance Scale",
                             )
-
                             controlnet_seg_num_inference_step = gr.Slider(
                                 minimum=1,
                                 maximum=100,
@@ -297,7 +293,13 @@ class StableDiffusionControlNetSegGenerator:
                                 value=50,
                                 label="Num Inference Step",
                             )
-
+                            controlnet_seg_num_images_per_prompt = gr.Slider(
+                                minimum=1,
+                                maximum=4,
+                                step=1,
+                                value=1,
+                                label="Number Of Images",
+                            )
                         with gr.Row():
                             with gr.Column():
                                 controlnet_seg_scheduler = gr.Dropdown(
@@ -305,7 +307,6 @@ class StableDiffusionControlNetSegGenerator:
                                     value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
-
                                 controlnet_seg_seed_generator = gr.Number(
                                     value=-1,
                                     label="Seed Generator",
