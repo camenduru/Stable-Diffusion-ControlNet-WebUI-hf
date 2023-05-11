@@ -170,7 +170,7 @@ class StableDiffusionControlNetInpaintPoseGenerator:
                                 )
                                 controlnet_pose_inpaint_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
-                                    value=SCHEDULER_LIST[0],
+                                    value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
                                 controlnet_pose_inpaint_controlnet_conditioning_scale = gr.Slider(

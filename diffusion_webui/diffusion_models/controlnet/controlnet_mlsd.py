@@ -132,25 +132,13 @@ class StableDiffusionControlNetMLSDGenerator:
                                 )
                                 controlnet_mlsd_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
-                                    value=SCHEDULER_LIST[0],
+                                    value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
 
-                                controlnet_mlsd_seed_generator = gr.Slider(
-                                    minimum=0,
-                                    maximum=1000000,
-                                    step=1,
+                                controlnet_mlsd_seed_generator = gr.Number(
                                     value=-1,
                                     label="Seed Generator",
-                                )
-                                controlnet_mlsd_num_images_per_prompt = (
-                                    gr.Slider(
-                                        minimum=1,
-                                        maximum=10,
-                                        step=1,
-                                        value=1,
-                                        label="Number Of Images",
-                                    )
                                 )
 
                     controlnet_mlsd_predict = gr.Button(value="Generator")

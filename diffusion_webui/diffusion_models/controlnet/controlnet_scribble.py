@@ -144,14 +144,11 @@ class StableDiffusionControlNetScribbleGenerator:
 
                                 controlnet_scribble_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
-                                    value=SCHEDULER_LIST[0],
+                                    value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
 
                                 controlnet_scribble_seed_generator = gr.Number(
-                                    minimum=0,
-                                    maximum=1000000,
-                                    step=1,
                                     value=-1,
                                     label="Seed Generator",
                                 )

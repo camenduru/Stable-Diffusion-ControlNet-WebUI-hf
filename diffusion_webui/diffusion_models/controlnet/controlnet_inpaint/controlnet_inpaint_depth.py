@@ -172,7 +172,7 @@ class StableDiffusionControlInpaintNetDepthGenerator:
                                 controlnet_depth_inpaint_scheduler = (
                                     gr.Dropdown(
                                         choices=SCHEDULER_LIST,
-                                        value=SCHEDULER_LIST[0],
+                                        value=SCHEDULER_LIST[5],
                                         label="Scheduler",
                                     )
                                 )

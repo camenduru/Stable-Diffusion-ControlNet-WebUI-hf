@@ -14,7 +14,6 @@ from diffusion_webui.utils.scheduler_list import (
     get_scheduler_list,
 )
 
-
 class StableDiffusionControlNetDepthGenerator:
     def __init__(self):
         self.pipe = None
@@ -128,7 +127,7 @@ class StableDiffusionControlNetDepthGenerator:
 
                             controlnet_depth_num_images_per_prompt = gr.Slider(
                                 minimum=1,
-                                maximum=10,
+                                maximum=4,
                                 step=1,
                                 value=1,
                                 label="Number Of Images",
@@ -143,14 +142,11 @@ class StableDiffusionControlNetDepthGenerator:
 
                                 controlnet_depth_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
-                                    value=SCHEDULER_LIST[0],
+                                    value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
 
                                 controlnet_depth_seed_generator = gr.Number(
-                                    minimum=0,
-                                    maximum=1000000,
-                                    step=1,
                                     value=-1,
                                     label="Seed Generator",
                                 )

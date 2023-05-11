@@ -124,7 +124,7 @@ class StableDiffusionControlNetSoftEdgeGenerator:
                             )
                             controlnet_canny_num_images_per_prompt = gr.Slider(
                                 minimum=1,
-                                maximum=10,
+                                maximum=4,
                                 step=1,
                                 value=1,
                                 label="Number Of Images",
@@ -139,7 +139,7 @@ class StableDiffusionControlNetSoftEdgeGenerator:
 
                                 controlnet_canny_scheduler = gr.Dropdown(
                                     choices=SCHEDULER_LIST,
-                                    value=SCHEDULER_LIST[0],
+                                    value=SCHEDULER_LIST[5],
                                     label="Scheduler",
                                 )
 
@@ -147,6 +147,7 @@ class StableDiffusionControlNetSoftEdgeGenerator:
                                     value=-1,
                                     label="Seed Generator",
                                 )
+                                
                     controlnet_canny_predict = gr.Button(value="Generator")
 
                 with gr.Column():
