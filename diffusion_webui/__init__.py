@@ -21,7 +21,7 @@ from diffusion_webui.diffusion_models.controlnet import (
 #     StableDiffusionControlNetInpaintScribbleGenerator,
 #     StableDiffusionControlInpaintNetDepthGenerator,
 #     StableDiffusionControlNetInpaintSegGenerator,
-)
+# )
 from diffusion_webui.diffusion_models.stable_diffusion import (
     StableDiffusionImage2ImageGenerator,
     StableDiffusionInpaintGenerator,
