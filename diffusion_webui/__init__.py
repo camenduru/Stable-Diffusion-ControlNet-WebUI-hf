@@ -13,12 +13,12 @@ from diffusion_webui.diffusion_models.controlnet import (
     # StableDiffusionControlNetLineArtGenerator,
     # StableDiffusionControlNetLineArtAnimeGenerator,
 )
-from diffusion_webui.diffusion_models.controlnet.controlnet_inpaint import (
-    StableDiffusionControlNetInpaintCannyGenerator,
-    StableDiffusionControlNetInpaintHedGenerator,
-    StableDiffusionControlNetInpaintMlsdGenerator,
-    StableDiffusionControlNetInpaintPoseGenerator,
-    StableDiffusionControlNetInpaintScribbleGenerator,
+# from diffusion_webui.diffusion_models.controlnet.controlnet_inpaint import (
+#     StableDiffusionControlNetInpaintCannyGenerator,
+#     StableDiffusionControlNetInpaintHedGenerator,
+#     StableDiffusionControlNetInpaintMlsdGenerator,
+#     StableDiffusionControlNetInpaintPoseGenerator,
+#     StableDiffusionControlNetInpaintScribbleGenerator,
 #     StableDiffusionControlInpaintNetDepthGenerator,
 #     StableDiffusionControlNetInpaintSegGenerator,
 )
