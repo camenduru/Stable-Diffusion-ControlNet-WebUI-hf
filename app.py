@@ -8,15 +8,15 @@ from diffusion_webui import (
     StableDiffusionControlNetHEDGenerator,
     StableDiffusionControlNetLineArtGenerator,
     StableDiffusionControlNetMLSDGenerator,
-    StableDiffusionControlNetPix2PixGenerator,
     StableDiffusionControlNetPoseGenerator,
-    StableDiffusionControlNetScribbleGenerator,
-    StableDiffusionControlNetShuffleGenerator,
-    StableDiffusionControlNetSoftEdgeGenerator,
-    # StableDiffusionControlNetDepthGenerator,
-    # StableDiffusionControlNetLineArtAnimeGenerator,
     # StableDiffusionControlNetNormalGenerator,
     # StableDiffusionControlNetSegGenerator,
+    # StableDiffusionControlNetDepthGenerator,
+    # StableDiffusionControlNetPix2PixGenerator,
+    # StableDiffusionControlNetScribbleGenerator,
+    # StableDiffusionControlNetShuffleGenerator,
+    # StableDiffusionControlNetSoftEdgeGenerator,
+    # StableDiffusionControlNetLineArtAnimeGenerator,
     # StableDiffusionControlInpaintNetDepthGenerator,
     # StableDiffusionControlNetInpaintCannyGenerator,
     # StableDiffusionControlNetInpaintHedGenerator,
@@ -50,20 +50,20 @@ def diffusion_app():
                         StableDiffusionControlNetPoseGenerator.app()
                     with gr.Tab("Scribble"):
                         StableDiffusionControlNetScribbleGenerator.app()
-                    with gr.Tab("Shuffle"):
-                        StableDiffusionControlNetShuffleGenerator.app()
-                    with gr.Tab("Pix2Pix"):
-                        StableDiffusionControlNetPix2PixGenerator.app()
-                    with gr.Tab("LineArt"):
-                        StableDiffusionControlNetLineArtGenerator.app()
-                    with gr.Tab("SoftEdge"):
-                        StableDiffusionControlNetSoftEdgeGenerator.app()
-                    # with gr.Tab("Depth"):
-                    #     StableDiffusionControlNetDepthGenerator.app()
                     # with gr.Tab("Normal"):
                     #     StableDiffusionControlNetNormalGenerator.app()
                     # with gr.Tab("Seg"):
                     #     StableDiffusionControlNetSegGenerator.app()
+                    # with gr.Tab("Depth"):
+                    #     StableDiffusionControlNetDepthGenerator.app()
+                    # with gr.Tab("Shuffle"):
+                    #     StableDiffusionControlNetShuffleGenerator.app()
+                    # with gr.Tab("Pix2Pix"):
+                    #     StableDiffusionControlNetPix2PixGenerator.app()
+                    # with gr.Tab("LineArt"):
+                    #     StableDiffusionControlNetLineArtGenerator.app()
+                    # with gr.Tab("SoftEdge"):
+                    #     StableDiffusionControlNetSoftEdgeGenerator.app()
                     # with gr.Tab("LineArtAnime"):
                     #     StableDiffusionControlNetLineArtAnimeGenerator.app()
                 # with gr.Tab("ControlNet Inpaint"):
@@ -82,7 +82,7 @@ def diffusion_app():
                 #     with gr.Tab("Seg"):
                 #         StableDiffusionControlNetInpaintSegGenerator.app()
                 # with gr.Tab("Upscaler"):
-        gr.Markdown(camenduru)
+        with gr.Markdown(camenduru)
         
     app.queue(concurrency_count=1)
     app.launch(debug=True, enable_queue=True, share=True)
