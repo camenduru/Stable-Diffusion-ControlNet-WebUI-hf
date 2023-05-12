@@ -1,6 +1,14 @@
 🐣 Please follow me for new updates https://twitter.com/camenduru <br />
 🔥 Please join our discord server https://discord.gg/k5BwmmvJJU <br />
 
+## 🚦 WIP 🚦
+
+### 🦒 Colab
+
+| Colab | Info
+| --- | --- |
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/camenduru/Stable-Diffusion-ControlNet-WebUI-hf/blob/dev/paddle_stable_diffusion_ppdiffusers_webui.ipynb) | paddle_stable_diffusion_ppdiffusers_webui
+
 ### Main Repo
 https://github.com/camenduru/Stable-Diffusion-ControlNet-WebUI-hf/tree/dev <br />
 https://github.com/PaddlePaddle/PaddleNLP/tree/develop/ppdiffusers <br />
