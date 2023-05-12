@@ -1,12 +1,28 @@
 import gradio as gr
-import paddle
-from ppdiffusers import StableDiffusionPipeline
+import paddle, os
+from ppdiffusers import DiffusionPipeline
 
 from diffusion_webui.utils.model_list import stable_model_list
 from diffusion_webui.utils.scheduler_list import (
     SCHEDULER_LIST,
     get_scheduler_list,
 )
+
+supported_scheduler = [
+    "pndm",
+    "lms",
+    "euler",
+    "euler-ancestral",
+    "dpm-multi",
+    "dpm-single",
+    "unipc-multi",
+    "ddim",
+    "ddpm",
+    "deis-multi",
+    "heun",
+    "kdpm2-ancestral",
+    "kdpm2",
+]
 
 class StableDiffusionText2ImageGenerator:
     def __init__(self):
@@ -18,13 +34,15 @@ class StableDiffusionText2ImageGenerator:
         scheduler,
     ):
         if self.pipe is None:
-            self.pipe = StableDiffusionPipeline.from_pretrained(
-                model_path, safety_checker=None, paddle_dtype=paddle.float16
+            self.pipe = DiffusionPipeline.from_pretrained(
+                model_path, safety_checker=None, paddle_dtype=paddle.float16, custom_pipeline="webui_stable_diffusion"
             )
+            self.pipe.LORA_DIR=os.path.join(os.getcwd(), "lora")
+            self.pipe.TI_DIR=os.path.join(os.getcwd(), "textual_inversion")
 
-        self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
+        # self.pipe = get_scheduler_list(pipe=self.pipe, scheduler=scheduler)
         self.pipe.enable_xformers_memory_efficient_attention()
-
+        self.pipe.switch_scheduler(scheduler)
         return self.pipe
 
     def generate_image(
@@ -32,7 +50,7 @@ class StableDiffusionText2ImageGenerator:
         model_path: str,
         prompt: str,
         negative_prompt: str,
-        num_images_per_prompt: int,
+        clip_skip: int,
         scheduler: str,
         guidance_scale: int,
         num_inference_step: int,
@@ -53,9 +71,9 @@ class StableDiffusionText2ImageGenerator:
             height=height,
             width=width,
             negative_prompt=negative_prompt,
-            num_images_per_prompt=num_images_per_prompt,
+            clip_skip=clip_skip,
             num_inference_steps=num_inference_step,
-            guidance_scale=guidance_scale,
+            guidance_scale=guidance_scale, 
         ).images
 
         return images
@@ -95,18 +113,18 @@ class StableDiffusionText2ImageGenerator:
                                 value=50,
                                 label="Num Inference Step",
                             )
-                            text2image_num_images_per_prompt = gr.Slider(
-                                minimum=1,
-                                maximum=4,
-                                step=1,
-                                value=1,
-                                label="Number Of Images",
+                            text2image_clip_skip = gr.Number(
+                                    minimum=1,
+                                    maximum=10,
+                                    step=1,
+                                    label="Clip Skip",
+                                    value=1,
                             )
                         with gr.Row():
                             with gr.Column():
                                 text2image_scheduler = gr.Dropdown(
-                                    choices=SCHEDULER_LIST,
-                                    value=SCHEDULER_LIST[5],
+                                    choices=supported_scheduler,
+                                    value=supported_scheduler[3],
                                     label="Scheduler",
                                 )
                                 text2image_width = gr.Slider(
@@ -123,10 +141,8 @@ class StableDiffusionText2ImageGenerator:
                                     value=512,
                                     label="Image Height",
                                 )
-                                text2image_seed_generator = gr.Slider(
+                                text2image_seed_generator = gr.Number(
                                     label="Seed(-1 for random)",
-                                    minimum=-1,
-                                    maximum=1000000,
                                     value=-1,
                                 )
 
@@ -145,7 +161,7 @@ class StableDiffusionText2ImageGenerator:
                     text2image_model_path,
                     text2image_prompt,
                     text2image_negative_prompt,
-                    text2image_num_images_per_prompt,
+                    text2image_clip_skip,
                     text2image_scheduler,
                     text2image_guidance_scale,
                     text2image_num_inference_step,

@@ -99,10 +99,7 @@ class StableDiffusionInpaintGenerator:
                                     value=1,
                                     label="Number Of Images",
                                 )
-                                stable_diffusion_inpaint_seed_generator = gr.Slider(
-                                    minimum=-1,
-                                    maximum=1000000,
-                                    step=1,
+                                stable_diffusion_inpaint_seed_generator = gr.Number(
                                     value=-1,
                                     label="Seed(-1 for random)",
                                 )
