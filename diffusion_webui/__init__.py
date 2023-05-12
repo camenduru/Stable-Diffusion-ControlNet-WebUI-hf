@@ -1,9 +1,9 @@
 from diffusion_webui.diffusion_models.controlnet import (
     StableDiffusionControlNetCannyGenerator,
-    StableDiffusionControlNetHEDGenerator,
-    StableDiffusionControlNetMLSDGenerator,
-    StableDiffusionControlNetPoseGenerator,
-    StableDiffusionControlNetScribbleGenerator,
+    # StableDiffusionControlNetHEDGenerator,
+    # StableDiffusionControlNetMLSDGenerator,
+    # StableDiffusionControlNetPoseGenerator,
+    # StableDiffusionControlNetScribbleGenerator,
     # StableDiffusionControlNetNormalGenerator,
     # StableDiffusionControlNetSegGenerator,
     # StableDiffusionControlNetDepthGenerator,

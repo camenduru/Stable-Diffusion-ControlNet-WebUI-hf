@@ -5,10 +5,10 @@ from diffusion_webui import (
     StableDiffusionInpaintGenerator,
     StableDiffusionText2ImageGenerator,
     StableDiffusionControlNetCannyGenerator,
-    StableDiffusionControlNetHEDGenerator,
-    StableDiffusionControlNetMLSDGenerator,
-    StableDiffusionControlNetPoseGenerator,
-    StableDiffusionControlNetScribbleGenerator,
+    # StableDiffusionControlNetHEDGenerator,
+    # StableDiffusionControlNetMLSDGenerator,
+    # StableDiffusionControlNetPoseGenerator,
+    # StableDiffusionControlNetScribbleGenerator,
     # StableDiffusionControlNetNormalGenerator,
     # StableDiffusionControlNetSegGenerator,
     # StableDiffusionControlNetDepthGenerator,
@@ -42,14 +42,14 @@ def diffusion_app():
                 with gr.Tab("ControlNet"):
                     with gr.Tab("Canny"):
                         StableDiffusionControlNetCannyGenerator.app()
-                    with gr.Tab("HED"):
-                        StableDiffusionControlNetHEDGenerator.app()
-                    with gr.Tab("MLSD"):
-                        StableDiffusionControlNetMLSDGenerator.app()
-                    with gr.Tab("Pose"):
-                        StableDiffusionControlNetPoseGenerator.app()
-                    with gr.Tab("Scribble"):
-                        StableDiffusionControlNetScribbleGenerator.app()
+                    # with gr.Tab("HED"):
+                    #     StableDiffusionControlNetHEDGenerator.app()
+                    # with gr.Tab("MLSD"):
+                    #     StableDiffusionControlNetMLSDGenerator.app()
+                    # with gr.Tab("Pose"):
+                    #     StableDiffusionControlNetPoseGenerator.app()
+                    # with gr.Tab("Scribble"):
+                    #     StableDiffusionControlNetScribbleGenerator.app()
                     # with gr.Tab("Normal"):
                     #     StableDiffusionControlNetNormalGenerator.app()
                     # with gr.Tab("Seg"):
