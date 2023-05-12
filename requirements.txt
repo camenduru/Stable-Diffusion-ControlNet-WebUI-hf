@@ -7,4 +7,3 @@ fastcore
 einops
 gradio==3.19.1
 numpy==1.21.6
-controlnet_aux
