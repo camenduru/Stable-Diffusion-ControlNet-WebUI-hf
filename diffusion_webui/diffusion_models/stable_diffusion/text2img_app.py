@@ -113,7 +113,7 @@ class StableDiffusionText2ImageGenerator:
                                 value=50,
                                 label="Num Inference Step",
                             )
-                            text2image_clip_skip = gr.Number(
+                            text2image_clip_skip = gr.Slider(
                                     minimum=1,
                                     maximum=10,
                                     step=1,
