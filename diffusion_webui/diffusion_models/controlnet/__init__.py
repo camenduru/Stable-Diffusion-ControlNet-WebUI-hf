@@ -12,7 +12,7 @@ from diffusion_webui.diffusion_models.controlnet.controlnet_canny import (
 # )
 # from diffusion_webui.diffusion_models.controlnet.controlnet_scribble import (
 #     StableDiffusionControlNetScribbleGenerator,
-)
+# )
 # from diffusion_webui.diffusion_models.controlnet.controlnet_normal import (
 #     StableDiffusionControlNetNormalGenerator,
 # )
